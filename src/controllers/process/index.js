@@ -9,6 +9,7 @@ export default class ProcessController {
 
   constructor() {
     this._elastalertPath = config.get('elastalertPath');
+    this._writebackIndex = config.get('writeback_index');
     this._status = Status.IDLE;
 
     /**
@@ -38,7 +39,7 @@ export default class ProcessController {
 
     // Create ElastAlert index if it doesn't exist yet
     logger.info('Creating index');
-    var indexCreate = spawnSync('python', ['-m', 'elastalert.create_index', '--index', 'elastalert_status', '--old-index', ''], {
+    var indexCreate = spawnSync('python', ['-m', 'elastalert.create_index', '--index', this._writebackIndex, '--old-index', ''], {
       cwd: this._elastalertPath
     });
 
