@@ -8,8 +8,9 @@ export default function ruleDeleteHandler(request, response) {
    * @type {ElastalertServer}
    */
   let server = request.app.get('server');
+  let path = request.params.id + request.params[0];
 
-  server.rulesController.rule(request.params.id)
+  server.rulesController.rule(path)
     .then(function (rule) {
       rule.delete()
         .then(function (rule) {

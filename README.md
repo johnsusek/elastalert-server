@@ -179,6 +179,14 @@ This server exposes the following REST API's:
 
     Where `:id` is the id of the template returned by **GET `/templates`**, which will delete the given template.
   
+- **PUT `/folders/:type/:path`**
+
+    Create the folder at the specified path within the :type directory, either `rules` or `templates`.
+
+- **DELETE `/folders/:type/:path`**
+
+    Delete the folder at the specified path within the templates directory. Trying to delete a non-empty directory will return an error.
+
 - **POST `/test`**
 
     This allows you to test a rule. The body send should be:

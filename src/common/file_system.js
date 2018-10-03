@@ -66,9 +66,13 @@ export default class FileSystem {
     });
   }
 
-  /*deleteDirectory(path) {
-
-  }*/
+  deleteDirectory(path) {
+    return new Promise(function (resolve, reject) {
+      fs.rmdir(path, function (error) {
+        error ? reject(error) : resolve();
+      });
+    });
+  }
 
   fileExists(path) {
     return this._exists(path);

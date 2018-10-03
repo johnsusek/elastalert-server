@@ -8,8 +8,9 @@ export default function templateDeleteHandler(request, response) {
    * @type {ElastalertServer}
    */
   let server = request.app.get('server');
+  let path = request.params.id + request.params[0];
 
-  server.templatesController.template(request.params.id)
+  server.templatesController.template(path)
     .then(function (template) {
       template.delete()
         .then(function (template) {

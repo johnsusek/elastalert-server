@@ -9,14 +9,15 @@ export default function templatePostHandler(request, response) {
    */
   let server = request.app.get('server');
   let body = request.body ? request.body.yaml : undefined;
+  let path = request.params.id + request.params[0];
 
-  server.templatesController.template(request.params.id)
+  server.templatesController.template(path)
     .then(function (template) {
       template.edit(body)
         .then(function () {
           response.send({
             created: true,
-            id: request.params.id
+            id: path
           });
           logger.sendSuccessful();
         })
@@ -27,12 +28,12 @@ export default function templatePostHandler(request, response) {
     })
     .catch(function (error) {
       if (error.error === 'templateNotFound') {
-        server.templatesController.createTemplate(request.params.id, body)
+        server.templatesController.createTemplate(path, body)
           .then(function () {
             logger.sendSuccessful();
             response.send({
               created: true,
-              id: request.params.id
+              id: path
             });
           })
           .catch(function (error) {

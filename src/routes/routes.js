@@ -11,6 +11,8 @@ import templatesHandler from '../handlers/templates';
 import templateGetHandler from '../handlers/templates/id/get';
 import templatePostHandler from '../handlers/templates/id/post';
 import templateDeleteHandler from '../handlers/templates/id/delete';
+import folderPutHandler from '../handlers/folders/put';
+import folderDeleteHandler from '../handlers/folders/delete';
 import testPostHandler from '../handlers/test/post';
 import configGetHandler from '../handlers/config/get';
 import configPostHandler from '../handlers/config/post';
@@ -53,7 +55,7 @@ let routes = [
     method: 'GET',
     handler: rulesHandler
   }, {
-    path: 'rules/:id',
+    path: 'rules/:id*',
     method: ['GET', 'POST', 'DELETE'],
     handler: [ruleGetHandler, rulePostHandler, ruleDeleteHandler]
   }, {
@@ -61,10 +63,16 @@ let routes = [
     method: 'GET',
     handler: templatesHandler
   }, {
-    path: 'templates/:id',
     method: ['GET', 'POST', 'DELETE'],
+    path: 'templates/:id*',
     handler: [templateGetHandler, templatePostHandler, templateDeleteHandler]
-  }, {
+  }, 
+  { 
+    path: 'folders/:type/:path*',
+    method: ['PUT', 'DELETE'],
+    handler: [folderPutHandler, folderDeleteHandler]
+  },
+  {
     path: 'test',
     method: 'POST',
     handler: testPostHandler

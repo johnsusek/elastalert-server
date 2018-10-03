@@ -9,6 +9,7 @@ import setupRouter from './routes/route_setup';
 import ProcessController from './controllers/process';
 import RulesController from './controllers/rules';
 import TemplatesController from './controllers/templates';
+import FoldersController from './controllers/folders';
 import TestController from './controllers/test';
 import cors from 'cors';
 
@@ -21,6 +22,7 @@ export default class ElastalertServer {
     this._processController = null;
     this._rulesController = null;
     this._templatesController = null;
+    this._foldersController = null;
 
     // Set listener on process exit (SIGINT == ^C)
     process.on('SIGINT', () => {
@@ -50,6 +52,10 @@ export default class ElastalertServer {
     return this._templatesController;
   }
 
+  get foldersController() {
+    return this._foldersController;
+  }
+
   get testController() {
     return this._testController;
   }
@@ -73,6 +79,7 @@ export default class ElastalertServer {
 
         self._rulesController = new RulesController();
         self._templatesController = new TemplatesController();
+        self._foldersController = new FoldersController();
         self._testController = new TestController(self);
 
         self._fileSystemController.createDirectoryIfNotExists(self.getDataFolder()).catch(function (error) {

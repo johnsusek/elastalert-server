@@ -58,12 +58,11 @@ export default class RulesController {
     });
   }
 
-  rule(id) {
+  rule(id, path) {
     const self = this;
     return new Promise(function(resolve, reject) {
       self._findRule(id)
         .then(function(access) {
-          console.log('rule resolved');
           resolve({
             get: function() {
               if (access.read) {
@@ -78,12 +77,11 @@ export default class RulesController {
               return self._getErrorPromise(new RuleNotWritableError(id));
             },
             delete: function() {
-              return self._deleteRule(id);
+              return self._deleteRule(id, path);
             }
           });
         })
         .catch(function() {
-          console.log('catched');
           reject(new RuleNotFoundError(id));
         });
     });

@@ -9,7 +9,9 @@ export default function ruleGetHandler(request, response) {
    */
   let server = request.app.get('server');
 
-  server.rulesController.rule(request.params.id)
+  let path = request.params.id + request.params[0];
+  
+  server.rulesController.rule(path)
     .then(function (rule) {
       rule.get()
         .then(function (rule) {

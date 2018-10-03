@@ -9,14 +9,15 @@ export default function rulePostHandler(request, response) {
    */
   let server = request.app.get('server');
   let body = request.body ? request.body.yaml : undefined;
+  let path = request.params.id + request.params[0];
 
-  server.rulesController.rule(request.params.id)
+  server.rulesController.rule(path)
     .then(function (rule) {
       rule.edit(body)
         .then(function () {
           response.send({
             created: true,
-            id: request.params.id
+            id: path
           });
           logger.sendSuccessful();
         })
@@ -27,12 +28,12 @@ export default function rulePostHandler(request, response) {
     })
     .catch(function (error) {
       if (error.error === 'ruleNotFound') {
-        server.rulesController.createRule(request.params.id, body)
+        server.rulesController.createRule(path, body)
           .then(function () {
             logger.sendSuccessful();
             response.send({
               created: true,
-              id: request.params.id
+              id: path
             });
           })
           .catch(function (error) {
