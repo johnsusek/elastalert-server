@@ -1,6 +1,9 @@
 import Logger from '../../common/logger';
 import FileSystem from '../../common/file_system';
 import config from '../../common/config';
+import os from 'os';
+import cpuStat from 'cpu-stat';
+import ws from 'ws';
 import path from 'path';
 import randomstring from 'randomstring';
 import {spawn} from 'child_process';
@@ -64,33 +67,52 @@ export default class TestController {
             // When the websocket closes we kill the test process
             // so it doesn't keep running detached
             if (socket) {
+              let interval = setInterval(() => {
+                cpuStat.usagePercent((err, percent) => {
+                  if (err) {
+                    return console.error(err);
+                  }
+            
+                  if (socket && socket.readyState === ws.OPEN) {
+                    socket.send(JSON.stringify({ 
+                      event: 'stats',
+                      data: { 
+                        cpu: percent, 
+                        mem: ((os.totalmem() - os.freemem()) / os.totalmem()) * 100, 
+                      } 
+                    }));        
+                  }
+                  else {
+                    clearInterval(interval);
+                  }
+    
+                });
+              }, 1000);
+    
               socket.on('close', () => {
                 testProcess.kill();
-
-                fileSystem.deleteFile(tempFilePath)
-                  .catch(function (error) {
-                    logger.error(`Failed to delete temporary test file ${tempFilePath} with error:`, error);
-                  });
               });
             }
               
             testProcess.stdout.on('data', function (data) {
-              if (socket) {
+              if (socket && socket.readyState === ws.OPEN) {
                 socket.send(JSON.stringify({ 
                   event: 'result',
                   data: data.toString() 
                 }));
               }
+
               stdoutLines.push(data.toString());
             });
 
             testProcess.stderr.on('data', function (data) {
-              if (socket) {
+              if (socket && socket.readyState === ws.OPEN) {
                 socket.send(JSON.stringify({ 
                   event: 'progress',
                   data: data.toString() 
                 }));
               }
+
               stderrLines.push(data.toString());
             });
 
