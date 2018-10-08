@@ -11,12 +11,24 @@ export default function rulesHandler(request, response) {
 
   let path = request.query.path || '';
 
-  server.rulesController.getRules(path)
-    .then(function (rules) {
-      response.send(rules);
-      logger.sendSuccessful();
-    })
-    .catch(function (error) {
-      sendRequestError(error);
-    });
+  if (typeof request.query.all !== 'undefined') {
+    server.rulesController.getRulesAll()
+      .then(function (rules) {
+        response.send(rules);
+        logger.sendSuccessful();
+      })
+      .catch(function (error) {
+        sendRequestError(error);
+      });
+  }
+  else {
+    server.rulesController.getRules(path)
+      .then(function (rules) {
+        response.send(rules);
+        logger.sendSuccessful();
+      })
+      .catch(function (error) {
+        sendRequestError(error);
+      });
+  }
 }

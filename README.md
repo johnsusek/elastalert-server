@@ -135,7 +135,7 @@ This server exposes the following REST API's:
   
 - **GET `/rules`**
 
-    Returns a list of directories and rules that exist in the `rulesPath` (from the config) and are being run by the ElastAlert process.
+    Returns a list of directories and rules that exist in the `rulesPath` (from the config) and are being run by the ElastAlert process. Pass query parameter `all` to return a list of all rules in all directories.
   
 - **GET `/rules/:id`**
 

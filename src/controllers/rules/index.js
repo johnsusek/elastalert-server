@@ -20,6 +20,20 @@ export default class RulesController {
     this.rulesFolder = this._getRulesFolder();
   }
 
+  getRulesAll() {
+    const self = this;
+    return new Promise(function(resolve, reject) {
+      self._fileSystemController.readDirectoryRecursive(self.rulesFolder)
+        .then(function(rules) {
+          resolve(rules);
+        })
+        .catch(function(error) {
+          logger.warn(`The requested folder (${self.rulesFolder}) couldn't be found / read by the server. Error:`, error);
+          reject(new RulesFolderNotFoundError(path));
+        });
+    });
+  }
+
   getRules(path) {
     const self = this;
     const fullPath = joinPath(self.rulesFolder, path);

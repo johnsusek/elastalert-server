@@ -1,9 +1,31 @@
 import fs from 'fs';
 import { join as joinPath } from 'path';
 import mkdirp from 'mkdirp';
+import recursive from 'recursive-readdir';
 
 export default class FileSystem {
   constructor() { }
+
+  readDirectoryRecursive(path) {
+    return new Promise(function (resolve, reject) {
+      try {        
+        let rules = [];
+
+        recursive(path, function (err, files) {
+          if (err) {
+            reject(err);
+          }
+          files.forEach(file => {
+            let ruleName = file.split('/').pop().replace('.yaml', '');
+            rules.push(ruleName);
+          });
+          resolve(rules);
+        });
+      } catch (error) {
+        reject(error);
+      }
+    });
+  }
 
   readDirectory(path) {
     const self = this;
