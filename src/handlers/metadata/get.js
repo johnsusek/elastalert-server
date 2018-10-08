@@ -34,11 +34,11 @@ function escapeLuceneSyntax(str) {
 }
 
 function getQueryString(request) {
-  if (request.params.type === 'elastalert_error') {
+  if (request.params.type === 'elastalert_error' || !request.query.rule_name) {
     return '*:*';
   }
   else {
-    return `rule_name:"${escapeLuceneSyntax(request.query.rule_name) || '*'}"`;
+    return `rule_name:"${escapeLuceneSyntax(request.query.rule_name)}"`;
   }
 }
 
