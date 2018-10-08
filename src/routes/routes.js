@@ -17,6 +17,7 @@ import testPostHandler from '../handlers/test/post';
 import configGetHandler from '../handlers/config/get';
 import configPostHandler from '../handlers/config/post';
 import metadataHandler from '../handlers/metadata/get';
+import indicesHandler from '../handlers/indices/get';
 import mappingHandler from '../handlers/mapping/get';
 import searchHandler from '../handlers/search/get';
 
@@ -91,6 +92,11 @@ let routes = [
     path: 'metadata/:type',
     method: ['GET'],
     handler: [metadataHandler]
+  },
+  {
+    path: 'indices',
+    method: ['GET'],
+    handler: [indicesHandler]
   },
   {
     path: 'mapping/:index',

@@ -230,6 +230,10 @@ This server exposes the following REST API's:
 
     Returns field mapping from elasticsearch for a given index. 
 
+- **GET `/indices`**
+
+    Returns a list of indices from elasticsearch. 
+
 - **GET `/search/:index`**
 
     Performs elasticsearch query on behalf of the API. JSON body to this endpoint will become body of an ES search. 
