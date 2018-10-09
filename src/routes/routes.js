@@ -14,6 +14,7 @@ import templateDeleteHandler from '../handlers/templates/id/delete';
 import folderPutHandler from '../handlers/folders/put';
 import folderDeleteHandler from '../handlers/folders/delete';
 import testPostHandler from '../handlers/test/post';
+import silencePostHandler from '../handlers/silence/post';
 import configGetHandler from '../handlers/config/get';
 import configPostHandler from '../handlers/config/post';
 import metadataHandler from '../handlers/metadata/get';
@@ -77,6 +78,11 @@ let routes = [
     path: 'test',
     method: 'POST',
     handler: testPostHandler
+  }, 
+  {
+    path: 'silence/:id*',
+    method: 'POST',
+    handler: silencePostHandler
   }, 
   {
     path: 'config',

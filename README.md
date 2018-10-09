@@ -187,9 +187,22 @@ This server exposes the following REST API's:
 
     Delete the folder at the specified path within the templates directory. Trying to delete a non-empty directory will return an error.
 
+- **POST `/silence/:id`**
+
+    Where `:id` is the id of the rule returned by **GET `/rules`**, which will allow you to silence the rule. The body to send should be:
+  
+      ```javascript
+      {
+        // The unit, one of 'seconds', 'minutes', 'hours', 'days', 'weeks'.
+        "unit": "..."
+        // The duration, an integer.
+        "duration": "..."
+      }
+      ```
+
 - **POST `/test`**
 
-    This allows you to test a rule. The body send should be:
+    This allows you to test a rule. The body to send should be:
   
       ```javascript
       {

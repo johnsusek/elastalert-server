@@ -37,6 +37,9 @@ function getQueryString(request) {
   if (request.params.type === 'elastalert_error' || !request.query.rule_name) {
     return '*:*';
   }
+  else if (request.params.type === 'silence') {
+    return `rule_name:"${escapeLuceneSyntax(request.query.rule_name)}" OR "${escapeLuceneSyntax(request.query.rule_name + '._silence')}"`;
+  }
   else {
     return `rule_name:"${escapeLuceneSyntax(request.query.rule_name)}"`;
   }
