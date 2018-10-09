@@ -1,7 +1,7 @@
 import fs from 'fs';
 import { join as joinPath } from 'path';
 import mkdirp from 'mkdirp';
-import recursive from 'recursive-readdir';
+import readdirp from 'readdirp';
 
 export default class FileSystem {
   constructor() { }
@@ -10,17 +10,25 @@ export default class FileSystem {
     return new Promise(function (resolve, reject) {
       try {        
         let rules = [];
+        let stream = readdirp({ root: path, entryType: 'both' });
 
-        recursive(path, function (err, files) {
-          if (err) {
+        stream
+          .on('warn', function (err) {
+            reject(err);  
+          })
+          .on('error', function (err) { 
             reject(err);
-          }
-          files.forEach(file => {
-            let ruleName = file.split('/').pop().replace('.yaml', '');
-            rules.push(ruleName);
+          })
+          .on('data', entry => {
+            let path = entry.path.replace('.yaml', '');
+            if (!entry.stat.blocks) {
+              // Is a directory
+              path += '/';
+            }
+            rules.push(path);
+          }).on('end', () => {
+            resolve(rules);
           });
-          resolve(rules);
-        });
       } catch (error) {
         reject(error);
       }

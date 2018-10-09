@@ -11,12 +11,25 @@ export default function templatesHandler(request, response) {
 
   let path = request.query.path || '';
 
-  server.templatesController.getTemplates(path)
-    .then(function (templates) {
-      response.send(templates);
-      logger.sendSuccessful();
-    })
-    .catch(function (error) {
-      sendRequestError(error);
-    });
+  if (typeof request.query.all !== 'undefined') {
+    server.templatesController.getTemplatesAll()
+      .then(function (templates) {
+        response.send(templates);
+        logger.sendSuccessful();
+      })
+      .catch(function (error) {
+        sendRequestError(error);
+      });
+  }
+  else {
+    server.templatesController.getTemplates(path)
+      .then(function (templates) {
+        response.send(templates);
+        logger.sendSuccessful();
+      })
+      .catch(function (error) {
+        sendRequestError(error);
+      });
+  }
+
 }

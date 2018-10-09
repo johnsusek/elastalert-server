@@ -14,6 +14,20 @@ export default class TemplatesController {
     this.templatesFolder = this._getTemplatesFolder();
   }
 
+  getTemplatesAll() {
+    const self = this;
+    return new Promise(function(resolve, reject) {
+      self._fileSystemController.readDirectoryRecursive(self.templatesFolder)
+        .then(function(templates) {
+          resolve(templates);
+        })
+        .catch(function(error) {
+          logger.warn(`The requested folder (${self.templatesFolder}) couldn't be found / read by the server. Error:`, error);
+          reject(new TemplatesFolderNotFoundError(self.templatesFolder));
+        });
+    });
+  }
+
   getTemplates(path) {
     const self = this;
     const fullPath = joinPath(self.templatesFolder, path);
