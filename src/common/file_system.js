@@ -21,8 +21,7 @@ export default class FileSystem {
           })
           .on('data', entry => {
             let path = entry.path.replace('.yaml', '');
-            if (!entry.stat.blocks) {
-              // Is a directory
+            if (entry.stat.isDirectory()) {
               path += '/';
             }
             rules.push(path);
