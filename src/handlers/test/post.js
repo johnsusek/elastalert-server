@@ -8,6 +8,8 @@ let logger = new RouteLogger('/test', 'POST');
 const optionsSchema = Joi.object().keys({
   testType: Joi.string().valid('all', 'schemaOnly', 'countOnly').default('all'),
   days: Joi.number().min(1).default(1),
+  start: Joi.string().default(''),
+  end: Joi.string().default(''),
   alert: Joi.boolean().default(false),
   format: Joi.string().default(''),
   maxResults: Joi.number().default(0)

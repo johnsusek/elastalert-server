@@ -217,7 +217,11 @@ This server exposes the following REST API's:
           "testType": "all",
           
           // Can be any number larger than 0 and this tells ElastAlert over a period of how many days the test should be run
-          "days": "1"
+          "days": "1",      
+              
+          // Overrides 'days' option to specify exact time period to test
+          "start": '2018-10-28T08:30:00.000Z',
+          "end": '2018-10-28T10:30:00.000Z', // or 'NOW'
           
           // Whether to send real alerts
           "alert": false,

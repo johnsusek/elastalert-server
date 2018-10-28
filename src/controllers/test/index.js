@@ -34,7 +34,14 @@ export default class TestController {
           let stdoutLines = [];
           let stderrLines = [];
 
-          processOptions.push('-m', 'elastalert.test_rule', '--config', 'config.yaml', tempFilePath, '--days', options.days);
+          processOptions.push('-m', 'elastalert.test_rule', '--config', 'config.yaml', tempFilePath);
+
+          if (options.start && options.end) {
+            processOptions.push('--start', options.start);
+            processOptions.push('--end', options.end);
+          } else {
+            processOptions.push('--days', options.days);
+          }
 
           if (options.format === 'json') {
             processOptions.push('--formatted-output');
