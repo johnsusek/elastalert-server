@@ -12,6 +12,7 @@ import TemplatesController from './controllers/templates';
 import FoldersController from './controllers/folders';
 import TestController from './controllers/test';
 import SilenceController from './controllers/silence';
+import ConfigController from './controllers/config';
 import cors from 'cors';
 
 let logger = new Logger('Server');
@@ -24,6 +25,7 @@ export default class ElastalertServer {
     this._rulesController = null;
     this._templatesController = null;
     this._foldersController = null;
+    this._configController = null;
 
     // Set listener on process exit (SIGINT == ^C)
     process.on('SIGINT', () => {
@@ -65,6 +67,10 @@ export default class ElastalertServer {
     return this._silenceController;
   }
 
+  get configController() {
+    return this._configController;
+  }
+
   start() {
     const self = this;
 
@@ -87,6 +93,7 @@ export default class ElastalertServer {
         self._foldersController = new FoldersController();
         self._testController = new TestController(self);
         self._silenceController = new SilenceController(self);
+        self._configController = new ConfigController(self);
 
         self._fileSystemController.createDirectoryIfNotExists(self.getDataFolder()).catch(function (error) {
           logger.error('Error creating data folder with error:', error);

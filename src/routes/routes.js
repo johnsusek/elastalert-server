@@ -21,6 +21,7 @@ import metadataHandler from '../handlers/metadata/get';
 import indicesHandler from '../handlers/indices/get';
 import mappingHandler from '../handlers/mapping/get';
 import searchHandler from '../handlers/search/get';
+import configHandler from '../handlers/config/get';
 
 /**
  * A server route.
@@ -113,6 +114,11 @@ let routes = [
     path: 'search/:index',
     method: ['POST'],
     handler: [searchHandler]
+  },
+  {
+    path: 'config',
+    method: ['GET'],
+    handler: [configHandler]
   }
 ];
 

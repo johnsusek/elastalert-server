@@ -251,9 +251,9 @@ This server exposes the following REST API's:
 
     Performs elasticsearch query on behalf of the API. JSON body to this endpoint will become body of an ES search. 
 
-- **[WIP] GET `/config`**
+- **GET `/config`**
 
-    Gets the ElastAlert configuration from `config.yaml` in `elastalertPath` (from the config).
+    Gets the `run_every` and `buffer_time` settings from the ElastAlert configuration in `config.yaml` at `elastalertPath` (from the config).
   
 - **[WIP] POST `/config`**
 
