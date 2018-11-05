@@ -16,11 +16,10 @@ export default class TestController {
     const self = this;
 
     return new Promise(function (resolve, reject) {
-      const fullPath = joinPath(self.rulesFolder, path + '.yaml');
       let processOptions = [];
       let outputLines = [];
 
-      processOptions.push('--config', 'config.yaml', '--rule', fullPath, '--verbose', '--silence', `${unit}=${duration}`);
+      processOptions.push('--config', 'config.yaml', '--rule', path, '--verbose', '--silence', `${unit}=${duration}`);
 
       try {
         let testProcess = spawn('elastalert', processOptions, {
@@ -44,7 +43,7 @@ export default class TestController {
           }
         });
       } catch (error) {
-        logger.error(`Failed to silence on ${fullPath} with error:`, error);
+        logger.error(`Failed to silence on ${path} with error:`, error);
         reject(error);
       }
     }).catch((error) => {
