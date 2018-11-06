@@ -81,7 +81,7 @@ let routes = [
     handler: testPostHandler
   }, 
   {
-    path: 'silence/:id*',
+    path: 'silence/:path*',
     method: 'POST',
     handler: silencePostHandler
   }, 

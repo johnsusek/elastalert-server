@@ -15,11 +15,13 @@ export default class TestController {
   silenceRule(path, unit, duration) {
     const self = this;
 
+    const fullPath = joinPath(self.rulesFolder, path + '.yaml');
+
     return new Promise(function (resolve, reject) {
       let processOptions = [];
       let outputLines = [];
 
-      processOptions.push('--config', 'config.yaml', '--rule', path, '--verbose', '--silence', `${unit}=${duration}`);
+      processOptions.push('--config', 'config.yaml', '--rule', fullPath, '--verbose', '--silence', `${unit}=${duration}`);
 
       try {
         let testProcess = spawn('elastalert', processOptions, {
