@@ -1,0 +1,32 @@
+branches: master
+
+pipeline:  
+  hubpublish:
+    image: plugins/docker
+    repo: servercentral/elastalert
+    tags: latest
+    secrets: [ docker_username, docker_password ]
+    when:
+      branch: master
+
+  tagandpublish:
+    image: registry.servercentral.com/drone-plugins/tagandpublish
+    pull: true
+    environment:
+      - PROJECT_NAME=servercentral/elastalert
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    when:
+      branch: master
+
+  deployment:
+    image: registry.servercentral.com/drone-plugins/awxdeployment
+    pull: true
+    environment:
+      - PROJECT_PLAYBOOK=playbooks/elasticsearch/elasticsearch.yml
+    volumes:
+      - /etc/tower/tower_cli.cfg:/etc/tower/tower_cli.cfg
+    when:
+      event: push
+      branch: master 
+      status: success
