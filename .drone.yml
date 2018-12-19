@@ -1,14 +1,6 @@
 branches: folders
 
 pipeline:  
-  hubpublish:
-    image: plugins/docker
-    repo: servercentral/elastalert
-    tags: latest
-    secrets: [ docker_username, docker_password ]
-    when:
-      branch: folders
-
   tagandpublish:
     image: registry.servercentral.com/drone-plugins/tagandpublish
     pull: true
@@ -16,6 +8,14 @@ pipeline:
       - PROJECT_NAME=servercentral/elastalert
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+    when:
+      branch: folders
+
+  hubpublish:
+    image: plugins/docker
+    repo: servercentral/elastalert
+    tags: latest
+    secrets: [ docker_username, docker_password ]
     when:
       branch: folders
 
