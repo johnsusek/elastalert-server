@@ -9,8 +9,8 @@ pipeline:
         from_secret: docker_username
       password:
         from_secret: docker_password
-      tags: 
-        - latest
+      build_args:
+        - ELASTALERT_VERSION=master
     secrets: [ docker_username, docker_password ]
     environment:
       - ELASTALERT_VERSION=master
