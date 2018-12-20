@@ -23,7 +23,6 @@ export default function templateGetHandler(request, response) {
         });
     })
     .catch(function (error) {
-      logger.sendFailed(error);
       sendRequestError(response, error);
     });
 }

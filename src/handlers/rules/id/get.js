@@ -24,7 +24,6 @@ export default function ruleGetHandler(request, response) {
         });
     })
     .catch(function (error) {
-      logger.sendFailed(error);
       sendRequestError(response, error);
     });
 }
