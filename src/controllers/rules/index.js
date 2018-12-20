@@ -8,7 +8,7 @@ import config from '../../common/config';
 import Logger from '../../common/logger';
 import path from 'path';
 import {
-  RuleNotReadableError, RuleNotWritableError,
+  RuleNotFoundError, RuleNotReadableError, RuleNotWritableError,
   RulesFolderNotFoundError, RulesRootFolderNotCreatableError
 } from '../../common/errors/rule_request_errors';
 
@@ -74,7 +74,7 @@ export default class RulesController {
 
   rule(id, path) {
     const self = this;
-    return new Promise(function(resolve) {
+    return new Promise(function(resolve, reject) {
       self._findRule(id)
         .then(function(access) {
           resolve({
@@ -94,7 +94,10 @@ export default class RulesController {
               return self._deleteRule(id, path);
             }
           });
-        }).catch(() => {});
+        })
+        .catch(function() {
+          reject(new RuleNotFoundError(id));
+        });
     });
   }
 

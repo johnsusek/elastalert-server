@@ -3,7 +3,7 @@ import mkdirp from 'mkdirp';
 import FileSystem from '../../common/file_system';
 import config from '../../common/config';
 import Logger from '../../common/logger';
-import { TemplateNotReadableError, TemplateNotWritableError,
+import {TemplateNotFoundError, TemplateNotReadableError, TemplateNotWritableError,
   TemplatesFolderNotFoundError, TemplatesRootFolderNotCreatableError} from '../../common/errors/template_request_errors';
 
 let logger = new Logger('TemplatesController');
@@ -68,9 +68,10 @@ export default class TemplatesController {
 
   template(id) {
     const self = this;
-    return new Promise(function (resolve) {
+    return new Promise(function (resolve, reject) {
       self._findTemplate(id)
         .then(function (access) {
+          console.log('template resolved');
           resolve({
             get: function () {
               if (access.read) {
@@ -89,7 +90,10 @@ export default class TemplatesController {
             }
           });
         })
-        .catch(function () {});
+        .catch(function () {
+          console.log('catched');
+          reject(new TemplateNotFoundError(id));
+        });
     });
   }
 
