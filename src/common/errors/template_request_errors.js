@@ -1,11 +1,5 @@
 import RequestError from './request_error';
 
-export class TemplateNotFoundError extends RequestError {
-  constructor(templateID) {
-    super('templateNotFound', `The requested template with id: '${templateID}' couldn't be found.`, 404);
-  }
-}
-
 export class TemplateNotReadableError extends RequestError {
   constructor(templateID) {
     super('templateNotReadable', `The requested template with id: '${templateID}' isn't readable by the file system.`, 403);
