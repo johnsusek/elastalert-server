@@ -21,10 +21,13 @@ export default class TestController {
       let processOptions = [];
       let outputLines = [];
 
-      processOptions.push('--config', 'config.yaml', '--rule', fullPath, '--verbose', '--silence', `${unit}=${duration}`);
+      processOptions.push('-m', 'elastalert.elastalert', '--config', 'config.yaml');
+      processOptions.push('--rule', fullPath, '--verbose', '--silence', `${unit}=${duration}`);
+
+      console.log(processOptions);
 
       try {
-        let testProcess = spawn('elastalert', processOptions, {
+        let testProcess = spawn('python', processOptions, {
           cwd: self._elastalertPath
         });
 
