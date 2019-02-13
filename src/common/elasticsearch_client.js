@@ -7,9 +7,16 @@ export function getClient() {
   if (config.get('es_ssl')) {
     scheme = 'https';
   }
+
+  let auth = '';
+
+  if (config.get('es_username') && config.get('es_password')) {
+    auth = `${config.get('es_username')}:${config.get('es_password')}@`;
+  }
   
   var client = new elasticsearch.Client({
-    hosts: [ `${scheme}://${config.get('es_host')}:${config.get('es_port')}`]
+    hosts: [ `${scheme}://${auth}${config.get('es_host')}:${config.get('es_port')}`]
   });
+
   return client;
 }
