@@ -34,7 +34,21 @@ function escapeLuceneSyntax(str) {
 }
 
 function getQueryString(request) {
-  if (request.params.type === 'elastalert_error' || !request.query.rule_name) {
+  if (request.params.type === 'elastalert_error') {
+    return '*:*';
+  }
+  else if (request.params.type === 'elastalert') {
+    if (request.query.rule_name) {
+      return `rule_name:"${escapeLuceneSyntax(request.query.rule_name)}"`;
+    }
+    else if (request.query.noagg) {
+      return 'NOT aggregate_id:*';
+    }
+    else {
+      return '*:*';
+    }
+  }
+  else if (!request.query.rule_name) {
     return '*:*';
   }
   else if (request.params.type === 'silence') {
@@ -82,6 +96,7 @@ export default function metadataHandler(request, response) {
     } else {
       index = config.get('writeback_index');
     }
+
     client.search({
       index: index,
       type: request.params.type,
