@@ -125,10 +125,6 @@ This server exposes the following REST API's:
 
     Returns either 'SETUP', 'READY', 'ERROR', 'STARTING', 'CLOSING', 'FIRST_RUN' or 'IDLE' depending on the current ElastAlert process status. 
   
-- **GET `/status/control/:action`**
-
-    Where `:action` can be either 'start' or 'stop', which will respectively start or stop the current ElastAlert process.
-  
 - **[WIP] GET `/status/errors`**
 
     When `/status` returns 'ERROR' this returns a list of errors that were triggered.

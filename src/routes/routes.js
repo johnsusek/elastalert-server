@@ -1,6 +1,5 @@
 import indexHandler from '../handlers/';
 import statusHandler from '../handlers/status';
-import controlHandler from '../handlers/status/control';
 import errorsHandler from '../handlers/status/errors';
 import rulesHandler from '../handlers/rules';
 import ruleGetHandler from '../handlers/rules/id/get';
@@ -45,10 +44,6 @@ let routes = [
     path: 'status',
     method: 'GET',
     handler: statusHandler
-  }, {
-    path: 'status/control/:action',
-    method: 'GET',
-    handler: controlHandler,
   }, {
     path: 'status/errors',
     method: 'GET',

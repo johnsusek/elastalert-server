@@ -52,35 +52,35 @@ export default function metadataHandler(request, response) {
   var client = getClient();
   var index;
 
-  client.info().then(function(resp) {
-    return parseInt(resp.version.number.split(".")[0], 10);
-  }, function(err) {
+  client.info().then(function (resp) {
+    return parseInt(resp.version.number.split('.')[0], 10);
+  }, function (err) {
     response.send({
       error: err
     });
-  }).then(function(es_version) {
+  }).then(function (es_version) {
     if (es_version > 5) {
-      switch(request.params.type) {
+      switch (request.params.type) {
         case 'elastalert':
-          index = config.get('writeback_index')
+          index = config.get('writeback_index');
           break;
         case 'elastalert_status':
-          index = config.get('writeback_index') + '_status'
+          index = config.get('writeback_index') + '_status';
           break;
         case 'silence':
-          index = config.get('writeback_index') + '_silence'
+          index = config.get('writeback_index') + '_silence';
           break;
         case 'elastalert_error':
-          index = config.get('writeback_index') + '_error'
+          index = config.get('writeback_index') + '_error';
           break;
         case 'past_elastalert':
-          index = config.get('writeback_index') + '_past'
+          index = config.get('writeback_index') + '_past';
           break;
         default:
-          // code block
+        // code block
       }
     } else {
-      index = config.get('writeback_index')
+      index = config.get('writeback_index');
     }
     client.search({
       index: index,
@@ -95,10 +95,10 @@ export default function metadataHandler(request, response) {
         },
         sort: [{ '@timestamp': { order: 'desc' } }]
       }
-    }).then(function(resp) {
+    }).then(function (resp) {
       resp.hits.hits = resp.hits.hits.map(h => h._source);
       response.send(resp.hits);
-    }, function(err) {
+    }, function (err) {
       response.send({
         error: err
       });
