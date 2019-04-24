@@ -97,6 +97,21 @@ export default function metadataHandler(request, response) {
       index = config.get('writeback_index');
     }
 
+    let sortField = '@timestamp';
+    let range = {};
+
+    if (request.params.type === 'elastalert') {
+      sortField = 'alert_time';
+    
+      range = {
+        range: {
+          'alert_time': {
+            lte: 'now',
+          }
+        }
+      };
+    }
+    
     client.search({
       index: index,
       type: request.params.type,
@@ -104,11 +119,16 @@ export default function metadataHandler(request, response) {
         from: request.query.from || 0,
         size: request.query.size || 100,
         query: {
-          query_string: {
-            query: getQueryString(request)
+          bool: {
+            must: [
+              {
+                query_string: { query: getQueryString(request) }
+              },
+              range
+            ]
           }
         },
-        sort: [{ '@timestamp': { order: 'desc' } }]
+        sort: [{ [sortField]: { order: 'desc' } }]
       }
     }).then(function (resp) {
       resp.hits.hits = resp.hits.hits.map(h => h._source);
