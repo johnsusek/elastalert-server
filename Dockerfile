@@ -10,7 +10,7 @@ ENV ELASTALERT_HOME /opt/elastalert
 WORKDIR /opt
 
 RUN apk add --update --no-cache ca-certificates openssl-dev openssl python2-dev python2 py2-pip py2-yaml libffi-dev gcc musl-dev wget && \
-# Download and unpack Elastalert.
+    # Download and unpack Elastalert.
     wget -O elastalert.zip "${ELASTALERT_URL}" && \
     unzip elastalert.zip && \
     rm elastalert.zip && \
@@ -18,9 +18,9 @@ RUN apk add --update --no-cache ca-certificates openssl-dev openssl python2-dev 
 
 WORKDIR "${ELASTALERT_HOME}"
 
-# Install Elastalert.
-# see: https://github.com/Yelp/elastalert/issues/1654
-RUN sed -i 's/jira>=1.0.10/jira>=1.0.10,<1.0.15/g' setup.py && \
+# Needed until https://github.com/Yelp/elastalert/pull/2194 is merged
+RUN sed -i 's/elasticsearch/elasticsearch<7.0.0/' requirements.txt && \
+    sed -i "s/'elasticsearch',/'elasticsearch<7.0.0',/" setup.py && \
     python setup.py install && \
     pip install -r requirements.txt
 
