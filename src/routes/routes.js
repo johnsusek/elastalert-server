@@ -16,7 +16,13 @@ import testPostHandler from '../handlers/test/post';
 import silencePostHandler from '../handlers/silence/post';
 import configGetHandler from '../handlers/config/get';
 import configPostHandler from '../handlers/config/post';
-import metadataHandler from '../handlers/metadata/get';
+import {
+  metadataElastalertHandler,
+  metadataElastalertStatusHandler,
+  metadataElastalertSilenceHandler,
+  metadataElastalertErrorHandler,
+  metadataElastalertPastHandler
+} from '../handlers/metadata/get';
 import indicesHandler from '../handlers/indices/get';
 import mappingHandler from '../handlers/mapping/get';
 import searchHandler from '../handlers/search/get';
@@ -91,9 +97,29 @@ let routes = [
     handler: [downloadRulesHandler]
   },
   {
-    path: 'metadata/:type',
+    path: 'metadata/elastalert',
     method: ['GET'],
-    handler: [metadataHandler]
+    handler: [metadataElastalertHandler]
+  },
+  {
+    path: 'metadata/elastalert_status',
+    method: ['GET'],
+    handler: [metadataElastalertStatusHandler]
+  },
+  {
+    path: 'metadata/silence',
+    method: ['GET'],
+    handler: [metadataElastalertSilenceHandler]
+  },
+  {
+    path: 'metadata/elastalert_error',
+    method: ['GET'],
+    handler: [metadataElastalertErrorHandler]
+  },
+  {
+    path: 'metadata/past_elastalert',
+    method: ['GET'],
+    handler: [metadataElastalertPastHandler]
   },
   {
     path: 'indices',

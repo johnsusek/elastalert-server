@@ -1,142 +1,125 @@
 import config from '../../common/config';
-import { getClient } from '../../common/elasticsearch_client';
+import { getClient, escapeLuceneSyntax, clientSearch, getClientVersion } from '../../common/elasticsearch_client';
 
+export function metadataElastalertPastHandler(request, response) {
+  getClientVersion(response).then(function (es_version) {
+    let index;
 
-function escapeLuceneSyntax(str) {
-  return [].map
-    .call(str, char => {
-      if (
-        char === '/' ||
-        char === '+' ||
-        char === '-' ||
-        char === '&' ||
-        char === '|' ||
-        char === '!' ||
-        char === '(' ||
-        char === ')' ||
-        char === '{' ||
-        char === '}' ||
-        char === '[' ||
-        char === ']' ||
-        char === '^' ||
-        char === '"' ||
-        char === '~' ||
-        char === '*' ||
-        char === '?' ||
-        char === ':' ||
-        char === '\\'
-      ) {
-        return `\\${char}`;
-      }
-      return char;
-    })
-    .join('');
-}
-
-function getQueryString(request) {
-  if (request.params.type === 'elastalert_error') {
-    return '*:*';
-  }
-  else if (request.params.type === 'elastalert') {
-    if (request.query.rule_name) {
-      return `rule_name:"${escapeLuceneSyntax(request.query.rule_name)}"`;
-    }
-    else if (request.query.noagg) {
-      return 'NOT aggregate_id:*';
-    }
-    else {
-      return '*:*';
-    }
-  }
-  else if (!request.query.rule_name) {
-    return '*:*';
-  }
-  else if (request.params.type === 'silence') {
-    return `rule_name:"${escapeLuceneSyntax(request.query.rule_name)}" OR "${escapeLuceneSyntax(request.query.rule_name + '._silence')}"`;
-  }
-  else {
-    return `rule_name:"${escapeLuceneSyntax(request.query.rule_name)}"`;
-  }
-}
-
-export default function metadataHandler(request, response) {
-  /**
-   * @type {ElastalertServer}
-   */
-  var client = getClient();
-  var index;
-
-  client.info().then(function (resp) {
-    return parseInt(resp.version.number.split('.')[0], 10);
-  }, function (err) {
-    response.send({
-      error: err
-    });
-  }).then(function (es_version) {
     if (es_version > 5) {
-      switch (request.params.type) {
-        case 'elastalert':
-          index = config.get('writeback_index');
-          break;
-        case 'elastalert_status':
-          index = config.get('writeback_index') + '_status';
-          break;
-        case 'silence':
-          index = config.get('writeback_index') + '_silence';
-          break;
-        case 'elastalert_error':
-          index = config.get('writeback_index') + '_error';
-          break;
-        case 'past_elastalert':
-          index = config.get('writeback_index') + '_past';
-          break;
-        default:
-        // code block
-      }
+      index = config.get('writeback_index') + '_past';
     } else {
       index = config.get('writeback_index');
     }
 
-    let sortField = '@timestamp';
-    let range = {};
+    let qs = '*:*';
 
-    if (request.params.type === 'elastalert') {
-      sortField = 'alert_time';
-    
-      range = {
-        range: {
-          'alert_time': {
-            lte: 'now',
-          }
-        }
-      };
+    if (request.query.rule_name) {
+      qs = `rule_name:"${escapeLuceneSyntax(request.query.rule_name)}"`;
     }
-    
-    client.search({
-      index: index,
-      type: request.params.type,
-      body: {
-        from: request.query.from || 0,
-        size: request.query.size || 100,
-        query: {
-          bool: {
-            must: [
-              {
-                query_string: { query: getQueryString(request) }
-              },
-              range
-            ]
-          }
-        },
-        sort: [{ [sortField]: { order: 'desc' } }]
-      }
-    }).then(function (resp) {
-      resp.hits.hits = resp.hits.hits.map(h => h._source);
-      response.send(resp.hits);
-    }, function (err) {
-      response.send({
-        error: err
-      });
+
+    clientSearch(index, 'past_elastalert', qs, request, response);
+  });
+}
+
+export function metadataElastalertErrorHandler(request, response) {
+  getClientVersion(response).then(function (es_version) {
+    let index;
+
+    if (es_version > 5) {
+      index = config.get('writeback_index') + '_error';
+    } else {
+      index = config.get('writeback_index');
+    }
+
+    clientSearch(index, 'elastalert_error', '*:*', request, response);
+  });
+}
+
+export function metadataElastalertSilenceHandler(request, response) {
+  getClientVersion(response).then(function (es_version) {
+    let index;
+
+    if (es_version > 5) {
+      index = config.get('writeback_index') + '_silence';
+    } else {
+      index = config.get('writeback_index');
+    }
+
+    let qs = '*:*';
+
+    if (request.query.rule_name) {
+      qs = `rule_name:"${escapeLuceneSyntax(request.query.rule_name)}" OR "${escapeLuceneSyntax(request.query.rule_name + '._silence')}"`;
+    }
+
+    clientSearch(index, 'silence', qs, request, response);
+  });
+}
+
+export function metadataElastalertStatusHandler(request, response) {
+  getClientVersion(response).then(function (es_version) {
+    let index;
+
+    if (es_version > 5) {
+      index = config.get('writeback_index') + '_status';
+    } else {
+      index = config.get('writeback_index');
+    }
+
+    let qs = '*:*';
+
+    if (request.query.rule_name) {
+      qs = `rule_name:"${escapeLuceneSyntax(request.query.rule_name)}"`;
+    }
+
+    clientSearch(index, 'elastalert_status', qs, request, response);
+  });
+}
+
+export function metadataElastalertHandler(request, response) {
+  let client = getClient();
+  let index = config.get('writeback_index');
+  let qs;
+
+  if (request.query.rule_name) {
+    qs = `rule_name:"${escapeLuceneSyntax(request.query.rule_name)}"`;
+  }
+  else if (request.query.noagg) {
+    qs = 'NOT aggregate_id:*';
+  }
+  else {
+    qs = '*:*';
+  }
+
+  client.search({
+    index,
+    type: 'elastalert',
+    body: {
+      from: request.query.from || 0,
+      size: request.query.size || 100,
+      query: {
+        bool: {
+          must: [
+            {
+              query_string: { query: qs }
+            },
+            {
+              range: {
+                'alert_time': {
+                  lte: 'now',
+                }
+              }
+            }
+          ]
+        }
+      },
+      sort: [{ 'alert_time': { order: 'desc' } }]
+    }
+  }).then(function (resp) {
+    resp.hits.hits = resp.hits.hits.map(h => h._source);
+    response.send(resp.hits);
+  }, function (err) {
+    response.send({
+      error: err
     });
   });
 }

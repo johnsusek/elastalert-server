@@ -1,6 +1,6 @@
 import { getClient } from '../../common/elasticsearch_client';
 
-export default function metadataHandler(request, response) {
+export default function mappingHandler(request, response) {
   /**
    * @type {ElastalertServer}
    */
