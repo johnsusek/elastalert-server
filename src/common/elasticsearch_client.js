@@ -76,9 +76,21 @@ export function clientSearch(index, type, qs, request, response) {
 
 export function getClient() {
   let scheme = 'http';
+  let ssl_body = {};
 
   if (config.get('es_ssl')) {
     scheme = 'https';
+    ssl_body.rejectUnauthorized = true;
+
+    if (config.get('es_ca_certs')) {
+      ssl_body.ca = fs.readFileSync(config.get('es_ca_certs'));
+    }
+    if (config.get('es_client_cert')) {
+      ssl_body.cert = fs.readFileSync(config.get('es_client_cert'));
+    }
+    if (config.get('es_client_key')) {
+      ssl_body.key = fs.readFileSync(config.get('es_client_key'));
+    }
   }
 
   let auth = '';
@@ -86,9 +98,10 @@ export function getClient() {
   if (config.get('es_username') && config.get('es_password')) {
     auth = `${config.get('es_username')}:${config.get('es_password')}@`;
   }
-  
+
   var client = new elasticsearch.Client({
-    hosts: [ `${scheme}://${auth}${config.get('es_host')}:${config.get('es_port')}`]
+    hosts: [ `${scheme}://${auth}${config.get('es_host')}:${config.get('es_port')}`],
+    ssl: ssl_body
   });
 
   return client;
