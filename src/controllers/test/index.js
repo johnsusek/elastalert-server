@@ -67,7 +67,7 @@ export default class TestController {
 
 
           try {
-            let testProcess = spawn('python', processOptions, {
+            let testProcess = spawn('python3', processOptions, {
               cwd: self._elastalertPath
             });
 
@@ -103,9 +103,14 @@ export default class TestController {
               
             testProcess.stdout.on('data', function (data) {
               if (socket && socket.readyState === ws.OPEN) {
+                // clean up output noise introduced in newer versions of elastalert
+                let dataStr = data.toString();
+                dataStr = dataStr.replace(/\d rules loaded\n/, '');
+                dataStr = dataStr.replace(/Didn't get any results.\n/, '');
+
                 socket.send(JSON.stringify({ 
                   event: 'result',
-                  data: data.toString() 
+                  data: dataStr
                 }));
               }
 
@@ -114,10 +119,13 @@ export default class TestController {
 
             testProcess.stderr.on('data', function (data) {
               if (socket && socket.readyState === ws.OPEN) {
-                socket.send(JSON.stringify({ 
-                  event: 'progress',
-                  data: data.toString() 
-                }));
+                // clean up output noise from newer version of elastalert
+                if (!data.toString().startsWith('INFO:apscheduler.scheduler:Adding job tentatively')) {
+                  socket.send(JSON.stringify({ 
+                    event: 'progress',
+                    data: data.toString() 
+                  }));  
+                }
               }
 
               stderrLines.push(data.toString());

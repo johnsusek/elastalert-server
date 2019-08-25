@@ -27,7 +27,7 @@ export default class TestController {
       console.log(processOptions);
 
       try {
-        let testProcess = spawn('python', processOptions, {
+        let testProcess = spawn('python3', processOptions, {
           cwd: self._elastalertPath
         });
 
