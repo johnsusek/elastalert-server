@@ -17,7 +17,7 @@ export function metadataElastalertPastHandler(request, response) {
       qs = `rule_name:"${escapeLuceneSyntax(request.query.rule_name)}"`;
     }
 
-    clientSearch(index, 'past_elastalert', qs, request, response);
+    clientSearch(index, es_version > 5 ? undefined : 'past_elastalert', qs, request, response);
   });
 }
 
@@ -31,7 +31,7 @@ export function metadataElastalertErrorHandler(request, response) {
       index = config.get('writeback_index');
     }
 
-    clientSearch(index, 'elastalert_error', '*:*', request, response);
+    clientSearch(index, es_version > 5 ? undefined : 'elastalert_error', '*:*', request, response);
   });
 }
 
@@ -51,7 +51,7 @@ export function metadataElastalertSilenceHandler(request, response) {
       qs = `rule_name:"${escapeLuceneSyntax(request.query.rule_name)}" OR "${escapeLuceneSyntax(request.query.rule_name + '._silence')}"`;
     }
 
-    clientSearch(index, 'silence', qs, request, response);
+    clientSearch(index, es_version > 5 ? undefined : 'silence', qs, request, response);
   });
 }
 
@@ -71,7 +71,7 @@ export function metadataElastalertStatusHandler(request, response) {
       qs = `rule_name:"${escapeLuceneSyntax(request.query.rule_name)}"`;
     }
 
-    clientSearch(index, 'elastalert_status', qs, request, response);
+    clientSearch(index, es_version > 5 ? undefined : 'elastalert_status', qs, request, response);
   });
 }
 
