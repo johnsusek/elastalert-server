@@ -35,6 +35,8 @@ COPY config/elastalert.yaml /opt/elastalert/config.yaml
 COPY config/config.json config/config.json
 COPY rule_templates/ /opt/elastalert/rule_templates
 COPY elastalert_modules/ /opt/elastalert/elastalert_modules
+# Fix until https://github.com/Yelp/elastalert/pull/2783 is merged
+COPY patches/loaders.py /opt/elastalert/elastalert/loaders.py
 
 # Add default rules directory
 # Set permission as unpriviledged user (1000:1000), compatible with Kubernetes
