@@ -10,7 +10,7 @@ export default class FileSystem {
     return new Promise(function (resolve, reject) {
       try {        
         let rules = [];
-        let stream = readdirp({ root: path, entryType: 'both' });
+        let stream = readdirp(path, { type: 'all', alwaysStat: true });
 
         stream
           .on('warn', function (err) {
@@ -21,7 +21,7 @@ export default class FileSystem {
           })
           .on('data', entry => {
             let path = entry.path.replace('.yaml', '');
-            if (entry.stat.isDirectory()) {
+            if (entry.stats.isDirectory()) {
               path += '/';
             }
             rules.push(path);
