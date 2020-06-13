@@ -90,36 +90,44 @@ export function metadataElastalertHandler(request, response) {
     qs = '*:*';
   }
 
-  client.search({
-    index,
-    type: 'elastalert',
-    body: {
-      from: request.query.from || 0,
-      size: request.query.size || 100,
-      query: {
-        bool: {
-          must: [
-            {
-              query_string: { query: qs }
-            },
-            {
-              range: {
-                'alert_time': {
-                  lte: 'now',
+  getClientVersion(response).then(function (es_version) {
+    let type = 'elastalert';
+
+    if (es_version >= 7) {
+      type = undefined;
+    }
+
+    client.search({
+      index,
+      type,
+      body: {
+        from: request.query.from || 0,
+        size: request.query.size || 100,
+        query: {
+          bool: {
+            must: [
+              {
+                query_string: { query: qs }
+              },
+              {
+                range: {
+                  'alert_time': {
+                    lte: 'now',
+                  }
                 }
               }
-            }
-          ]
-        }
-      },
-      sort: [{ 'alert_time': { order: 'desc' } }]
-    }
-  }).then(function (resp) {
-    resp.hits.hits = resp.hits.hits.map(h => h._source);
-    response.send(resp.hits);
-  }, function (err) {
-    response.send({
-      error: err
+            ]
+          }
+        },
+        sort: [{ 'alert_time': { order: 'desc' } }]
+      }
+    }).then(function (resp) {
+      resp.hits.hits = resp.hits.hits.map(h => h._source);
+      response.send(resp.hits);
+    }, function (err) {
+      response.send({
+        error: err
+      });
     });
   });
 }

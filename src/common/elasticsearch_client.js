@@ -1,4 +1,5 @@
 import elasticsearch from 'elasticsearch';
+import fs from 'fs';
 import config from './config';
 
 export function escapeLuceneSyntax(str) {
