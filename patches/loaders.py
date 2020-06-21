@@ -25,6 +25,7 @@ from .util import ts_to_dt
 from .util import ts_to_dt_with_format
 from .util import unix_to_dt
 from .util import unixms_to_dt
+from .zabbix import ZabbixAlerter
 
 
 class RulesLoader(object):
@@ -78,7 +79,8 @@ class RulesLoader(object):
         'alerta': alerts.AlertaAlerter,
         'post': alerts.HTTPPostAlerter,
         'hivealerter': alerts.HiveAlerter,
-        'linenotify': alerts.LineNotifyAlerter
+        'linenotify': alerts.LineNotifyAlerter,
+        'zabbix': ZabbixAlerter
     }
 
     # A partial ordering of alert types. Relative order will be preserved in the resulting alerts list
