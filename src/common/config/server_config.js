@@ -1,4 +1,3 @@
-import Joi from 'joi';
 import fs from 'fs';
 import path from 'path';
 import schema from './schema';
@@ -29,7 +28,7 @@ export default class ServerConfig {
    * @returns {*}
    */
   get(key) {
-    return resolvePath(this._jsonConfig, key);
+     return resolvePath(this._jsonConfig, key);
   }
 
   /**
@@ -156,7 +155,7 @@ export default class ServerConfig {
   _validate(jsonConfig) {
     // Validate the JSON config
     try {
-      this._jsonConfig = Joi.validate(jsonConfig, schema).value;
+      this._jsonConfig = schema.validate(JSON.parse(jsonConfig)).value;
     } catch (error) {
       logger.error('The config in \'config/config.json\' is not a valid config configuration. Error: ', error);
     }
