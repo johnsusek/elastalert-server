@@ -28,7 +28,7 @@ export default class ServerConfig {
    * @returns {*}
    */
   get(key) {
-     return resolvePath(this._jsonConfig, key);
+    return resolvePath(this._jsonConfig, key);
   }
 
   /**
