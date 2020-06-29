@@ -51,7 +51,6 @@
   "scripts": {
     "build": "babel src -d lib",
     "start": "sh ./scripts/start.sh",
-    "test": "./scripts/test.sh",
     "update-authors": "./scripts/update-authors.sh",
     "precommit": "./node_modules/eslint/bin/eslint.js ."
   }
