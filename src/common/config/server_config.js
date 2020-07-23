@@ -58,6 +58,8 @@ export default class ServerConfig {
       self._waitList.forEach(function (callback) {
         callback();
       });
+    }).catch((error) => {
+      reject(error);
     });
   }
 
@@ -95,6 +97,8 @@ export default class ServerConfig {
           });
         }
       });
+    }).catch((error) => {
+      reject(error);
     });
   }
 
@@ -107,23 +111,22 @@ export default class ServerConfig {
   _fileExists(filePath) {
     return new Promise(function (resolve) {
       // Check if the config file exists and has reading permissions
-      try {
-        fs.access(filePath, fs.F_OK | fs.R_OK, function (error) {
-          if (error) {
-            if (error.errno === -2) {
-              logger.info(`No ${path.basename(filePath)} file was found in ${filePath}.`);
-            } else {
-              logger.warn(`${filePath} can't be read because of reading permission problems. Falling back to default configuration.`);
-            }
-            resolve(false);
+      fs.access(filePath, fs.F_OK | fs.R_OK, function (error) {
+        if (error) {
+          if (error.errno === -2) {
+            logger.info(`No ${path.basename(filePath)} file was found in ${filePath}.`);
           } else {
-            logger.info(`A config file was found in ${filePath}. Using that config.`);
-            resolve(true);
+            logger.warn(`${filePath} can't be read because of reading permission problems. Falling back to default configuration.`);
           }
-        });
-      } catch (error) {
-        logger.error('Error getting access information with fs using `fs.access`. Error:', error);
-      }
+          resolve(false);
+        } else {
+          logger.info(`A config file was found in ${filePath}. Using that config.`);
+          resolve(true);
+        }
+      });
+    }).catch((error) => {
+      logger.error('Error getting access information with fs using `fs.access`. Error:', error);
+      reject(error);
     });
   }
 
@@ -143,6 +146,8 @@ export default class ServerConfig {
           resolve(config);
         }
       });
+    }).catch((error) => {
+      reject(error);
     });
   }
 

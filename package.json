@@ -18,10 +18,10 @@
     "test": "./test"
   },
   "dependencies": {
-    "@babel/cli": "^7.10.4",
-    "@babel/core": "^7.10.4",
+    "@babel/cli": "^7.10.5",
+    "@babel/core": "^7.10.5",
     "@babel/preset-env": "^7.10.4",
-    "@babel/register": "^7.10.4",
+    "@babel/register": "^7.10.5",
     "@hapi/joi": "^17.1.1",
     "body-parser": "^1.19.0",
     "bunyan": "^1.8.14",
@@ -31,7 +31,7 @@
     "express": "^4.17.1",
     "fs-extra": "^9.0.1",
     "js-yaml": "^3.14.0",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.19",
     "mkdirp": "^1.0.4",
     "object-resolve-path": "^1.1.1",
     "randomstring": "^1.1.5",
@@ -39,12 +39,12 @@
     "readdirp": "^3.4.0",
     "recursive-readdir": "^2.2.2",
     "request": "^2.88.2",
-    "request-promise-native": "^1.0.8",
+    "request-promise-native": "^1.0.9",
     "tar": "^6.0.2",
-    "ws": "^7.3.0"
+    "ws": "^7.3.1"
   },
   "devDependencies": {
-    "eslint": "^7.4.0",
+    "eslint": "^7.5.0",
     "husky": "^4.2.5",
     "mocha": "~8.0.1"
   },
