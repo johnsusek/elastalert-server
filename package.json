@@ -19,8 +19,8 @@
   },
   "dependencies": {
     "@babel/cli": "^7.10.5",
-    "@babel/core": "^7.10.5",
-    "@babel/preset-env": "^7.10.4",
+    "@babel/core": "^7.11.0",
+    "@babel/preset-env": "^7.11.0",
     "@babel/register": "^7.10.5",
     "@hapi/joi": "^17.1.1",
     "body-parser": "^1.19.0",
@@ -44,9 +44,9 @@
     "ws": "^7.3.1"
   },
   "devDependencies": {
-    "eslint": "^7.5.0",
+    "eslint": "^7.6.0",
     "husky": "^4.2.5",
-    "mocha": "~8.0.1"
+    "mocha": "~8.1.0"
   },
   "scripts": {
     "build": "babel src -d lib",
