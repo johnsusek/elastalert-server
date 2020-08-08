@@ -54,6 +54,8 @@ export default class TemplatesController {
   _getErrorPromise(error) {
     return new Promise(function (resolve, reject) {
       reject(error);
+    }).catch((error) => {
+      reject(error);
     });
   }
 

@@ -8,66 +8,62 @@ export default class FileSystem {
 
   readDirectoryRecursive(path) {
     return new Promise(function (resolve, reject) {
-      try {        
-        let rules = [];
-        let stream = readdirp(path, { type: 'all', alwaysStat: true });
+      let rules = [];
+      let stream = readdirp(path, { type: 'all', alwaysStat: true });
 
-        stream
-          .on('warn', function (err) {
-            reject(err);  
-          })
-          .on('error', function (err) { 
-            reject(err);
-          })
-          .on('data', entry => {
-            let path = entry.path.replace('.yaml', '');
-            if (entry.stats.isDirectory()) {
-              path += '/';
-            }
-            rules.push(path);
-          }).on('end', () => {
-            resolve(rules);
-          });
-      } catch (error) {
-        reject(error);
-      }
+      stream
+        .on('warn', function (err) {
+          reject(err);  
+        })
+        .on('error', function (err) { 
+          reject(err);
+        })
+        .on('data', entry => {
+          let path = entry.path.replace('.yaml', '');
+          if (entry.stats.isDirectory()) {
+            path += '/';
+          }
+          rules.push(path);
+        }).on('end', () => {
+          resolve(rules);
+        });
+    }).catch((error) => {
+      reject(error);
     });
   }
 
   readDirectory(path) {
     const self = this;
     return new Promise(function (resolve, reject) {
-      try {
-        fs.readdir(path, function (error, elements) {
-          if (error) {
-            reject(error);
-          } else {
-            let statCount = 0;
-            let directoryIndex = self.getEmptyDirectoryIndex();
+      fs.readdir(path, function (error, elements) {
+        if (error) {
+          reject(error);
+        } else {
+          let statCount = 0;
+          let directoryIndex = self.getEmptyDirectoryIndex();
 
-            if (elements.length == 0) {
-              resolve(directoryIndex);
-            }
-
-            elements.forEach(function (element) {
-              fs.stat(joinPath(path, element), function (error, stats) {
-                if (stats.isDirectory()) {
-                  directoryIndex.directories.push(element);
-                } else if (stats.isFile()) {
-                  directoryIndex.files.push(element);
-                }
-
-                statCount++;
-                if (statCount === elements.length) {
-                  resolve(directoryIndex);
-                }
-              });
-            });
+          if (elements.length == 0) {
+            resolve(directoryIndex);
           }
-        });
-      } catch (error) {
-        reject(error);
-      }
+
+          elements.forEach(function (element) {
+            fs.stat(joinPath(path, element), function (error, stats) {
+              if (stats.isDirectory()) {
+                directoryIndex.directories.push(element);
+              } else if (stats.isFile()) {
+                directoryIndex.files.push(element);
+              }
+
+              statCount++;
+              if (statCount === elements.length) {
+                resolve(directoryIndex);
+              }
+            });
+          });
+        }
+      });
+    }).catch((error) => {
+      reject(error);
     });
   }
 
@@ -92,6 +88,8 @@ export default class FileSystem {
           resolve();
         }
       });
+    }).catch((error) => {
+      reject(error);
     });
   }
 
@@ -100,6 +98,8 @@ export default class FileSystem {
       fs.rmdir(path, function (error) {
         error ? reject(error) : resolve();
       });
+    }).catch((error) => {
+      reject(error);
     });
   }
 
@@ -112,19 +112,18 @@ export default class FileSystem {
       fs.readFile(path, 'utf8', function (error, content) {
         error ? reject(error) : resolve(content);
       });
+    }).catch((error) => {
+      reject(error);
     });
   }
 
   writeFile(path, content = '') {
     return new Promise(function (resolve, reject) {
-      try {
-        fs.writeFile(path, content, function (error) {
-          error ? reject(error) : resolve();
-        });
-      } catch (error) {
-        console.log(error);
-        reject(error);
-      }
+      fs.writeFile(path, content, function (error) {
+        error ? reject(error) : resolve();
+      });
+    }).catch((error) => {
+      reject(error);
     });
   }
 
@@ -133,6 +132,8 @@ export default class FileSystem {
       fs.unlink(path, function (error) {
         error ? reject(error) : resolve();
       });
+    }).catch((error) => {
+      reject(error);
     });
   }
 
@@ -145,13 +146,11 @@ export default class FileSystem {
 
   _exists(path) {
     return new Promise(function (resolve, reject) {
-      try {
-        fs.access(path, fs.F_OK, function (error) {
-          error ? resolve(false) : resolve(true);
-        });
-      } catch (error) {
-        reject(error);
-      }
+      fs.access(path, fs.F_OK, function (error) {
+        error ? resolve(false) : resolve(true);
+      });
+    }).catch((error) => {
+      reject(error);
     });
   }
 }

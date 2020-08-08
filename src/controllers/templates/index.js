@@ -25,6 +25,8 @@ export default class TemplatesController {
           logger.warn(`The requested folder (${self.templatesFolder}) couldn't be found / read by the server. Error:`, error);
           reject(new TemplatesFolderNotFoundError(self.templatesFolder));
         });
+    }).catch((error) => {
+      reject(error);
     });
   }
 
@@ -63,6 +65,8 @@ export default class TemplatesController {
             reject(new TemplatesFolderNotFoundError(path));
           }
         });
+    }).catch((error) => {
+      reject(error);
     });
   }
 
@@ -94,6 +98,8 @@ export default class TemplatesController {
           console.log('catched');
           reject(new TemplateNotFoundError(id));
         });
+    }).catch((error) => {
+      reject(error);
     });
   }
 
@@ -121,6 +127,8 @@ export default class TemplatesController {
         .catch(function (error) {
           reject(error);
         });
+    }).catch((error) => {
+      reject(error);
     });
   }
 
@@ -141,6 +149,8 @@ export default class TemplatesController {
 
   _getErrorPromise(error) {
     return new Promise(function (resolve, reject) {
+      reject(error);
+    }).catch((error) => {
       reject(error);
     });
   }

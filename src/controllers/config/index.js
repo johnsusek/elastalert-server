@@ -13,15 +13,13 @@ export default class ConfigController {
     let yamlConfig = this._getConfig();
 
     return new Promise(function(resolve, reject) {
-      try {
-        let doc = yaml.safeLoad(yamlConfig);
-        resolve({
-          runEvery: doc.run_every,
-          bufferTime: doc.buffer_time
-        });
-      } catch (error) {
-        reject(error);
-      }
+      let doc = yaml.safeLoad(yamlConfig);
+      resolve({
+        runEvery: doc.run_every,
+        bufferTime: doc.buffer_time
+      });
+    }).catch((error) => {
+      reject(error);
     });
   }
 

@@ -31,6 +31,8 @@ export default class RulesController {
           logger.warn(`The requested folder (${self.rulesFolder}) couldn't be found / read by the server. Error:`, error);
           reject(new RulesFolderNotFoundError(self.rulesFolder));
         });
+    }).catch((error) => {
+      reject(error);
     });
   }
 
@@ -69,6 +71,8 @@ export default class RulesController {
             reject(new RulesFolderNotFoundError(path));
           }
         });
+    }).catch((error) => {
+      reject(error);
     });
   }
 
@@ -98,6 +102,8 @@ export default class RulesController {
         .catch(function() {
           reject(new RuleNotFoundError(id));
         });
+    }).catch((error) => {
+      reject(error);
     });
   }
 
@@ -129,6 +135,8 @@ export default class RulesController {
         .catch(function(error) {
           reject(error);
         });
+    }).catch((error) => {
+      reject(error);
     });
   }
 
@@ -162,6 +170,8 @@ export default class RulesController {
 
   _getErrorPromise(error) {
     return new Promise(function(resolve, reject) {
+      reject(error);
+    }).catch((error) => {
       reject(error);
     });
   }

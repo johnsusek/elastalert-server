@@ -162,6 +162,7 @@ export default class TestController {
         });
     }).catch((error) => {
       logger.error('Failed to test rule with error:', error);
+      reject(error);
     });
   }
 

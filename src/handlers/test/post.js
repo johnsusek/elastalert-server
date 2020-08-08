@@ -1,7 +1,7 @@
 import RouteLogger from '../../routes/route_logger';
 import {sendRequestError} from '../../common/errors/utils';
 import {BodyNotSendError, RuleNotSendError, OptionsInvalidError} from '../../common/errors/test_request_errors';
-import Joi from 'joi';
+import Joi from '@hapi/joi';
 
 let logger = new RouteLogger('/test', 'POST');
 
@@ -24,7 +24,7 @@ function analyzeRequest(request) {
     return new RuleNotSendError();
   }
 
-  const validationResult = Joi.validate(request.body.options, optionsSchema);
+  const validationResult = optionsSchema.validate(request.body.options);
 
   if (validationResult.error) {
     return new OptionsInvalidError(validationResult.error);
