@@ -80,7 +80,8 @@ class RulesLoader(object):
         'post': alerts.HTTPPostAlerter,
         'hivealerter': alerts.HiveAlerter,
         'linenotify': alerts.LineNotifyAlerter,
-        'zabbix': ZabbixAlerter
+        'zabbix': ZabbixAlerter,
+        'pagertree': alerts.PagerTreeAlerter
     }
 
     # A partial ordering of alert types. Relative order will be preserved in the resulting alerts list

@@ -35,7 +35,7 @@ COPY config/elastalert.yaml /opt/elastalert/config.yaml
 COPY config/config.json config/config.json
 COPY rule_templates/ /opt/elastalert/rule_templates
 COPY elastalert_modules/ /opt/elastalert/elastalert_modules
-# Fix until https://github.com/Yelp/elastalert/pull/2783 and https://github.com/Yelp/elastalert/pull/2640 is merged
+# Fix until https://github.com/Yelp/elastalert/pull/2783 and https://github.com/Yelp/elastalert/pull/2640 and https://github.com/Yelp/elastalert/pull/2934 is merged
 COPY patches/loaders.py /opt/elastalert/elastalert/loaders.py
 # Fix until https://github.com/Yelp/elastalert/pull/2640 is merged
 COPY patches/zabbix.py /opt/elastalert/elastalert/zabbix.py

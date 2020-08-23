@@ -81,7 +81,7 @@ export function getClient() {
 
   if (config.get('es_ssl')) {
     scheme = 'https';
-    ssl_body.rejectUnauthorized = true;
+    ssl_body.rejectUnauthorized = false;
 
     if (config.get('es_ca_certs')) {
       ssl_body.ca = fs.readFileSync(config.get('es_ca_certs'));
