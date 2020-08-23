@@ -52,7 +52,7 @@ export default class TemplatesController {
           if (normalizePath(self.templatesFolder) === fullPath) {
 
             // Try to create the root folder
-            mkdirp(fullPath, function (error) {
+            fs.mkdir(fullPath, { recursive: true }, function (error) {
               if (error) {
                 reject(new TemplatesRootFolderNotCreatableError());
                 logger.warn(`The templates root folder (${fullPath}) couldn't be found nor could it be created by the file system.`);
