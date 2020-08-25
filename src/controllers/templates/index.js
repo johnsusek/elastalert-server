@@ -1,6 +1,6 @@
 import {join as joinPath, normalize as normalizePath, extname as pathExtension} from 'path';
-import mkdirp from 'mkdirp';
 import FileSystem from '../../common/file_system';
+import fs from 'fs-extra';
 import config from '../../common/config';
 import Logger from '../../common/logger';
 import {TemplateNotFoundError, TemplateNotReadableError, TemplateNotWritableError,
@@ -26,7 +26,7 @@ export default class TemplatesController {
           reject(new TemplatesFolderNotFoundError(self.templatesFolder));
         });
     }).catch((error) => {
-      reject(error);
+      logger.error('Failed to getTemplatesAll() error:', error);
     });
   }
 
@@ -66,7 +66,7 @@ export default class TemplatesController {
           }
         });
     }).catch((error) => {
-      reject(error);
+      logger.error(`Failed to getTemplates(${path}) error:`, error);
     });
   }
 
@@ -99,7 +99,7 @@ export default class TemplatesController {
           reject(new TemplateNotFoundError(id));
         });
     }).catch((error) => {
-      reject(error);
+      logger.error(`Failed to template(${id}) error:`, error);
     });
   }
 
@@ -128,7 +128,7 @@ export default class TemplatesController {
           reject(error);
         });
     }).catch((error) => {
-      reject(error);
+      logger.error(`Failed to _findTemplate(${id}) error:`, error);
     });
   }
 
@@ -151,7 +151,7 @@ export default class TemplatesController {
     return new Promise(function (resolve, reject) {
       reject(error);
     }).catch((error) => {
-      reject(error);
+      logger.error('Failed to _getErrorPromise error:', error);
     });
   }
 

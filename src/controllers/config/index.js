@@ -1,8 +1,11 @@
 import { join as joinPath } from 'path';
 import yaml from 'js-yaml';
 import fs from 'fs';
+import Logger from '../../common/logger';
 import FileSystem from '../../common/file_system';
 import config from '../../common/config';
+
+let logger = new Logger('ConfigController');
 
 export default class ConfigController {
   constructor() {
@@ -12,14 +15,14 @@ export default class ConfigController {
   getConfig() {
     let yamlConfig = this._getConfig();
 
-    return new Promise(function(resolve, reject) {
+    return new Promise(function(resolve) {
       let doc = yaml.safeLoad(yamlConfig);
       resolve({
         runEvery: doc.run_every,
         bufferTime: doc.buffer_time
       });
     }).catch((error) => {
-      reject(error);
+      logger.error('Failed to getConfig error:', error);
     });
   }
 

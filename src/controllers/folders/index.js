@@ -1,6 +1,9 @@
 import {join as joinPath } from 'path';
 import FileSystem from '../../common/file_system';
 import config from '../../common/config';
+import Logger from '../../common/logger';
+
+let logger = new Logger('TemplatesController');
 
 export default class TemplatesController {
   constructor() {
@@ -52,10 +55,10 @@ export default class TemplatesController {
   }
 
   _getErrorPromise(error) {
-    return new Promise(function (resolve, reject) {
+    return new Promise(function (_resolve, reject) {
       reject(error);
     }).catch((error) => {
-      reject(error);
+      logger.error('Failed to _getErrorPromise error:', error);
     });
   }
 

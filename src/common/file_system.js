@@ -1,7 +1,9 @@
+import Logger from './logger';
 import fs from 'fs';
 import { join as joinPath } from 'path';
-import mkdirp from 'mkdirp';
 import readdirp from 'readdirp';
+
+let logger = new Logger('FileSystem');
 
 export default class FileSystem {
   constructor() { }
@@ -28,7 +30,7 @@ export default class FileSystem {
           resolve(rules);
         });
     }).catch((error) => {
-      reject(error);
+      logger.error(`Failed to readDirectoryRecursive(${path}) error:`, error);
     });
   }
 
@@ -63,7 +65,7 @@ export default class FileSystem {
         }
       });
     }).catch((error) => {
-      reject(error);
+      logger.error(`Failed to readDirectory(${path}) error:`, error);
     });
   }
 
@@ -89,7 +91,7 @@ export default class FileSystem {
         }
       });
     }).catch((error) => {
-      reject(error);
+      logger.error(`Failed to createDirectoryIfNotExists(${pathToFolder}) error:`, error);
     });
   }
 
@@ -99,7 +101,7 @@ export default class FileSystem {
         error ? reject(error) : resolve();
       });
     }).catch((error) => {
-      reject(error);
+      logger.error(`Failed to deleteDirectory(${path}) error:`, error);
     });
   }
 
@@ -113,7 +115,7 @@ export default class FileSystem {
         error ? reject(error) : resolve(content);
       });
     }).catch((error) => {
-      reject(error);
+      logger.error(`Failed to readFile(${path}) error:`, error);
     });
   }
 
@@ -123,7 +125,7 @@ export default class FileSystem {
         error ? reject(error) : resolve();
       });
     }).catch((error) => {
-      reject(error);
+      logger.error(`Failed to writeFile(${path}) error:`, error);
     });
   }
 
@@ -133,7 +135,7 @@ export default class FileSystem {
         error ? reject(error) : resolve();
       });
     }).catch((error) => {
-      reject(error);
+      logger.error(`Failed to deleteFile(${path}) error:`, error);
     });
   }
 
@@ -145,12 +147,12 @@ export default class FileSystem {
   }
 
   _exists(path) {
-    return new Promise(function (resolve, reject) {
+    return new Promise(function (resolve) {
       fs.access(path, fs.F_OK, function (error) {
         error ? resolve(false) : resolve(true);
       });
     }).catch((error) => {
-      reject(error);
+      logger.error(`Failed to _exists(${path}) error:`, error);
     });
   }
 }

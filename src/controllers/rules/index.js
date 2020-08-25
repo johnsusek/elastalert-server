@@ -1,5 +1,4 @@
 import { join as joinPath, normalize as normalizePath, extname as pathExtension } from 'path';
-import mkdirp from 'mkdirp';
 import tar from 'tar';
 import fs from 'fs-extra';
 import rq from 'request-promise-native';
@@ -32,7 +31,7 @@ export default class RulesController {
           reject(new RulesFolderNotFoundError(self.rulesFolder));
         });
     }).catch((error) => {
-      reject(error);
+      logger.error('Failed to getRulesAll error:', error);
     });
   }
 
@@ -58,7 +57,7 @@ export default class RulesController {
           if (normalizePath(self.rulesFolder) === fullPath) {
 
             // Try to create the root folder
-            mkdirp(fullPath, function(error) {
+            fs.mkdir(fullPath, { recursive: true }, function(error) {
               if (error) {
                 reject(new RulesRootFolderNotCreatableError());
                 logger.warn(`The rules root folder (${fullPath}) couldn't be found nor could it be created by the file system.`);
@@ -72,7 +71,7 @@ export default class RulesController {
           }
         });
     }).catch((error) => {
-      reject(error);
+      logger.error(`Failed to getRules(${path}) error:`, error);
     });
   }
 
@@ -103,7 +102,7 @@ export default class RulesController {
           reject(new RuleNotFoundError(id));
         });
     }).catch((error) => {
-      reject(error);
+      logger.error(`Failed to rule(${id}, ${path}) error:`, error);
     });
   }
 
@@ -136,7 +135,7 @@ export default class RulesController {
           reject(error);
         });
     }).catch((error) => {
-      reject(error);
+      logger.error(`Failed to _findRule(${id}) error:`, error);
     });
   }
 
@@ -169,10 +168,10 @@ export default class RulesController {
   }
 
   _getErrorPromise(error) {
-    return new Promise(function(resolve, reject) {
+    return new Promise(function(_resolve, reject) {
       reject(error);
     }).catch((error) => {
-      reject(error);
+      logger.error('Failed to _getErrorPromise error:', error);
     });
   }
 

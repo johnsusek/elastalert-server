@@ -59,7 +59,7 @@ export default class ServerConfig {
         callback();
       });
     }).catch((error) => {
-      reject(error);
+      logger.error('Failed to load() error:', error);
     });
   }
 
@@ -98,7 +98,7 @@ export default class ServerConfig {
         }
       });
     }).catch((error) => {
-      reject(error);
+      logger.error('Failed to _getConfig() error:', error);
     });
   }
 
@@ -126,7 +126,6 @@ export default class ServerConfig {
       });
     }).catch((error) => {
       logger.error('Error getting access information with fs using `fs.access`. Error:', error);
-      reject(error);
     });
   }
 
@@ -147,7 +146,7 @@ export default class ServerConfig {
         }
       });
     }).catch((error) => {
-      reject(error);
+      logger.error(`Failed to _readFile(${file}) error:`, error);
     });
   }
 
