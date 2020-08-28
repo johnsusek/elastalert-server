@@ -2,8 +2,8 @@ import WebSocket from 'ws';
 
 export var wss = null;
 
-export function listen(port) {
-  wss = new WebSocket.Server({ port, path: '/test' });
+export function listen(port, host) {
+  wss = new WebSocket.Server({ port: port, host: host, path: '/test' });
 
   wss.on('connection', ws => {
     ws.isAlive = true;
@@ -16,7 +16,7 @@ export function listen(port) {
 }
 
 // Keepalive in case clients lose connection during a long rule test.
-// If client doesn't respond in 10s this will close the socket and 
+// If client doesn't respond in 10s this will close the socket and
 // therefore stop the elastalert test from continuing to run detached.
 setInterval(() => {
   wss.clients.forEach(ws => {

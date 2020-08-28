@@ -58,7 +58,9 @@ You can use the following config options:
 ```javascript
 {
   "appName": "elastalert-server", // The name used by the logging framework.
+  "host": '0.0.0.0' // The host to bind to
   "port": 3030, // The port to bind to
+  "wshost": '0.0.0.0' // The host to bind to for websockets
   "wsport": 3333, // The port to bind to for websockets
   "elastalertPath": "/opt/elastalert",  // The path to the root ElastAlert folder. It's the folder that contains the `setup.py` script.
   "start": "2014-01-01T00:00:00", // Optional date to start querying from

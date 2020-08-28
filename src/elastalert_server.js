@@ -81,7 +81,7 @@ export default class ElastalertServer {
         self._express.use(bodyParser.json());
         self._express.use(bodyParser.urlencoded({ extended: true }));
         self._setupRouter();
-        self._runningServer = self.express.listen(config.get('port'), self._serverController);
+        self._runningServer = self.express.listen(config.get('port'), config.get('host'), self._serverController);
         self._express.set('server', self);
 
         self._fileSystemController = new FileSystem();
@@ -102,10 +102,10 @@ export default class ElastalertServer {
         self._fileSystemController.createDirectoryIfNotExists(self.getDataFolder()).catch(function (error) {
           logger.error('Error creating data folder with error:', error);
         });
-        
-        logger.info('Server listening on port ' + config.get('port'));
 
-        let wss = listen(config.get('wsport'));
+        logger.info('Server listening on ' + config.get('host') + ':' + config.get('port'));
+
+        let wss = listen(config.get('wsport'), config.get('wshost'));
 
         wss.on('connection', ws => {
           ws.on('message', (data) => {
@@ -122,7 +122,7 @@ export default class ElastalertServer {
           });
         });
 
-        logger.info('Websocket listening on port 3333');
+        logger.info('Websocket listening on ' + config.get('wshost') + ':' + config.get('wsport'));
       } catch (error) {
         logger.error('Starting server failed with error:', error);
         process.exit(1);
