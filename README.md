@@ -2,9 +2,8 @@
 
 > A server that runs [ElastAlert](https://github.com/Yelp/elastalert) and exposes REST API's for manipulating rules and alerts. It works great in combination with our [ElastAlert Kibana plugin](https://github.com/bitsensor/elastalert-kibana-plugin).
 
-![GitHub release](https://img.shields.io/github/release/bitsensor/elastalert.svg)
-![Docker Pulls](https://img.shields.io/docker/pulls/bitsensor/elastalert.svg)
-![GitHub stars](https://img.shields.io/github/stars/bitsensor/elastalert.svg?style=social&label=Stars)
+![Docker Pulls](https://img.shields.io/docker/pulls/praecoapp/elastalert-server.svg)
+![GitHub stars](https://img.shields.io/github/stars/johnsusek/elastalert-server.svg?style=social&label=Stars)
 
 ---
 
