@@ -1,7 +1,6 @@
 import fs from 'fs';
 import fs_extra from 'fs-extra';
 import { join as joinPath } from 'path';
-import mkdirp from 'mkdirp';
 import readdirp from 'readdirp';
 
 export default class FileSystem {
@@ -82,7 +81,7 @@ export default class FileSystem {
     return new Promise(function (resolve, reject) {
       self.directoryExists(pathToFolder).then(function (exists) {
         if (!exists) {
-          mkdirp(pathToFolder, function (error) {
+          fs.mkdir(pathToFolder, { recursive: true }, function (error) {
             if (error) {
               reject(error);
             } else {

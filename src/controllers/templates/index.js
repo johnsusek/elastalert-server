@@ -1,6 +1,6 @@
 import {join as joinPath, normalize as normalizePath, extname as pathExtension} from 'path';
+import fs from 'fs';
 import FileSystem from '../../common/file_system';
-import mkdirp from 'mkdirp';
 import config from '../../common/config';
 import Logger from '../../common/logger';
 import {TemplateNotFoundError, TemplateNotReadableError, TemplateNotWritableError,
@@ -52,7 +52,7 @@ export default class TemplatesController {
           if (normalizePath(self.templatesFolder) === fullPath) {
 
             // Try to create the root folder
-            mkdirp(fullPath, function (error) {
+            fs.mkdir(fullPath, { recursive: true }, function (error) {
               if (error) {
                 reject(new TemplatesRootFolderNotCreatableError());
                 logger.warn(`The templates root folder (${fullPath}) couldn't be found nor could it be created by the file system.`);

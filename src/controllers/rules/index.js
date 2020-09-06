@@ -1,5 +1,4 @@
 import { join as joinPath, normalize as normalizePath, extname as pathExtension } from 'path';
-import mkdirp from 'mkdirp';
 import tar from 'tar';
 import fs from 'fs-extra';
 import rq from 'request-promise-native';
@@ -56,7 +55,7 @@ export default class RulesController {
           if (normalizePath(self.rulesFolder) === fullPath) {
 
             // Try to create the root folder
-            mkdirp(fullPath, function(error) {
+            fs.mkdir(fullPath, { recursive: true }, function(error) {
               if (error) {
                 reject(new RulesRootFolderNotCreatableError());
                 logger.warn(`The rules root folder (${fullPath}) couldn't be found nor could it be created by the file system.`);
