@@ -1,8 +1,10 @@
 import config from '../../common/config';
 import { getClient, escapeLuceneSyntax, clientSearch, getClientVersion } from '../../common/elasticsearch_client';
 
-export function metadataElastalertPastHandler(request, response) {
-  getClientVersion(response).then(function (es_version) {
+export async function metadataElastalertPastHandler(request, response) {
+  
+  try {
+    const es_version = await getClientVersion();
     let index;
 
     if (es_version > 5) {
@@ -17,12 +19,17 @@ export function metadataElastalertPastHandler(request, response) {
       qs = `rule_name:"${escapeLuceneSyntax(request.query.rule_name)}"`;
     }
 
-    clientSearch(index, es_version > 5 ? undefined : 'past_elastalert', qs, request, response);
-  });
+    clientSearch(index, es_version > 5 ? undefined : 'past_elastalert', qs, request, response);  
+  } catch (error) {
+    console.log(error);
+  }
+
 }
 
-export function metadataElastalertErrorHandler(request, response) {
-  getClientVersion(response).then(function (es_version) {
+export async function metadataElastalertErrorHandler(request, response) {
+
+  try {
+    const es_version = await getClientVersion();
     let index;
 
     if (es_version > 5) {
@@ -31,12 +38,17 @@ export function metadataElastalertErrorHandler(request, response) {
       index = config.get('writeback_index');
     }
 
-    clientSearch(index, es_version > 5 ? undefined : 'elastalert_error', '*:*', request, response);
-  });
+    clientSearch(index, es_version > 5 ? undefined : 'elastalert_error', '*:*', request, response);  
+  } catch (error) {
+    console.log(error);
+  }
+
 }
 
-export function metadataElastalertSilenceHandler(request, response) {
-  getClientVersion(response).then(function (es_version) {
+export async function metadataElastalertSilenceHandler(request, response) {
+
+  try {
+    const es_version = await getClientVersion();
     let index;
 
     if (es_version > 5) {
@@ -51,12 +63,17 @@ export function metadataElastalertSilenceHandler(request, response) {
       qs = `rule_name:"${escapeLuceneSyntax(request.query.rule_name)}" OR "${escapeLuceneSyntax(request.query.rule_name + '._silence')}"`;
     }
 
-    clientSearch(index, es_version > 5 ? undefined : 'silence', qs, request, response);
-  });
+    clientSearch(index, es_version > 5 ? undefined : 'silence', qs, request, response);      
+  } catch (error) {
+    console.log(error);
+  }
+
 }
 
-export function metadataElastalertStatusHandler(request, response) {
-  getClientVersion(response).then(function (es_version) {
+export async function metadataElastalertStatusHandler(request, response) {
+
+  try {
+    const es_version = await getClientVersion();
     let index;
 
     if (es_version > 5) {
@@ -71,26 +88,31 @@ export function metadataElastalertStatusHandler(request, response) {
       qs = `rule_name:"${escapeLuceneSyntax(request.query.rule_name)}"`;
     }
 
-    clientSearch(index, es_version > 5 ? undefined : 'elastalert_status', qs, request, response);
-  });
+    clientSearch(index, es_version > 5 ? undefined : 'elastalert_status', qs, request, response);  
+  } catch (error) {
+    console.log(error);
+  }
+
 }
 
-export function metadataElastalertHandler(request, response) {
-  let client = getClient();
-  let index = config.get('writeback_index');
-  let qs;
+export async function metadataElastalertHandler(request, response) {
 
-  if (request.query.rule_name) {
-    qs = `rule_name:"${escapeLuceneSyntax(request.query.rule_name)}"`;
-  }
-  else if (request.query.noagg) {
-    qs = 'NOT aggregate_id:*';
-  }
-  else {
-    qs = '*:*';
-  }
+  try {
+    const es_version = await getClientVersion();
+    const client = await getClient();
+    const index = config.get('writeback_index');
+    let qs;
 
-  getClientVersion(response).then(function (es_version) {
+    if (request.query.rule_name) {
+      qs = `rule_name:"${escapeLuceneSyntax(request.query.rule_name)}"`;
+    }
+    else if (request.query.noagg) {
+      qs = 'NOT aggregate_id:*';
+    }
+    else {
+      qs = '*:*';
+    }
+
     let type = 'elastalert';
 
     if (es_version >= 7) {
@@ -98,8 +120,8 @@ export function metadataElastalertHandler(request, response) {
     }
 
     client.search({
-      index,
-      type,
+      index: index,
+      type: type,
       body: {
         from: request.query.from || 0,
         size: request.query.size || 100,
@@ -121,13 +143,18 @@ export function metadataElastalertHandler(request, response) {
         },
         sort: [{ 'alert_time': { order: 'desc' } }]
       }
-    }).then(function (resp) {
-      resp.hits.hits = resp.hits.hits.map(h => h._source);
-      response.send(resp.hits);
-    }, function (err) {
-      response.send({
-        error: err
-      });
-    });
-  });
+    }, (err, {body}) => {
+      if (err) {
+        response.send({
+          error: err
+        });
+      } else {
+        body.hits.hits = body.hits.hits.map(h => h._source);
+        response.send(body.hits);
+      }
+    });    
+  } catch (error) {
+    console.log(error);
+  }
+
 }

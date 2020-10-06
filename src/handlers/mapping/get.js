@@ -1,20 +1,26 @@
 import { getClient } from '../../common/elasticsearch_client';
 
-export default function mappingHandler(request, response) {
+export default async function mappingHandler(request, response) {
   /**
    * @type {ElastalertServer}
    */
-  
-  var client = getClient();
 
-  client.indices.getMapping({
-    index: request.params.index
-  }).then(function(resp) {
-    response.send(resp);
-  }, function(err) {
-    response.send({
-      error: err
+  try {
+    const client = await getClient();
+
+    client.indices.getMapping({
+      index: request.params.index
+    }, (err, {body}) => {
+      if (err)  {
+        response.send({
+          error: err
+        });
+      } else {
+        response.send(body);
+      }
     });
-  });
+  } catch (error) {
+    console.log(error);
+  }
 
 }

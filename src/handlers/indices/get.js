@@ -1,21 +1,27 @@
 import { getClient } from '../../common/elasticsearch_client';
 
-export default function indicesHandler(request, response) {
+export default async function indicesHandler(request, response) {
   /**
    * @type {ElastalertServer}
    */
   
-  var client = getClient();
+  try {
+    const client = await getClient();
 
-  client.cat.indices({
-    h: ['index']
-  }).then(function(resp) {
-    let indices = resp.trim().split('\n');
-    response.send(indices);
-  }, function(err) {
-    response.send({
-      error: err
+    client.cat.indices({
+      h: ['index']
+    }, (err, {body}) => {
+      if (err)  {
+        response.send({
+          error: err
+        });
+      } else {
+        let indices = body.trim().split('\n');
+        response.send(indices);
+      }
     });
-  });
+  } catch (error) {
+    console.log(error);
+  }
 
 }
