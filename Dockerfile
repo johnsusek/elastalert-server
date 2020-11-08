@@ -39,7 +39,7 @@ COPY elastalert_modules/ /opt/elastalert/elastalert_modules
 COPY patches/loaders.py /opt/elastalert/elastalert/loaders.py
 # Fix until https://github.com/Yelp/elastalert/pull/2640 is merged
 COPY patches/zabbix.py /opt/elastalert/elastalert/zabbix.py
-# Fix until https://github.com/Yelp/elastalert/pull/2793 is merged
+# Fix until https://github.com/Yelp/elastalert/pull/2793 and https://github.com/Yelp/elastalert/pull/3024 is merged
 COPY patches/alerts.py /opt/elastalert/elastalert/alerts.py
 
 # Add default rules directory
