@@ -54,7 +54,29 @@ export async function getClientVersion() {
       auth = `${config.get('es_username')}:${config.get('es_password')}@`;
     }
 
-    const result = await axios.get(`${scheme}://${auth}${config.get('es_host')}:${config.get('es_port')}`);
+    const agent  = {};
+
+    if (config.get('es_ssl')) {
+      agent.rejectUnauthorized = false;
+
+      if (config.get('es_ca_certs')) {
+        agent.ca = fs.readFileSync(config.get('es_ca_certs'));
+      }
+      if (config.get('es_client_cert')) {
+        agent.cert = fs.readFileSync(config.get('es_client_cert'));
+      }
+      if (config.get('es_client_key')) {
+        agent.key = fs.readFileSync(config.get('es_client_key'));
+      }
+    }
+
+    const https = require('https');
+    const httpsAgent = new https.Agent(agent);
+    const result = 
+      await axios.get(
+        `${scheme}://${auth}${config.get('es_host')}:${config.get('es_port')}`, 
+        {httpsAgent}
+      );
     return parseInt(result.data.version['number'].split('.')[0], 10);
   } catch (error) {
     console.log(error);
