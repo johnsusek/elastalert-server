@@ -1,7 +1,7 @@
 import RouteLogger from '../../routes/route_logger';
 import {sendRequestError} from '../../common/errors/utils';
 import {BodyNotSendError, RuleNotSendError, OptionsInvalidError} from '../../common/errors/test_request_errors';
-import Joi from '@hapi/joi';
+import Joi from 'joi';
 
 let logger = new RouteLogger('/test', 'POST');
 

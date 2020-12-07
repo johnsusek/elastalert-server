@@ -51,6 +51,7 @@ RUN python3 setup.py install
 FROM node:14.15-alpine3.12
 LABEL maintainer="John Susek <john@johnsolo.net>"
 ENV TZ Etc/UTC
+ENV PATH /home/node/.local/bin:$PATH
 
 RUN apk add --update --no-cache curl tzdata python3 ca-certificates openssl-dev openssl python3-dev gcc musl-dev make libffi-dev libmagic py3-pip
 

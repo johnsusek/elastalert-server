@@ -1,7 +1,7 @@
 import RouteLogger from '../../routes/route_logger';
 import {sendRequestError} from '../../common/errors/utils';
 import {BodyNotSendError, OptionsInvalidError} from '../../common/errors/silence_request_errors';
-import Joi from '@hapi/joi';
+import Joi from 'joi';
 
 let logger = new RouteLogger('/silence', 'POST');
 

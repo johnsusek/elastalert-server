@@ -1,5 +1,5 @@
 // Defines the config's Joi schema
-import Joi from '@hapi/joi';
+import Joi from 'joi';
 
 const schema = Joi.object().keys({
   'appName': Joi.string().default('elastalert-server'),
