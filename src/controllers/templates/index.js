@@ -1,5 +1,5 @@
 import {join as joinPath, normalize as normalizePath, extname as pathExtension} from 'path';
-import fs from 'fs';
+import fs from 'fs-extra';
 import FileSystem from '../../common/file_system';
 import config from '../../common/config';
 import Logger from '../../common/logger';
@@ -25,8 +25,6 @@ export default class TemplatesController {
           logger.warn(`The requested folder (${self.templatesFolder}) couldn't be found / read by the server. Error:`, error);
           reject(new TemplatesFolderNotFoundError(self.templatesFolder));
         });
-    }).catch((error) => {
-      logger.error('Failed to getTemplatesAll() error:', error);
     });
   }
 
@@ -65,8 +63,6 @@ export default class TemplatesController {
             reject(new TemplatesFolderNotFoundError(path));
           }
         });
-    }).catch((error) => {
-      logger.error(`Failed to getTemplates(${path}) error:`, error);
     });
   }
 
@@ -98,8 +94,6 @@ export default class TemplatesController {
           console.log('catched');
           reject(new TemplateNotFoundError(id));
         });
-    }).catch((error) => {
-      logger.error(`Failed to template(${id}) error:`, error);
     });
   }
 
@@ -127,8 +121,6 @@ export default class TemplatesController {
         .catch(function (error) {
           reject(error);
         });
-    }).catch((error) => {
-      logger.error(`Failed to _findTemplate(${id}) error:`, error);
     });
   }
 
