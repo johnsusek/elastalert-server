@@ -1,0 +1,402 @@
+$schema: http://json-schema.org/draft-07/schema#
+definitions:
+
+  # Either a single string OR an array of strings
+  arrayOfStrings: &arrayOfString
+    type: [string, array]
+    items: {type: string}
+
+  # Either a single string OR an array of strings OR an array of ararys
+  arrayOfStringsOrOtherArrays: &arrayOfStringsOrOtherArray
+    type: [string, array]
+    items: {type: [string, array]}
+
+  timedelta: &timedelta
+    type: object
+    additionalProperties: false
+    properties:
+      days: {type: number}
+      weeks: {type: number}
+      hours: {type: number}
+      minutes: {type: number}
+      seconds: {type: number}
+      milliseconds: {type: number}
+
+  timeFrame: &timeframe
+    type: object
+    additionalProperties: false
+    properties:
+      days: {type: number}
+      weeks: {type: number}
+      hours: {type: number}
+      minutes: {type: number}
+      seconds: {type: number}
+      milliseconds: {type: number}
+      schedule: {type: string}
+
+  filter: &filter {}
+
+  mattermostField: &mattermostField
+    type: object
+    additionalProperties: false
+    properties:
+      title: {type: string}
+      value: {type: string}
+      args: *arrayOfString
+      short: {type: boolean}
+
+required: [type, index, alert]
+type: object
+
+### Rule Types section
+oneOf:
+  - title: Any
+    properties:
+      type: {enum: [any]}
+
+  - title: Blacklist
+    required: [blacklist, compare_key]
+    properties:
+      type: {enum: [blacklist]}
+      compare_key: {'items': {'type': 'string'},'type': ['string', 'array']}
+      blacklist: {type: array, items: {type: string}}
+
+  - title: Whitelist
+    required: [whitelist, compare_key, ignore_null]
+    properties:
+      type: {enum: [whitelist]}
+      compare_key: {'items': {'type': 'string'},'type': ['string', 'array']}
+      whitelist: {type: array, items: {type: string}}
+      ignore_null: {type: boolean}
+
+  - title: Change
+    required: [query_key, compare_key, ignore_null]
+    properties:
+      type: {enum: [change]}
+      compare_key: {'items': {'type': 'string'},'type': ['string', 'array']}
+      ignore_null: {type: boolean}
+      timeframe: *timeframe
+
+  - title: Frequency
+    required: [num_events, timeframe]
+    properties:
+      type: {enum: [frequency]}
+      num_events: {type: integer}
+      timeframe: *timeframe
+      use_count_query: {type: boolean}
+      doc_type: {type: string}
+      use_terms_query: {type: boolean}
+      terms_size: {type: integer}
+      attach_related: {type: boolean}
+
+  - title: Spike
+    required: [spike_height, spike_type, timeframe]
+    properties:
+      type: {enum: [spike]}
+      spike_height: {type: number}
+      spike_type: {enum: ["up", "down", "both"]}
+      timeframe: *timeframe
+      use_count_query: {type: boolean}
+      doc_type: {type: string}
+      use_terms_query: {type: boolean}
+      terms_size: {type: integer}
+      alert_on_new_data: {type: boolean}
+      threshold_ref: {type: integer}
+      threshold_cur: {type: integer}
+
+  - title: Spike Aggregation
+    required: [spike_height, spike_type, timeframe]
+    properties:
+      type: {enum: [spike_aggregation]}
+      spike_height: {type: number}
+      spike_type: {enum: ["up", "down", "both"]}
+      metric_agg_type: {enum: ["min", "max", "avg", "sum", "cardinality", "value_count"]}
+      timeframe: *timeframe
+      use_count_query: {type: boolean}
+      doc_type: {type: string}
+      use_terms_query: {type: boolean}
+      terms_size: {type: integer}
+      alert_on_new_data: {type: boolean}
+      threshold_ref: {type: number}
+      threshold_cur: {type: number}
+      min_doc_count: {type: integer}
+
+  - title: Flatline
+    required: [threshold, timeframe]
+    properties:
+      type: {enum: [flatline]}
+      timeframe: *timeframe
+      threshold: {type: integer}
+      use_count_query: {type: boolean}
+      doc_type: {type: string}
+
+  - title: New Term
+    required: []
+    properties:
+      type: {enum: [new_term]}
+      fields: *arrayOfStringsOrOtherArray
+      terms_window_size: *timeframe
+      alert_on_missing_field: {type: boolean}
+      use_terms_query: {type: boolean}
+      terms_size: {type: integer}
+
+  - title: Cardinality
+    required: [cardinality_field, timeframe]
+    properties:
+      type: {enum: [cardinality]}
+      max_cardinality: {type: integer}
+      min_cardinality: {type: integer}
+      cardinality_field: {type: string}
+      timeframe: *timeframe
+
+  - title: Metric Aggregation
+    required: [metric_agg_key,metric_agg_type]
+    properties:
+      type: {enum: [metric_aggregation]}
+      metric_agg_type: {enum: ["min", "max", "avg", "sum", "cardinality", "value_count"]}
+      #timeframe: *timeframe
+
+  - title: Percentage Match
+    required: [match_bucket_filter]
+    properties:
+      type: {enum: [percentage_match]}
+
+  - title: Custom Rule from Module
+    properties:
+      # custom rules include a period in the rule type
+      type: {pattern: "[.]"}
+
+properties:
+
+  # Common Settings
+  es_host: {type: string}
+  es_port: {type: integer}
+  index: {type: string}
+  name: {type: string}
+
+  use_ssl: {type: boolean}
+  verify_certs: {type: boolean}
+  es_username: {type: string}
+  es_password: {type: string}
+  use_strftime_index: {type: boolean}
+
+  # Optional Settings
+  import: {type: string}
+  aggregation: *timeframe
+  realert: *timeframe
+  exponential_realert: *timeframe
+
+  buffer_time: *timeframe
+  query_delay: *timeframe
+  max_query_size: {type: integer}
+  max_scrolling: {type: integer}
+
+  owner: {type: string}
+  priority: {type: integer}
+
+  filter :
+    type: [array, object]
+    items: *filter
+    additionalProperties: false
+    properties:
+        download_dashboard: {type: string}
+
+  include: {type: array, items: {type: string}}
+  top_count_keys: {type: array, items: {type: string}}
+  top_count_number: {type: integer}
+  raw_count_keys: {type: boolean}
+  generate_kibana_link: {type: boolean}
+  kibana_dashboard: {type: string}
+  use_kibana_dashboard: {type: string}
+  use_local_time: {type: boolean}
+  match_enhancements: {type: array, items: {type: string}}
+  query_key: *arrayOfString
+  replace_dots_in_field_names: {type: boolean}
+  scan_entire_timeframe: {type: boolean}
+
+  ### Kibana Discover App Link
+  generate_kibana_discover_url: {type: boolean}
+  kibana_discover_app_url: {type: string, format: uri}
+  kibana_discover_version: {type: string, enum: ['7.3', '7.2', '7.1', '7.0', '6.8', '6.7', '6.6', '6.5', '6.4', '6.3', '6.2', '6.1', '6.0', '5.6']}
+  kibana_discover_index_pattern_id: {type: string, minLength: 1}
+  kibana_discover_columns: {type: array, items: {type: string, minLength: 1}, minItems: 1}
+  kibana_discover_from_timedelta: *timedelta
+  kibana_discover_to_timedelta: *timedelta
+
+  # Alert Content
+  alert_text: {type: string} # Python format string
+  alert_text_args: {type: array, items: {type: string}}
+  alert_text_kw: {type: object}
+  alert_text_type: {enum: [alert_text_only, exclude_fields, aggregation_summary_only]}
+  alert_missing_value: {type: string}
+  timestamp_field: {type: string}
+  field: {}
+
+  ### Commands
+  command: *arrayOfString
+  pipe_match_json: {type: boolean}
+  fail_on_non_zero_exit: {type: boolean}
+
+  ### Email
+  email: *arrayOfString
+  email_reply_to: {type: string}
+  notify_email: *arrayOfString # if rule is slow or erroring, send to this email
+  smtp_host: {type: string}
+  from_addr: {type: string}
+
+  ### JIRA
+  jira_server: {type: string}
+  jira_project: {type: string}
+  jira_issuetype: {type: string}
+  jira_account_file: {type: string} # a Yaml file that includes the keys {user:, password:}
+
+  jira_assignee: {type: string}
+  jira_component: *arrayOfString
+  jira_components: *arrayOfString
+  jira_label: *arrayOfString
+  jira_labels: *arrayOfString
+  jira_bump_tickets: {type: boolean}
+  jira_bump_in_statuses: *arrayOfString
+  jira_bump_not_in_statuses: *arrayOfString
+  jira_max_age: {type: number}
+  jira_watchers: *arrayOfString
+
+  ### HipChat
+  hipchat_auth_token: {type: string}
+  hipchat_room_id: {type: [string, integer]}
+  hipchat_domain: {type: string}
+  hipchat_ignore_ssl_errors: {type: boolean}
+  hipchat_notify: {type: boolean}
+  hipchat_from: {type: string}
+  hipchat_mentions: {type: array, items: {type: string}}
+
+  ### Stride
+  stride_access_token: {type: string}
+  stride_cloud_id: {type: string}
+  stride_conversation_id: {type: string}
+  stride_ignore_ssl_errors: {type: boolean}
+
+  ### Slack
+  slack_webhook_url: *arrayOfString
+  slack_username_override: {type: string}
+  slack_emoji_override: {type: string}
+  slack_icon_url_override: {type: string}
+  slack_msg_color: {enum: [good, warning, danger]}
+  slack_parse_override: {enum: [none, full]}
+  slack_text_string: {type: string}
+  slack_ignore_ssl_errors: {type: boolean}
+  slack_ca_certs: {type: string}
+  slack_attach_kibana_discover_url: {type: boolean}
+  slack_kibana_discover_color: {type: string}
+  slack_kibana_discover_title: {type: string}
+
+  ### Mattermost
+  mattermost_webhook_url: *arrayOfString
+  mattermost_proxy: {type: string}
+  mattermost_ignore_ssl_errors: {type: boolean}
+  mattermost_username_override: {type: string}
+  mattermost_icon_url_override: {type: string}
+  mattermost_channel_override: {type: string}
+  mattermost_msg_color: {enum: [good, warning, danger]}
+  mattermost_msg_pretext: {type: string}
+  mattermost_msg_fields: *mattermostField
+
+  ### Opsgenie
+  opsgenie_details:
+    type: object
+    minProperties: 1
+    patternProperties:
+      "^.+$":
+        oneOf:
+          - type: string
+          - type: object
+            additionalProperties: false
+            required: [field]
+            properties:
+              field: {type: string, minLength: 1}
+
+  ### PagerDuty
+  pagerduty_service_key: {type: string}
+  pagerduty_client_name: {type: string}
+  pagerduty_event_type: {enum: [none, trigger, resolve, acknowledge]}
+
+  ### PagerTree
+  pagertree_integration_url: {type: string}
+
+
+  ### Exotel
+  exotel_account_sid: {type: string}
+  exotel_auth_token: {type: string}
+  exotel_to_number: {type: string}
+  exotel_from_number: {type: string}
+
+  ### Twilio
+  twilio_account_sid: {type: string}
+  twilio_auth_token: {type: string}
+  twilio_to_number: {type: string}
+  twilio_from_number: {type: string}
+
+  ### VictorOps
+  victorops_api_key: {type: string}
+  victorops_routing_key: {type: string}
+  victorops_message_type: {enum: [INFO, WARNING, ACKNOWLEDGEMENT, CRITICAL, RECOVERY]}
+  victorops_entity_id: {type: string}
+  victorops_entity_display_name: {type: string}
+
+  ### Telegram
+  telegram_bot_token: {type: string}
+  telegram_room_id: {type: string}
+  telegram_api_url: {type: string}
+
+  ### Gitter
+  gitter_webhook_url: {type: string}
+  gitter_proxy: {type: string}
+  gitter_msg_level: {enum: [info, error]}
+
+  ### Alerta
+  alerta_api_url: {type: string}
+  alerta_api_key: {type: string}
+  alerta_severity: {enum: [unknown, security, debug, informational, ok, normal, cleared, indeterminate, warning, minor, major, critical]}
+  alerta_resource: {type: string}   # Python format string
+  alerta_environment: {type: string}  # Python format string
+  alerta_origin: {type: string}   # Python format string
+  alerta_group: {type: string}  # Python format string
+  alerta_service: {type: array, items: {type: string}}  # Python format string
+  alerta_correlate: {type: array, items: {type: string}}  # Python format string
+  alerta_tags: {type: array, items: {type: string}}   # Python format string
+  alerta_event: {type: string} # Python format string
+  alerta_customer: {type: string}
+  alerta_text: {type: string} # Python format string
+  alerta_type: {type: string}
+  alerta_value: {type: string} # Python format string
+  alerta_attributes_keys: {type: array, items: {type: string}}
+  alerta_attributes_values: {type: array, items: {type: string}}  # Python format string
+  alerta_new_style_string_format: {type: boolean}
+
+
+  ### Simple
+  simple_webhook_url: *arrayOfString
+  simple_proxy: {type: string}
+
+  ### LineNotify
+  linenotify_access_token: {type: string}
+
+  ### Zabbix
+  zbx_sender_host: {type: string}
+  zbx_sender_port: {type: integer}
+  zbx_host: {type: string}
+  zbx_key: {type: string}
+
+  ### Discord
+  discord_webhook_url: {type: string}
+
+  ### Dingtalk
+  dingtalk_access_token: {type: string}
+  dingtalk_msgtype: {type: string}
+  dingtalk_single_title: {type: string}
+  dingtalk_single_url: {type: string}
+  dingtalk_btn_orientation: {type: string}
+
+  ### Chatwork
+  chatwork_apikey: {type: string}
+  chatwork_room_id: {type: string}

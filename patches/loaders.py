@@ -81,7 +81,10 @@ class RulesLoader(object):
         'hivealerter': alerts.HiveAlerter,
         'linenotify': alerts.LineNotifyAlerter,
         'zabbix': ZabbixAlerter,
-        'pagertree': alerts.PagerTreeAlerter
+        'pagertree': alerts.PagerTreeAlerter,
+        'discord': alerts.DiscordAlerter,
+        'dingtalk': alerts.DingTalkAlerter,
+        'chatwork': alerts.ChatworkAlerter
     }
 
     # A partial ordering of alert types. Relative order will be preserved in the resulting alerts list
@@ -96,7 +99,7 @@ class RulesLoader(object):
     def __init__(self, conf):
         # schema for rule yaml
         self.rule_schema = jsonschema.Draft7Validator(
-            yaml.load(open(os.path.join(os.path.dirname(__file__), 'schema.yaml')), Loader=yaml.UnsafeLoader))
+            yaml.load(open(os.path.join(os.path.dirname(__file__), 'schema.yaml')), Loader=yaml.FullLoader))
 
         self.base_config = copy.deepcopy(conf)
 
@@ -120,9 +123,6 @@ class RulesLoader(object):
                 # A rule failed to load, don't try to process it
                 if not rule:
                     logging.error('Invalid rule file skipped: %s' % rule_file)
-                    continue
-                # By setting "is_enabled: False" in rule file, a rule is easily disabled
-                if 'is_enabled' in rule and not rule['is_enabled']:
                     continue
                 if rule['name'] in names:
                     raise EAException('Duplicate rule named %s' % (rule['name']))

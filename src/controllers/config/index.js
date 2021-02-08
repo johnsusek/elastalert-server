@@ -16,7 +16,7 @@ export default class ConfigController {
     let yamlConfig = this._getConfig();
 
     return new Promise(function(resolve) {
-      let doc = yaml.safeLoad(yamlConfig);
+      let doc = yaml.load(yamlConfig);
       resolve({
         runEvery: doc.run_every,
         bufferTime: doc.buffer_time

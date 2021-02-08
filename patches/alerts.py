@@ -895,10 +895,6 @@ class CommandAlerter(Alerter):
                 logging.warning('Warning! You could be vulnerable to shell injection!')
             self.rule['command'] = [self.rule['command']]
 
-        self.new_style_string_format = False
-        if 'new_style_string_format' in self.rule and self.rule['new_style_string_format']:
-            self.new_style_string_format = True
-
     def alert(self, matches):
         # Format the command and arguments
         try:
@@ -2183,4 +2179,197 @@ class HiveAlerter(Alerter):
         return {
             'type': 'hivealerter',
             'hive_host': self.rule.get('hive_connection', {}).get('hive_host', '')
+        }
+
+
+class DiscordAlerter(Alerter):
+
+    required_options = frozenset(['discord_webhook_url'])
+
+    def __init__(self, rule):
+        super(DiscordAlerter, self).__init__(rule)
+        self.discord_webhook_url = self.rule['discord_webhook_url']
+        self.discord_emoji_title = self.rule.get('discord_emoji_title', ':warning:')
+        self.discord_proxy = self.rule.get('discord_proxy', None)
+        self.discord_proxy_login = self.rule.get('discord_proxy_login', None)
+        self.discord_proxy_password = self.rule.get('discord_proxy_password', None)
+        self.discord_embed_color = self.rule.get('discord_embed_color', 0xffffff)
+        self.discord_embed_footer = self.rule.get('discord_embed_footer', None)
+        self.discord_embed_icon_url = self.rule.get('discord_embed_icon_url', None)
+
+    def alert(self, matches):
+        body = ''
+        title = u'%s' % (self.create_title(matches))
+        for match in matches:
+            body += str(BasicMatchString(self.rule, match))
+            if len(matches) > 1:
+                body += '\n----------------------------------------\n'
+        if len(body) > 2047:
+            body = body[0:1950] + '\n *message was cropped according to discord embed description limits!* '
+
+        body += '```'
+
+        proxies = {'https': self.discord_proxy} if self.discord_proxy else None
+        auth = HTTPProxyAuth(self.discord_proxy_login, self.discord_proxy_password) if self.discord_proxy_login else None
+        headers = {"Content-Type": "application/json"}
+
+        data = {}
+        data["content"] = "%s %s %s" % (self.discord_emoji_title, title, self.discord_emoji_title)
+        data["embeds"] = []
+        embed = {}
+        embed["description"] = "%s" % (body)
+        embed["color"] = (self.discord_embed_color)
+
+        if self.discord_embed_footer:
+            embed["footer"] = {}
+            embed["footer"]["text"] = (self.discord_embed_footer) if self.discord_embed_footer else None
+            embed["footer"]["icon_url"] = (self.discord_embed_icon_url) if self.discord_embed_icon_url else None
+        else:
+            None
+
+        data["embeds"].append(embed)
+
+        try:
+            response = requests.post(self.discord_webhook_url, data=json.dumps(data), headers=headers, proxies=proxies, auth=auth)
+            warnings.resetwarnings()
+            response.raise_for_status()
+        except RequestException as e:
+            raise EAException("Error posting to Discord: %s. Details: %s" % (e, "" if e.response is None else e.response.text))
+
+        elastalert_logger.info(
+                "Alert sent to the webhook %s" % self.discord_webhook_url)
+
+    def get_info(self):
+        return {'type': 'discord',
+                'discord_webhook_url': self.discord_webhook_url}
+
+
+class DingTalkAlerter(Alerter):
+    """ Creates a DingTalk room message for each alert """
+    required_options = frozenset(['dingtalk_access_token', 'dingtalk_msgtype'])
+
+    def __init__(self, rule):
+        super(DingTalkAlerter, self).__init__(rule)
+        self.dingtalk_access_token = self.rule.get('dingtalk_access_token')
+        self.dingtalk_webhook_url = 'https://oapi.dingtalk.com/robot/send?access_token=%s' % (self.dingtalk_access_token)
+        self.dingtalk_msgtype = self.rule.get('dingtalk_msgtype')
+        self.dingtalk_message_url = self.rule.get('dingtalk_message_url', '')
+        self.dingtalk_pic_url = self.rule.get('dingtalk_pic_url', '')
+        self.dingtalk_single_title = self.rule.get('dingtalk_single_title', 'elastalert')
+        self.dingtalk_single_url = self.rule.get('dingtalk_single_url', '')
+        self.dingtalk_btn_orientation = self.rule.get('dingtalk_btn_orientation', '')
+        self.dingtalk_btns = self.rule.get('dingtalk_btns', [])
+        self.dingtalk_proxy = self.rule.get('dingtalk_proxy', None)
+        self.dingtalk_proxy_login = self.rule.get('dingtalk_proxy_login', None)
+        self.dingtalk_proxy_password = self.rule.get('dingtalk_proxy_pass', None)
+
+    def format_body(self, body):
+        return body.encode('utf8')
+
+    def alert(self, matches):
+        title = self.create_title(matches)
+        body = self.create_alert_body(matches)
+
+        proxies = {'https': self.dingtalk_proxy} if self.dingtalk_proxy else None
+        auth = HTTPProxyAuth(self.dingtalk_proxy_login, self.dingtalk_proxy_password) if self.dingtalk_proxy_login else None
+        headers = {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json;charset=utf-8'
+        }
+
+        if self.dingtalk_msgtype == 'text':
+            # text
+            payload = {
+                'msgtype': self.dingtalk_msgtype,
+                'text': {
+                    'content': body
+                }
+            }
+        elif self.dingtalk_msgtype == 'markdown':
+            # markdown
+            payload = {
+                'msgtype': self.dingtalk_msgtype,
+                'markdown': {
+                    'title': title,
+                    'text': body
+                }
+            }
+        elif self.dingtalk_msgtype == 'single_action_card':
+            # singleActionCard
+            payload = {
+                'msgtype': 'actionCard',
+                'actionCard': {
+                    'title': title,
+                    'text': body,
+                    'singleTitle': self.dingtalk_single_title,
+                    'singleURL': self.dingtalk_single_url
+                }
+            }
+        elif self.dingtalk_msgtype == 'action_card':
+            # actionCard
+            payload = {
+                'msgtype': 'actionCard',
+                'actionCard': {
+                    'title': title,
+                    'text': body
+                }
+            }
+            if self.dingtalk_btn_orientation != '':
+                payload['actionCard']['btnOrientation'] = self.dingtalk_btn_orientation
+            if self.dingtalk_btns:
+                payload['actionCard']['btns'] = self.dingtalk_btns
+
+        try:
+            response = requests.post(self.dingtalk_webhook_url, data=json.dumps(payload,
+                                     cls=DateTimeEncoder), headers=headers, proxies=proxies, auth=auth)
+            warnings.resetwarnings()
+            response.raise_for_status()
+        except RequestException as e:
+            raise EAException("Error posting to dingtalk: %s" % e)
+
+        elastalert_logger.info("Trigger sent to dingtalk")
+
+    def get_info(self):
+        return {
+            "type": "dingtalk",
+            "dingtalk_webhook_url": self.dingtalk_webhook_url
+        }
+
+
+class ChatworkAlerter(Alerter):
+    """ Creates a Chatwork room message for each alert """
+    required_options = frozenset(['chatwork_apikey', 'chatwork_room_id'])
+
+    def __init__(self, rule):
+        super(ChatworkAlerter, self).__init__(rule)
+        self.chatwork_apikey = self.rule.get('chatwork_apikey')
+        self.chatwork_room_id = self.rule.get('chatwork_room_id')
+        self.url = 'https://api.chatwork.com/v2/rooms/%s/messages' % (self.chatwork_room_id)
+        self.chatwork_proxy = self.rule.get('chatwork_proxy', None)
+        self.chatwork_proxy_login = self.rule.get('chatwork_proxy_login', None)
+        self.chatwork_proxy_pass = self.rule.get('chatwork_proxy_pass', None)
+
+    def alert(self, matches):
+        body = self.create_alert_body(matches)
+
+        headers = {'X-ChatWorkToken': self.chatwork_apikey}
+        # set https proxy, if it was provided
+        proxies = {'https': self.chatwork_proxy} if self.chatwork_proxy else None
+        auth = HTTPProxyAuth(self.chatwork_proxy_login, self.chatwork_proxy_pass) if self.chatwork_proxy_login else None
+        params = {'body': body}
+
+        try:
+            response = requests.post(self.url, params=params, headers=headers, proxies=proxies, auth=auth)
+            warnings.resetwarnings()
+            response.raise_for_status()
+        except RequestException as e:
+            raise EAException("Error posting to Chattwork: %s. Details: %s" % (e, "" if e.response is None else e.response.text))
+
+        elastalert_logger.info(
+            "Alert sent to Chatwork room %s" % self.chatwork_room_id)
+
+    def get_info(self):
+        return {
+            "type": "chatwork",
+            "chatwork_room_id": self.chatwork_room_id
         }
