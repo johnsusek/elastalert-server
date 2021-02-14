@@ -44,9 +44,13 @@ COPY patches/ruletypes.py /opt/elastalert/elastalert/ruletypes.py
 # Fix until Change Library blist to sortedcontainers #3019(https://github.com/Yelp/elastalert/pull/3019) is merged
 COPY patches/requirements.txt  /opt/elastalert/requirements.txt 
 
+# kibana_discover 7.4 - 7.11 support
 # Fix until Fix Remove Duplicate Key in Schema YAML #2343(https://github.com/Yelp/elastalert/pull/2343) is merged
 # Fix until Fix Fix Zabbix(Docs & schema.yaml) #2794(https://github.com/Yelp/elastalert/pull/2794) is merged
 COPY patches/schema.yaml /opt/elastalert/elastalert/schema.yaml
+
+# kibana_discover 7.4 - 7.11 support
+COPY patches/kibana_discover.py /opt/elastalert/elastalert/kibana_discover.py
 
 #RUN python3 setup.py install
 
