@@ -7,7 +7,7 @@ ENV ELASTALERT_HOME /opt/elastalert
 
 WORKDIR /opt
 
-RUN apk add --update --no-cache ca-certificates openssl-dev openssl python3-dev python3 libffi-dev gcc musl-dev wget && \
+RUN apk add --update --no-cache wget && \
     wget -O elastalert.zip "${ELASTALERT_URL}" && \
     unzip elastalert.zip && \
     rm elastalert.zip && \
@@ -54,12 +54,26 @@ COPY patches/kibana_discover.py /opt/elastalert/elastalert/kibana_discover.py
 
 #RUN python3 setup.py install
 
-FROM node:14.15-alpine3.12
+FROM node:14.15-alpine3.13
 LABEL maintainer="John Susek <john@johnsolo.net>"
 ENV TZ Etc/UTC
 ENV PATH /home/node/.local/bin:$PATH
 
-RUN apk add --update --no-cache curl tzdata python3 ca-certificates openssl-dev openssl python3-dev gcc musl-dev make libffi-dev libmagic py3-pip
+RUN apk add --update --no-cache \
+    ca-certificates \
+    cargo \
+    curl \
+    gcc \
+    libffi-dev \
+    libmagic \
+    make \
+    musl-dev \
+    openssl \
+    openssl-dev \
+    py3-pip \
+    python3 \
+    python3-dev \
+    tzdata
 
 #COPY --from=py-ea /usr/lib/python3.8/site-packages /usr/lib/python3.8/site-packages
 COPY --from=py-ea /opt/elastalert /opt/elastalert
@@ -87,9 +101,7 @@ EXPOSE 3030
 
 WORKDIR /opt/elastalert
 
-# No module named 'setuptools_rust' with cryptography==3.4 #5753 (https://github.com/pyca/cryptography/issues/5753)
-RUN pip3 install --no-cache-dir 'cryptography<3.4' --user
-
+RUN pip3 install --no-cache-dir cryptography --user
 RUN pip3 install --no-cache-dir -r requirements.txt --user
 
 WORKDIR /opt/elastalert-server
