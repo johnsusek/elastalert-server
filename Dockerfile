@@ -26,6 +26,7 @@ COPY patches/zabbix.py /opt/elastalert/elastalert/zabbix.py
 # Fix until Fix SNS(Program & Docs) #2793(https://github.com/Yelp/elastalert/pull/2793) is merged
 # Fix until Fix Stomp #3024(https://github.com/Yelp/elastalert/pull/3024) is merged
 # Fix until Remove the forgotten code of new_style_string_format #3028(https://github.com/Yelp/elastalert/pull/3028) is merged
+# Fix until TheHive alerter: Allow severity and tlp to be set by rule #2891(https://github.com/Yelp/elastalert/pull/2891) is merged
 COPY patches/alerts.py /opt/elastalert/elastalert/alerts.py
 
 # Fix until Fix elasticsearch-py versionup test_rule.py error #3046(https://github.com/Yelp/elastalert/pull/3046) is merged
