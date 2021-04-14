@@ -1,4 +1,4 @@
-FROM python:3.8-alpine3.12 as py-ea
+FROM python:3.8-alpine3.13 as py-ea
 ARG ELASTALERT_VERSION=v0.2.4
 ENV ELASTALERT_VERSION=${ELASTALERT_VERSION}
 ARG ELASTALERT_URL=https://github.com/Yelp/elastalert/archive/$ELASTALERT_VERSION.zip
