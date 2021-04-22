@@ -1,4 +1,4 @@
-v ?= v0.2.4
+v ?= 0.2.4-alt3
 
 all: build
 
