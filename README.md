@@ -1,6 +1,6 @@
 # ElastAlert Server
 
-> A server that runs [ElastAlert](https://github.com/Yelp/elastalert) and exposes REST API's for manipulating rules and alerts. It works great in combination with our [ElastAlert Kibana plugin](https://github.com/bitsensor/elastalert-kibana-plugin).
+> A server that runs [jertel/elastalert](https://github.com/jertel/elastalert) and exposes REST API's for manipulating rules and alerts. It works great in combination with our [ElastAlert Kibana plugin](https://github.com/karql/elastalert-kibana-plugin).
 
 ![Docker Pulls](https://img.shields.io/docker/pulls/praecoapp/elastalert-server.svg)
 ![GitHub stars](https://img.shields.io/github/stars/johnsusek/elastalert-server.svg?style=social&label=Stars)
@@ -19,14 +19,14 @@ docker run -d -p 3030:3030 -p 3333:3333 \
     -v `pwd`/rules:/opt/elastalert/rules \
     -v `pwd`/rule_templates:/opt/elastalert/rule_templates \
     --net="host" \
-    --name elastalert bitsensor/elastalert:latest
+    --name elastalert praecoapp/elastalert-server:latest
 ```
 
 ## Building Docker image
 
 Clone the repository
 ```bash
-git clone https://github.com/bitsensor/elastalert.git && cd elastalert
+git clone https://github.com/johnsusek/elastalert-server.git && cd elastalert-server
 ```
 
 Build the image
@@ -35,19 +35,19 @@ make build
 ```
 which is equivalent of
 ```
-docker pull alpine:latest && docker pull node:latest
-docker build -t elastalert .
+docker pull python:3.8-alpine3.13 && docker pull node:14.15-alpine3.13
+docker build -t elastalert-server .
 ```
 
 ### Options
 
-Using a custom ElastAlert version (a [release from github](https://github.com/Yelp/elastalert/releases)) e.g. `master` or `v0.1.28`
+Using a custom jertel/elastalert version (a [release from github](https://github.com/jertel/elastalert/releases)) e.g. `0.2.4-alt1` or `0.2.4-alt2`
 ```bash
-make build v=v0.1.28
+make build v=0.2.4-alt2
 ```
 Using a custom mirror
 ```bash
-docker build --build-arg ELASTALERT_URL=http://example.mirror.com/master.zip -t elastalert .
+docker build --build-arg ELASTALERT_URL=http://example.mirror.com/master.zip -t elastalert-server .
 ```
 
 ## Configuration
@@ -242,7 +242,7 @@ This server exposes the following REST API's:
 
 - **GET `/metadata/:type`**
 
-    Returns metadata from elasticsearch related to elasalert's state. `:type` should be one of: elastalert_status, elastalert, elastalert_error, or silence. See [docs about the elastalert metadata index](https://elastalert.readthedocs.io/en/latest/elastalert_status.html).
+    Returns metadata from elasticsearch related to elasalert's state. `:type` should be one of: elastalert_status, elastalert, elastalert_error, or silence. See [docs about the elastalert metadata index](hhttps://elastalert2.readthedocs.io/en/latest/elastalert_status.html).
 
 - **GET `/mapping/:index`**
 
@@ -267,16 +267,16 @@ This server exposes the following REST API's:
 ## Contributing
 Want to contribute to this project? Great! Please read our [contributing guidelines](CONTRIBUTING.md) before submitting an issue or a pull request.
 
-**We only accept pull requests on our [GitHub repository](https://github.com/bitsensor/elastalert)!**
+**We only accept pull requests on our [GitHub repository](https://github.com/johnsusek/elastalert-server)!**
  
 ## Contact
-We'd love to help you if you have any questions. You can contact us by sending an e-mail to [dev@bitsensor.io](mailto:dev@bitsensor.io) or by using the [contact info on our website]().
+We'd love to help you if you have any questions. You can contact us by using the [contact info on our website](https://github.com/johnsusek/praeco).
  
 ## License
-This project is [BSD Licensed](../LICENSE.md) with some modifications. Note that this only accounts for the ElastAlert Server, not ElastAlert itself ([ElastAlert License](https://github.com/Yelp/elastalert#license)).
+This project is [BSD Licensed](../LICENSE.md) with some modifications. Note that this only accounts for the ElastAlert Server, not ElastAlert itself ([jertel/elastalert License](https://github.com/jertel/elastalert/blob/alt/LICENSE).
 
 ## Disclaimer
-We [(BitSensor)](https://www.bitsensor.io) do not have any rights over the original [ElastAlert](https://github.com/Yelp/elastalert) project from [Yelp](https://www.yelp.com/). We do not own any trademarks or copyright to the name "ElastAlert" (ElastAlert, however, does because of their Apache 2 license). We do own copyright over the source code of this project, as stated in our BSD license, which means the copyright notice below and as stated in the BSD license should be included in (merged / changed) distributions of this project. The BSD license also states that making promotional content using 'BitSensor' is prohibited. However we hereby grant permission to anyone who wants to use the phrases 'BitSensor ElastAlert Plugin', 'BitSensor Software' or 'BitSensor Alerting' in promotional content. Phrases like 'We use BitSensor' or 'We use BitSensor security' when only using our ElastAlert Server are forbidden.
+We [(BitSensor)](https://www.bitsensor.io) do not have any rights over the original [jertel/elastalert](https://github.com/jertel/elastalert) project from [jertel](https://github.com/jertel/). We do not own any trademarks or copyright to the name "ElastAlert" (ElastAlert, however, does because of their Apache 2 license). We do own copyright over the source code of this project, as stated in our BSD license, which means the copyright notice below and as stated in the BSD license should be included in (merged / changed) distributions of this project. The BSD license also states that making promotional content using 'BitSensor' is prohibited. However we hereby grant permission to anyone who wants to use the phrases 'BitSensor ElastAlert Plugin', 'BitSensor Software' or 'BitSensor Alerting' in promotional content. Phrases like 'We use BitSensor' or 'We use BitSensor security' when only using our ElastAlert Server are forbidden.
 
 ## Copyright
 Copyright © 2018, BitSensor B.V.
