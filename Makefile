@@ -1,4 +1,4 @@
-v ?= 0.2.4-alt3
+v ?= master
 
 all: build
 
