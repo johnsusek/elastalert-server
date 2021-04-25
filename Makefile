@@ -1,4 +1,4 @@
-v ?= master
+v ?= 2.0.3
 
 all: build
 
