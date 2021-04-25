@@ -1,6 +1,6 @@
 # ElastAlert Server
 
-> A server that runs [Elastalert 2](https://github.com/jertel/elastalert2) and exposes REST API's for manipulating rules and alerts. It works great in combination with our [ElastAlert Kibana plugin](https://github.com/karql/elastalert-kibana-plugin).
+> A server that runs [ElastAlert 2](https://github.com/jertel/elastalert2) and exposes REST API's for manipulating rules and alerts. It works great in combination with our [ElastAlert Kibana plugin](https://github.com/karql/elastalert-kibana-plugin).
 
 ![Docker Pulls](https://img.shields.io/docker/pulls/praecoapp/elastalert-server.svg)
 ![GitHub stars](https://img.shields.io/github/stars/johnsusek/elastalert-server.svg?style=social&label=Stars)
@@ -41,7 +41,7 @@ docker build -t elastalert-server .
 
 ### Options
 
-Using a custom Elastalert 2 version (a [release from github](https://github.com/jertel/elastalert2/releases)) e.g. `master` or `0.2.4-alt1` or `0.2.4-alt2` or `0.2.4-alt3`
+Using a custom ElastAlert 2 version (a [release from github](https://github.com/jertel/elastalert2/releases)) e.g. `master` or `0.2.4-alt1` or `0.2.4-alt2` or `0.2.4-alt3`
 ```bash
 make build v=0.2.4-alt3
 ```
@@ -60,17 +60,17 @@ You can use the following config options:
   "appName": "elastalert-server", // The name used by the logging framework.
   "port": 3030, // The port to bind to
   "wsport": 3333, // The port to bind to for websockets
-  "elastalertPath": "/opt/elastalert",  // The path to the root ElastAlert folder. It's the folder that contains the `setup.py` script.
+  "elastalertPath": "/opt/elastalert",  // The path to the root ElastAlert 2 folder. It's the folder that contains the `setup.py` script.
   "start": "2014-01-01T00:00:00", // Optional date to start querying from
   "end": "2016-01-01T00:00:00", // Optional date to stop querying at
   "verbose": true, // Optional, will increase the logging verboseness, which allows you to see information about the state of queries.
   "es_debug": true, // Optional, will enable logging for all queries made to Elasticsearch
-  "debug": false, // Will run ElastAlert in debug mode. This will increase the logging verboseness, change all alerts to DebugAlerter, which prints alerts and suppresses their normal action, and skips writing search and alert metadata back to Elasticsearch.
-  "rulesPath": { // The path to the rules folder containing all the rules. If the folder is empty a dummy file will be created to allow ElastAlert to start.
+  "debug": false, // Will run ElastAlert 2 in debug mode. This will increase the logging verboseness, change all alerts to DebugAlerter, which prints alerts and suppresses their normal action, and skips writing search and alert metadata back to Elasticsearch.
+  "rulesPath": { // The path to the rules folder containing all the rules. If the folder is empty a dummy file will be created to allow ElastAlert 2 to start.
     "relative": true, // Whether to use a path relative to the `elastalertPath` folder.
     "path": "/rules" // The path to the rules folder. 
   },
-  "templatesPath": { // The path to the rules folder containing all the rule templates. If the folder is empty a dummy file will be created to allow ElastAlert to start.
+  "templatesPath": { // The path to the rules folder containing all the rule templates. If the folder is empty a dummy file will be created to allow ElastAlert 2 to start.
     "relative": true, // Whether to use a path relative to the `elastalertPath` folder.
     "path": "/rule_templates" // The path to the rule templates folder.
   },
@@ -90,7 +90,7 @@ You can use the following config options:
 }
 ```
 
-ElastAlert also expects a `elastalert.yaml` with at least the following options.
+ElastAlert 2 also expects a `elastalert.yaml` with at least the following options.
 ```yaml
 # The elasticsearch hostname for metadata writeback
 # Note that every rule can have its own elasticsearch host
@@ -108,12 +108,12 @@ writeback_index: elastalert_status
 # Any .yaml file will be loaded as a rule
 rules_folder: rules
 
-# How often ElastAlert will query elasticsearch
+# How often ElastAlert 2 will query elasticsearch
 # The unit can be anything from weeks to seconds
 run_every:
   seconds: 5
 
-# ElastAlert will buffer results from the most recent
+# ElastAlert 2 will buffer results from the most recent
 # period of time, in case some log sources are not in real time
 buffer_time:
   minutes: 1
@@ -128,7 +128,7 @@ This server exposes the following REST API's:
   
 - **GET `/status`**
 
-    Returns either 'SETUP', 'READY', 'ERROR', 'STARTING', 'CLOSING', 'FIRST_RUN' or 'IDLE' depending on the current ElastAlert process status. 
+    Returns either 'SETUP', 'READY', 'ERROR', 'STARTING', 'CLOSING', 'FIRST_RUN' or 'IDLE' depending on the current ElastAlert 2 process status. 
   
 - **[WIP] GET `/status/errors`**
 
@@ -136,7 +136,7 @@ This server exposes the following REST API's:
   
 - **GET `/rules`**
 
-    Returns a list of directories and rules that exist in the `rulesPath` (from the config) and are being run by the ElastAlert process. Pass query parameter `all` to return a list of all rules in all directories.
+    Returns a list of directories and rules that exist in the `rulesPath` (from the config) and are being run by the ElastAlert 2 process. Pass query parameter `all` to return a list of all rules in all directories.
   
 - **GET `/rules/:id`**
 
@@ -159,7 +159,7 @@ This server exposes the following REST API's:
 
 - **GET `/templates`**
 
-    Returns a list of directories and templates that exist in the `templatesPath` (from the config) and are being run by the ElastAlert process.
+    Returns a list of directories and templates that exist in the `templatesPath` (from the config) and are being run by the ElastAlert 2 process.
   
 - **GET `/templates/:id`**
 
@@ -217,7 +217,7 @@ This server exposes the following REST API's:
           // "schemaOnly" will only validate the yaml config. "countOnly" will only find the number of matching documents and list available fields.
           "testType": "all",
           
-          // Can be any number larger than 0 and this tells ElastAlert over a period of how many days the test should be run
+          // Can be any number larger than 0 and this tells ElastAlert 2 over a period of how many days the test should be run
           "days": "1",      
               
           // Overrides 'days' option to specify exact time period to test
@@ -258,11 +258,11 @@ This server exposes the following REST API's:
 
 - **GET `/config`**
 
-    Gets the `run_every` and `buffer_time` settings from the ElastAlert configuration in `config.yaml` at `elastalertPath` (from the config).
+    Gets the `run_every` and `buffer_time` settings from the ElastAlert 2 configuration in `config.yaml` at `elastalertPath` (from the config).
   
 - **[WIP] POST `/config`**
 
-    Allows you to edit the ElastAlert configuration from `config.yaml` in `elastalertPath` (from the config). The required body to be send will be edited when the work on this API is done.
+    Allows you to edit the ElastAlert 2 configuration from `config.yaml` in `elastalertPath` (from the config). The required body to be send will be edited when the work on this API is done.
         
 ## Contributing
 Want to contribute to this project? Great! Please read our [contributing guidelines](CONTRIBUTING.md) before submitting an issue or a pull request.
@@ -276,7 +276,7 @@ We'd love to help you if you have any questions. You can contact us by using the
 This project is [BSD Licensed](../LICENSE.md) with some modifications. Note that this only accounts for the ElastAlert Server, not ElastAlert 2 itself ([ElastAlert 2 License](https://github.com/jertel/elastalert2/blob/master/LICENSE).
 
 ## Disclaimer
-We [(BitSensor)](https://www.bitsensor.io) do not have any rights over the original [Elastalert 2](https://github.com/jertel/elastalert2) project from [jertel](https://github.com/jertel/). We do not own any trademarks or copyright to the name "ElastAlert" (ElastAlert, however, does because of their Apache 2 license). We do own copyright over the source code of this project, as stated in our BSD license, which means the copyright notice below and as stated in the BSD license should be included in (merged / changed) distributions of this project. The BSD license also states that making promotional content using 'BitSensor' is prohibited. However we hereby grant permission to anyone who wants to use the phrases 'BitSensor ElastAlert Plugin', 'BitSensor Software' or 'BitSensor Alerting' in promotional content. Phrases like 'We use BitSensor' or 'We use BitSensor security' when only using our ElastAlert Server are forbidden.
+We [(BitSensor)](https://www.bitsensor.io) do not have any rights over the original [ElastAlert 2](https://github.com/jertel/elastalert2) project from [jertel](https://github.com/jertel/). We do not own any trademarks or copyright to the name "ElastAlert 2" (ElastAlert 2, however, does because of their Apache 2 license). We do own copyright over the source code of this project, as stated in our BSD license, which means the copyright notice below and as stated in the BSD license should be included in (merged / changed) distributions of this project. The BSD license also states that making promotional content using 'BitSensor' is prohibited. However we hereby grant permission to anyone who wants to use the phrases 'BitSensor ElastAlert Plugin', 'BitSensor Software' or 'BitSensor Alerting' in promotional content. Phrases like 'We use BitSensor' or 'We use BitSensor security' when only using our ElastAlert Server are forbidden.
 
 ## Copyright
 Copyright © 2018, BitSensor B.V.
