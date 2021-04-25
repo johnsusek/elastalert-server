@@ -41,7 +41,7 @@ docker build -t elastalert-server .
 
 ### Options
 
-Using a custom Elastalert 2 version (a [release from github](https://github.com/jertel/elastalert2/releases)) e.g. `master` or `0.2.4-alt1` or `0.2.4-alt2` or `0.2.4-alt3`
+Using a custom Elastalert 2 version (a [release from github](https://github.com/jertel/elastalert2/releases)) e.g. `0.2.4-alt1` or `0.2.4-alt2` or `0.2.4-alt3`
 ```bash
 make build v=0.2.4-alt3
 ```
