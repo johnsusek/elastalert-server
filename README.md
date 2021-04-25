@@ -273,7 +273,7 @@ Want to contribute to this project? Great! Please read our [contributing guideli
 We'd love to help you if you have any questions. You can contact us by using the [contact info on our website](https://github.com/johnsusek/praeco).
  
 ## License
-This project is [BSD Licensed](../LICENSE.md) with some modifications. Note that this only accounts for the ElastAlert Server, not ElastAlert 2 itself ([ElastAlert 2 License](https://github.com/jertel/elastalert2/blob/master/LICENSE).
+This project is [BSD Licensed](../LICENSE.md) with some modifications. Note that this only accounts for the ElastAlert Server, not ElastAlert 2 itself ([ElastAlert 2 License](https://github.com/jertel/elastalert2/blob/master/LICENSE)).
 
 ## Disclaimer
 We [(BitSensor)](https://www.bitsensor.io) do not have any rights over the original [ElastAlert 2](https://github.com/jertel/elastalert2) project from [jertel](https://github.com/jertel/). We do not own any trademarks or copyright to the name "ElastAlert 2" (ElastAlert 2, however, does because of their Apache 2 license). We do own copyright over the source code of this project, as stated in our BSD license, which means the copyright notice below and as stated in the BSD license should be included in (merged / changed) distributions of this project. The BSD license also states that making promotional content using 'BitSensor' is prohibited. However we hereby grant permission to anyone who wants to use the phrases 'BitSensor ElastAlert Plugin', 'BitSensor Software' or 'BitSensor Alerting' in promotional content. Phrases like 'We use BitSensor' or 'We use BitSensor security' when only using our ElastAlert Server are forbidden.
