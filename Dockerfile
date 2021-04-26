@@ -64,6 +64,7 @@ EXPOSE 3030
 
 WORKDIR /opt/elastalert
 
+RUN sed -i 's/elasticsearch>=7.0.0,<8.0.0/elasticsearch==7.0.0/g' requirements.txt
 RUN pip3 install --no-cache-dir cryptography --user
 RUN pip3 install --no-cache-dir -r requirements.txt --user
 
