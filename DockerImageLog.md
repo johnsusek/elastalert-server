@@ -1,0 +1,339 @@
+# praecoapp/elastalert-server:20210429
+
+## New features
+
+None
+
+## Bug Fix
+
+None
+
+## Other changes
+
+- jertel/elastalert2:2.0.3 to jertel/elastalert2:2.0.4
+
+# praecoapp/elastalert-server:20210427
+
+## New features
+
+None
+
+## Bug Fix
+
+None
+
+## Other changes
+
+- Library Update
+- Remove Dockerfile-es6
+
+# praecoapp/elastalert-server:20210426
+
+## New features
+
+None
+
+## Bug Fix
+
+None
+
+## Other changes
+
+- jertel/elastalert:0.2.4-alt3 to jertel/elastalert2:2.0.3
+- pip==21.0.1
+- pip elasticsearch==7.0.0
+- Update Dockerfile
+- Update Makefile
+
+# praecoapp/elastalert-server:20210425
+
+## New features
+
+None
+
+## Bug Fix
+
+None
+
+## Other changes
+
+- yelp/elastalert:0.2.4 to jertel/elastalert:0.2.4-alt3
+- Remove yelp/elastalert patch
+- apscheduler>=3.3.0 to >=3.3.0,<4.0
+- python:3.8-alpine3.12 to python:3.8-alpine3.13
+- Remove Download api endpoint
+- Library Remove
+   - request
+   - request-promise-native
+   - tar
+
+# praecoapp/elastalert-server:20200404_es6
+
+## New features
+
+- yelp/elastalert patch
+  - kibana_discover kibana 7.12 support
+
+## Bug Fix
+
+## Other changes
+
+- Library Update
+- pip elasticsearch==7.0.0
+
+# praecoapp/elastalert-server:20210404
+
+## New features
+
+- yelp/elastalert patch
+  - kibana_discover kibana 7.12 support
+
+## Bug Fix
+
+## Other changes
+
+- Library Update
+
+# praecoapp/elastalert-server:20210317
+
+## New features
+
+- added hour_range_enhancement in order to use time window feature [Pull request #6](https://github.com/johnsusek/elastalert-server/pull/6)
+
+## Bug Fix
+
+None
+
+## Other changes
+
+Library Update
+
+# praecoapp/elastalert-server:20210306
+
+## New features
+
+None
+
+## Bug Fix
+
+- yelp/elastalert patch
+  - TheHive alerter: Allow severity and tlp to be set by rule
+
+## Other changes
+
+- Dockerfile refine & change node docker image
+- Library Update
+- Update Makefile
+  - node:14.15-alpine3.12 → node:14.15-alpine3.13
+
+# praecoapp/elastalert-server:20210214
+
+## New features
+
+- Dockerfile add yelp/elastalert patch
+  - kibana_discover.py
+
+## Bug Fix
+
+None
+
+## Other changes
+
+- Library Update
+
+# praecoapp/elastalert-server:20210209
+
+## New features
+
+None
+
+## Bug Fix
+
+- yelp/elastalert patch
+- Fix Docker build Error <br>[No module named 'setuptools_rust' with cryptography==3.4 #5753](https://github.com/pyca/cryptography/issues/5753)
+
+## Other changes
+
+- Library Update
+
+# praecoapp/elastalert-server:20210104
+
+## New features
+
+None
+
+## Bug Fix
+
+- Fix tempalte file edit [issues #298](https://github.com/johnsusek/praeco/issues/298)
+
+## Other changes
+
+None
+
+# praecoapp/elastalert-server:20210102
+
+## New features
+
+None
+
+## Bug Fix
+
+None
+
+## Other changes
+
+- Library Update
+
+# praecoapp/elastalert-server:20201208
+
+## New features
+
+None
+
+## Bug Fix
+
+None
+
+## Other changes
+
+- Library Update
+- Library Change
+  - @hapi/joi → joi
+- Library Remove
+  - elasticsearch
+
+# praecoapp/elastalert-server:20201204
+
+## New features
+
+None
+
+## Bug Fix
+
+- Fix SSL Error [issues #274](https://github.com/johnsusek/praeco/issues/274)
+- yelp/elastalert patch
+
+## Other changes
+
+- use `--no-cache-dir` flag to `pip` in dockerfiles to save space [Pull request #5](https://github.com/johnsusek/elastalert-server/pull/5)
+- Library Update
+- Update Dockerfile
+- Update Makefile
+- Update .nvmrc
+  - 12.17.0 → 14.15.0
+
+# praecoapp/elastalert-server:20201109
+
+## New features
+
+None
+
+## Bug Fix
+
+- yelp/elastalert patch
+  - Fix Stomp Alert
+
+## Other changes
+
+None
+
+# praecoapp/elastalert-server:20201101
+
+## New features
+
+None
+
+## Bug Fix
+
+None
+
+## Other changes
+
+- Change New Elasticsearch Node.js Client
+  - @elastic/elasticsearch
+- Library Update
+- Add Library
+  - axios
+
+# praecoapp/elastalert-server:20200831
+
+## New features
+
+None
+
+## Bug Fix
+
+- Fix rule create error [issues #239](https://github.com/johnsusek/praeco/issues/239) [issues #241](https://github.com/johnsusek/praeco/issues/241)
+
+## Other changes
+
+- Library Update
+
+# praecoapp/elastalert-server:20200825
+
+## New features
+
+None
+
+## Bug Fix
+
+- Fix Promise Error Handling
+
+## Other changes
+
+None
+
+# praecoapp/elastalert-server:20200823-2
+
+## New features
+
+None
+
+## Bug Fix
+
+- Fix failed to create a folder [issues #219](https://github.com/johnsusek/praeco/issues/219)
+
+## Other changes
+
+None
+
+# praecoapp/elastalert-server:20200823
+
+## New features
+
+None
+
+## Bug Fix
+
+- yelp/elastalert patch
+  - Fix PagerTree Alert
+
+- Fix "verify_certs" Error [issues #229](https://github.com/johnsusek/praeco/issues/229)
+
+## Other changes
+
+None
+
+# praecoapp/elastalert-server:20200810
+
+## New features
+
+None
+
+## Bug Fix
+
+- yelp/elastalert patch [Pull request #2](https://github.com/johnsusek/elastalert-server/pull/2)
+  - Fix Zabbix Alert
+  - Fix SNS Alert
+  
+- Stop all when elastalert crash [Pull request #3](https://github.com/johnsusek/elastalert-server/pull/3)
+- Review error handling
+
+## Other changes
+
+- Library Remove
+   - istanbul
+- Libracy Change
+   - joi to @hapi/joi
+- Libracy Update
+- Update Makefile
