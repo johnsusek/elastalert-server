@@ -333,7 +333,7 @@ None
 
 - Library Remove
    - istanbul
-- Libracy Change
+- Library Change
    - joi to @hapi/joi
-- Libracy Update
+- Library Update
 - Update Makefile
