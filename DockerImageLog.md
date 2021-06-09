@@ -11,6 +11,7 @@ None
 ## Other changes
 
 - jertel/elastalert2:2.1.0 to 2.1.1
+- pip from 21.0.1 to 21.1.2
 
 # praecoapp/elastalert-server:20210517
 
