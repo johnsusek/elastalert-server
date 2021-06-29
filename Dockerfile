@@ -17,7 +17,7 @@ WORKDIR "${ELASTALERT_HOME}"
 
 #RUN python3 setup.py install
 
-FROM node:14.15-alpine3.13
+FROM node:16.3-alpine3.13
 LABEL maintainer="John Susek <john@johnsolo.net>"
 ENV TZ Etc/UTC
 ENV PATH /home/node/.local/bin:$PATH
@@ -56,7 +56,7 @@ COPY elastalert_modules/ /opt/elastalert/elastalert_modules
 RUN mkdir -p /opt/elastalert/rules/ /opt/elastalert/server_data/tests/ \
     && chown -R node:node /opt
 
-RUN pip3 install --no-cache-dir --upgrade pip==21.1.2
+RUN pip3 install --no-cache-dir --upgrade pip==21.1.3
 
 USER node
 
