@@ -41,9 +41,9 @@ docker build -t elastalert-server .
 
 ### Options
 
-Using a custom Elastalert 2 version (a [release from github](https://github.com/jertel/elastalert2/releases)) e.g. `0.2.4-alt1` or `0.2.4-alt2` or `0.2.4-alt3`
+Using a custom Elastalert 2 version (a [release from github](https://github.com/jertel/elastalert2/releases)) e.g. `2.1.1` or `2.1.0` or `2.0.4` or `2.0.3`
 ```bash
-make build v=0.2.4-alt3
+make build v=2.1.1
 ```
 Using a custom mirror
 ```bash
