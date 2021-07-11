@@ -1,4 +1,4 @@
-FROM python:3.8-alpine3.13 as py-ea
+FROM python:3.9-alpine3.14 as py-ea
 ARG ELASTALERT_VERSION=2.1.2
 ENV ELASTALERT_VERSION=${ELASTALERT_VERSION}
 ARG ELASTALERT_URL=https://github.com/jertel/elastalert2/archive/refs/tags/$ELASTALERT_VERSION.zip
@@ -17,7 +17,7 @@ WORKDIR "${ELASTALERT_HOME}"
 
 #RUN python3 setup.py install
 
-FROM node:16.3-alpine3.13
+FROM node:16.4.2-alpine3.14
 LABEL maintainer="John Susek <john@johnsolo.net>"
 ENV TZ Etc/UTC
 ENV PATH /home/node/.local/bin:$PATH
