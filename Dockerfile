@@ -34,6 +34,7 @@ RUN apk add --update --no-cache \
     openssl \
     openssl-dev \
     py3-pip \
+    py3-wheel \
     python3 \
     python3-dev \
     tzdata
@@ -56,7 +57,7 @@ COPY elastalert_modules/ /opt/elastalert/elastalert_modules
 RUN mkdir -p /opt/elastalert/rules/ /opt/elastalert/server_data/tests/ \
     && chown -R node:node /opt
 
-RUN pip3 install --no-cache-dir --upgrade pip==21.1.3
+RUN pip3 install --no-cache-dir --upgrade pip==21.2.4
 
 USER node
 
