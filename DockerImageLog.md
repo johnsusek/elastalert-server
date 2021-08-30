@@ -27,7 +27,7 @@ None
 
 - jertel/elastalert2:2.1.1 to 2.1.2
 - Library Update
-- node:14.15-alpine3.13 → node:16.3-alpine3.13
+- node:14.15-alpine3.13 → node:16.3-alpine3.14
 - pip 21.1.2 → 21.1.3
 
 # praecoapp/elastalert-server:20210609
