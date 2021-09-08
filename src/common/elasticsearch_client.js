@@ -57,7 +57,7 @@ export async function getClientVersion() {
     const agent  = {};
 
     if (config.get('es_ssl')) {
-      agent.rejectUnauthorized = false;
+      agent.rejectUnauthorized = config.get('ea_verify_certs');
 
       if (config.get('es_ca_certs')) {
         agent.ca = fs.readFileSync(config.get('es_ca_certs'));

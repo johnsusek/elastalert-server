@@ -83,6 +83,7 @@ You can use the following config options:
   "es_username": "", // Option basic-auth username and password for Elasticsearch
   "es_password": "", // Option basic-auth username and password for Elasticsearch
   "es_ssl": true, // Enable/Disable SSL
+  "ea_verify_certs": false,  //  Verify TLS certificates
   "es_ca_certs": "/etc/ssl/elasticsearch/ca", // Path to ca for ElasticSearch (SSL must be enabled)
   "es_client_cert": "/etc/ssl/elasticsearch/cert", // Path to cert for ElasticSearch (SSL must be enabled)
   "es_client_key": "/etc/ssl/elasticsearch/key", // Path to key for ElasticSearch (SSL must be enabled)
