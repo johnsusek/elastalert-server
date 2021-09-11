@@ -137,7 +137,7 @@ export async function getClient() {
 
     if (config.get('es_ssl')) {
       scheme = 'https';
-      ssl_body.rejectUnauthorized = false;
+      ssl_body.rejectUnauthorized = config.get('ea_verify_certs');
 
       if (config.get('es_ca_certs')) {
         ssl_body.ca = fs.readFileSync(config.get('es_ca_certs'));
