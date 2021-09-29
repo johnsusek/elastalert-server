@@ -1,4 +1,4 @@
-FROM python:3.9-alpine3.14 as py-ea
+FROM python:3.9-alpine3.14 as ea2
 ARG ELASTALERT_VERSION=2.2.2
 ENV ELASTALERT_VERSION=${ELASTALERT_VERSION}
 ARG ELASTALERT_URL=https://github.com/jertel/elastalert2/archive/refs/tags/$ELASTALERT_VERSION.zip
@@ -13,13 +13,7 @@ RUN apk add --update --no-cache wget && \
     rm elastalert.zip && \
     mv e* "${ELASTALERT_HOME}"
 
-WORKDIR "${ELASTALERT_HOME}"
-
-#RUN python3 setup.py install
-
-FROM node:16.4.2-alpine3.14
-LABEL maintainer="John Susek <john@johnsolo.net>"
-ENV TZ Etc/UTC
+FROM node:16.4.2-alpine3.14 as install
 ENV PATH /home/node/.local/bin:$PATH
 
 RUN apk add --update --no-cache \
@@ -39,14 +33,50 @@ RUN apk add --update --no-cache \
     python3-dev \
     tzdata
 
-#COPY --from=py-ea /usr/lib/python3.8/site-packages /usr/lib/python3.8/site-packages
-COPY --from=py-ea /opt/elastalert /opt/elastalert
-# COPY --from=py-ea /usr/bin/elastalert* /usr/bin/
+COPY --from=ea2 /opt/elastalert /opt/elastalert
 
 WORKDIR /opt/elastalert-server
 COPY . /opt/elastalert-server
 
 RUN npm install --production --quiet
+
+RUN pip3 install --no-cache-dir --upgrade pip==21.2.4
+
+USER node
+
+WORKDIR /opt/elastalert
+
+RUN pip3 install --no-cache-dir cryptography --user
+RUN pip3 install --no-cache-dir -r requirements.txt --user
+
+FROM node:16.4.2-alpine3.14
+LABEL maintainer="John Susek <john@johnsolo.net>"
+ENV TZ Etc/UTC
+ENV PATH /home/node/.local/bin:$PATH
+
+RUN apk add --update --no-cache \
+    ca-certificates \
+    cargo \
+    curl \
+    gcc \
+    libffi-dev \
+    libmagic \
+    make \
+    musl-dev \
+    openssl \
+    openssl-dev \
+    py3-pip \
+    python3 \
+    python3-dev \
+    tzdata
+
+COPY --from=install /opt/elastalert /opt/elastalert
+COPY --from=install /home/node/.local/lib/python3.9/site-packages /home/node/.local/lib/python3.9/site-packages
+
+WORKDIR /opt/elastalert-server
+
+COPY --from=install /opt/elastalert-server ./
+
 COPY config/elastalert.yaml /opt/elastalert/config.yaml
 COPY config/config.json config/config.json
 COPY rule_templates/ /opt/elastalert/rule_templates
@@ -57,16 +87,9 @@ COPY elastalert_modules/ /opt/elastalert/elastalert_modules
 RUN mkdir -p /opt/elastalert/rules/ /opt/elastalert/server_data/tests/ \
     && chown -R node:node /opt
 
-RUN pip3 install --no-cache-dir --upgrade pip==21.2.4
-
 USER node
 
 EXPOSE 3030
-
-WORKDIR /opt/elastalert
-
-RUN pip3 install --no-cache-dir cryptography --user
-RUN pip3 install --no-cache-dir -r requirements.txt --user
 
 WORKDIR /opt/elastalert-server
 
