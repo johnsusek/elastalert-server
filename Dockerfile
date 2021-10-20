@@ -40,7 +40,7 @@ COPY . /opt/elastalert-server
 
 RUN npm install --production --quiet
 
-RUN pip3 install --no-cache-dir --upgrade pip==21.2.4
+RUN pip3 install --no-cache-dir --upgrade pip==21.3
 
 USER node
 
