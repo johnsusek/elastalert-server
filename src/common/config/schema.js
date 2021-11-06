@@ -12,6 +12,7 @@ const schema = Joi.object().keys({
   'es_ca_certs': Joi.string().default(''),
   'es_client_cert': Joi.string().default(''),
   'es_client_key': Joi.string().default(''),
+  'opensearch_flg': Joi.boolean().default(false),
   'writeback_index': Joi.string().default('elastalert_status'),
   'port': Joi.number().default(3030),
   'elastalertPath': Joi.string().default('/opt/elastalert'),

@@ -1,6 +1,7 @@
 import elasticsearch5 from 'es5';
 import elasticsearch6 from 'es6';
 import elasticsearch7 from 'es7';
+import opensearch from '@opensearch-project/opensearch';
 //TODO: Elasticsearch 8.x
 //import elasticsearch8 from 'es8';
 
@@ -42,6 +43,11 @@ export function escapeLuceneSyntax(str) {
 export async function getClientVersion() {
 
   try {
+    // OpenSearch 1.0
+    if (config.get('opensearch_flg')) {
+      return '7.10.2';
+    }
+
     let scheme = 'http';
 
     if (config.get('es_ssl')) {
@@ -154,6 +160,16 @@ export async function getClient() {
     
     if (config.get('es_username') && config.get('es_password')) {
       auth = `${config.get('es_username')}:${config.get('es_password')}@`;
+    }
+
+    if (config.get('opensearch_flg')) {
+
+      // OpenSearch 1.0
+      const client_opensearch = new opensearch.Client({
+        node: [ `${scheme}://${auth}${config.get('es_host')}:${config.get('es_port')}`],
+        ssl: ssl_body
+      });
+      return client_opensearch;    
     }
 
     if (es_version === 5) {
