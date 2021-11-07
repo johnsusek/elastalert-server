@@ -49,7 +49,7 @@ WORKDIR /opt/elastalert
 RUN pip3 install --no-cache-dir cryptography --user
 RUN pip3 install --no-cache-dir -r requirements.txt --user
 
-FROM node:16.11.1-alpine3.14
+FROM node:14.18.1-alpine3.14
 LABEL maintainer="John Susek <john@johnsolo.net>"
 ENV TZ Etc/UTC
 ENV PATH /home/node/.local/bin:$PATH
