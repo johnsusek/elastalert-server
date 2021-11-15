@@ -1,3 +1,18 @@
+# praecoapp/elastalert-server:20211115
+
+## New features
+
+None
+
+## Bug Fix
+
+None
+
+## Other changes
+
+- jertel/elastalert2:2.2 to 2.2.3
+- Dockerfile refine
+- Library Update
 # praecoapp/elastalert-server:20210929
 
 ## New features
