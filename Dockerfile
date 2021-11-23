@@ -48,8 +48,6 @@ WORKDIR /opt/elastalert
 
 RUN pip3 install --no-cache-dir cryptography --user
 RUN pip3 install --no-cache-dir -r requirements.txt --user
-# Fix PytzUsageWarning
-RUN pip3 install --no-cache-dir tzlocal==2.1 --user
 
 FROM node:14.18.1-alpine3.14
 LABEL maintainer="John Susek <john@johnsolo.net>"
