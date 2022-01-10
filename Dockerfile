@@ -13,7 +13,7 @@ RUN apk add --update --no-cache wget && \
     rm elastalert.zip && \
     mv e* "${ELASTALERT_HOME}"
 
-FROM node:16.11.1-alpine3.14 as install
+FROM node:16.13-alpine3.15 as install
 ENV PATH /home/node/.local/bin:$PATH
 
 RUN apk add --update --no-cache \
