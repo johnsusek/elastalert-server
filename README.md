@@ -5,6 +5,16 @@
 ![Docker Pulls](https://img.shields.io/docker/pulls/praecoapp/elastalert-server.svg)
 ![GitHub stars](https://img.shields.io/github/stars/johnsusek/elastalert-server.svg?style=social&label=Stars)
 
+**TODO**
+
+- Remove Support Elasticsearch 5
+- Add TestCode
+- Support Elasticsearch ApiKey authentication connection
+- Support Elasticsearch Bearer authentication connection
+- Support Elastic Cloud CloudID connection
+- Support Elasticsearch proxy connection
+- Support Elasticsearch 8
+
 ---
 
 ## Installation
