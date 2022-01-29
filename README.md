@@ -9,6 +9,7 @@
 
 - Remove Support Elasticsearch 5
 - Add TestCode
+- Settings that can be derived from environment variables<br>(ES_USE_SSL, ES_HOST, ES_PORT, ES_HOSTS, ES_USERNAME, ES_PASSWORD, ES_API_KEY, ES_BEARER, AWS_DEFAULT_REGION, ES_URL_PREFIX, STATSD_INSTANCE_TAG, STATSD_HOST)
 - Support Elasticsearch ApiKey authentication connection
 - Support Elasticsearch Bearer authentication connection
 - Support Elastic Cloud CloudID connection
