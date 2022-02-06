@@ -58,7 +58,7 @@ docker build -t elastalert-server .
 
 Using a custom ElastAlert 2 version (a [release from github](https://github.com/jertel/elastalert2/releases))
 ```bash
-make build v=2.1.1
+make build v=2.3.0
 ```
 Using a custom mirror
 ```bash
