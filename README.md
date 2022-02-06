@@ -8,13 +8,17 @@
 **TODO**
 
 - Remove Support Elasticsearch 5
-- Add TestCode
-- Settings that can be derived from environment variables<br>(ES_USE_SSL, ES_HOST, ES_PORT, ES_HOSTS, ES_USERNAME, ES_PASSWORD, ES_API_KEY, ES_BEARER, AWS_DEFAULT_REGION, ES_URL_PREFIX, STATSD_INSTANCE_TAG, STATSD_HOST)
-- Support Elasticsearch ApiKey authentication connection
-- Support Elasticsearch Bearer authentication connection
-- Support Elastic Cloud CloudID connection
-- Support Elasticsearch proxy connection
 - Support Elasticsearch 8
+  https://github.com/elastic/elasticsearch-js/issues/1542
+- Add TestCode
+- Support Elasticsearch ApiKey authentication connection
+  https://github.com/elastic/elasticsearch-js/blob/main/docs/basic-config.asciidoc
+- Support Elasticsearch Bearer authentication connection
+  https://github.com/elastic/elasticsearch-js/blob/main/docs/basic-config.asciidoc
+- Support Elastic Cloud CloudID connection
+  https://github.com/elastic/elasticsearch-js/blob/main/docs/basic-config.asciidoc
+- Support Elasticsearch proxy connection
+  https://github.com/elastic/elasticsearch-js/blob/main/docs/basic-config.asciidoc
 
 ---
 
