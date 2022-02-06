@@ -201,7 +201,7 @@ export async function getClient() {
       //TODO: Elasticsearch 8.x
       //const client8 = new elasticsearch8.Client({
       //  node: [ `${scheme}://${auth}${config.get('es_host')}:${config.get('es_port')}`],
-      //  ssl: ssl_body
+      //  tls: ssl_body
       //});
       //return client8;
     }
