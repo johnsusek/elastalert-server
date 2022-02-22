@@ -2,8 +2,7 @@ import elasticsearch5 from 'es5';
 import elasticsearch6 from 'es6';
 import elasticsearch7 from 'es7';
 import opensearch from '@opensearch-project/opensearch';
-//TODO: Elasticsearch 8.x
-//import elasticsearch8 from 'es8';
+import elasticsearch8 from 'es8';
 
 import fs from 'fs';
 import config from './config';
@@ -100,33 +99,62 @@ export async function clientSearch(index, type, qs, request, response) {
       type = undefined;
     }
 
-    client.search({
-      index: index,
-      type: type,
-      body: {
-        from: request.query.from || 0,
-        size: request.query.size || 100,
-        query: {
-          bool: {
-            must: [
-              {
-                query_string: { query: qs }
+    if (es_version >= 8) {
+      try {
+        const result = await client.search({
+          index: index,
+          type: type,
+          body: {
+            from: request.query.from || 0,
+            size: request.query.size || 100,
+            query: {
+              bool: {
+                must: [
+                  {
+                    query_string: { query: qs }
+                  }
+                ]
               }
-            ]
+            },
+            sort: [{ '@timestamp': { order: 'desc' } }]
           }
-        },
-        sort: [{ '@timestamp': { order: 'desc' } }]
-      }
-    }, (err, {body}) => {
-      if (err) {
+        });
+        result.hits.hits = result.hits.hits.map(h => h._source);
+        response.send(result.hits);
+      } catch (err) {
         response.send({
           error: err
         });
-      } else {
-        body.hits.hits = body.hits.hits.map(h => h._source);
-        response.send(body.hits);
       }
-    });
+    } else {
+      client.search({
+        index: index,
+        type: type,
+        body: {
+          from: request.query.from || 0,
+          size: request.query.size || 100,
+          query: {
+            bool: {
+              must: [
+                {
+                  query_string: { query: qs }
+                }
+              ]
+            }
+          },
+          sort: [{ '@timestamp': { order: 'desc' } }]
+        }
+      }, (err, {body}) => {
+        if (err) {
+          response.send({
+            error: err
+          });
+        } else {
+          body.hits.hits = body.hits.hits.map(h => h._source);
+          response.send(body.hits);
+        }
+      });
+    }
   } catch (error) {
     console.log(error);
   }
@@ -198,12 +226,12 @@ export async function getClient() {
       return client7;
     } else if (es_version == 8) {
       
-      //TODO: Elasticsearch 8.x
-      //const client8 = new elasticsearch8.Client({
-      //  node: [ `${scheme}://${auth}${config.get('es_host')}:${config.get('es_port')}`],
-      //  tls: ssl_body
-      //});
-      //return client8;
+      // Elasticsearch 8.x
+      const client8 = new elasticsearch8.Client({
+        node: [ `${scheme}://${auth}${config.get('es_host')}:${config.get('es_port')}`],
+        tls: ssl_body
+      });
+      return client8;
     }
   } catch (error) {
     console.log(error);

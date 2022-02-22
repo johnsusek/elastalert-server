@@ -119,40 +119,76 @@ export async function metadataElastalertHandler(request, response) {
       type = undefined;
     }
 
-    client.search({
-      index: index,
-      type: type,
-      body: {
-        from: request.query.from || 0,
-        size: request.query.size || 100,
-        query: {
-          bool: {
-            must: [
-              {
-                query_string: { query: qs }
-              },
-              {
-                range: {
-                  'alert_time': {
-                    lte: 'now',
+    if (es_version >= 8) {
+      try {
+        const result = await client.search({
+          index: index,
+          type: type,
+          body: {
+            from: request.query.from || 0,
+            size: request.query.size || 100,
+            query: {
+              bool: {
+                must: [
+                  {
+                    query_string: { query: qs }
+                  },
+                  {
+                    range: {
+                      'alert_time': {
+                        lte: 'now',
+                      }
+                    }
                   }
-                }
+                ]
               }
-            ]
+            },
+            sort: [{ 'alert_time': { order: 'desc' } }]
           }
-        },
-        sort: [{ 'alert_time': { order: 'desc' } }]
-      }
-    }, (err, {body}) => {
-      if (err) {
+        });
+        result.hits.hits = result.hits.hits.map(h => h._source);
+        response.send(result.hits);
+      } catch (err) {
         response.send({
           error: err
         });
-      } else {
-        body.hits.hits = body.hits.hits.map(h => h._source);
-        response.send(body.hits);
       }
-    });    
+    } else {
+      client.search({
+        index: index,
+        type: type,
+        body: {
+          from: request.query.from || 0,
+          size: request.query.size || 100,
+          query: {
+            bool: {
+              must: [
+                {
+                  query_string: { query: qs }
+                },
+                {
+                  range: {
+                    'alert_time': {
+                      lte: 'now',
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          sort: [{ 'alert_time': { order: 'desc' } }]
+        }
+      }, (err, {body}) => {
+        if (err) {
+          response.send({
+            error: err
+          });
+        } else {
+          body.hits.hits = body.hits.hits.map(h => h._source);
+          response.send(body.hits);
+        }
+      });        
+    }
   } catch (error) {
     console.log(error);
   }
