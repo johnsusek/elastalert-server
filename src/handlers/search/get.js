@@ -36,6 +36,6 @@ export default async function searchHandler(request, response) {
     }
   } catch (error) {
     console.log(error);
-  }     
+  }
 
 }

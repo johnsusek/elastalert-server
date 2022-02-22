@@ -34,6 +34,6 @@ export default async function mappingHandler(request, response) {
     }
   } catch (error) {
     console.log(error);
-  }        
+  } 
 
 }

@@ -36,6 +36,6 @@ export default async function indicesHandler(request, response) {
     }
   } catch (error) {
     console.log(error);
-  } 
+  }
 
 }
