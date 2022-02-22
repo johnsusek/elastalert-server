@@ -8,8 +8,6 @@
 **TODO**
 
 - Remove Support Elasticsearch 5
-- Support Elasticsearch 8
-  https://github.com/elastic/elasticsearch-js/issues/1542
 - Add TestCode
 - Support Elasticsearch ApiKey authentication connection
   https://github.com/elastic/elasticsearch-js/blob/main/docs/basic-config.asciidoc
