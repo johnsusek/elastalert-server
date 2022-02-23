@@ -8,6 +8,7 @@ export default async function searchHandler(request, response) {
     const client = await getClient();
     const es_version = await getClientVersion();
     
+    // TODO: Removed body key from request. Elasticsearch 8 doesn't matter if the request has a body key. Obsolete in Elasticsearch 9
     if (es_version >= 8) {
       try {
         const result = await client.search({
