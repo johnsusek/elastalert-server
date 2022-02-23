@@ -44,7 +44,7 @@ export async function getClientVersion() {
   try {
     // OpenSearch 1.0
     if (config.get('opensearch_flg')) {
-      return '7.10.2';
+      return '7';
     }
 
     let scheme = 'http';
