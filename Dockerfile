@@ -1,16 +1,26 @@
 FROM python:3.9-alpine3.15 as ea2
-ARG ELASTALERT_VERSION=2.3.0
-ENV ELASTALERT_VERSION=${ELASTALERT_VERSION}
-ARG ELASTALERT_URL=https://github.com/jertel/elastalert2/archive/refs/tags/$ELASTALERT_VERSION.zip
-ENV ELASTALERT_URL=${ELASTALERT_URL}
+# ARG ELASTALERT_VERSION=2.3.0
+# ENV ELASTALERT_VERSION=${ELASTALERT_VERSION}
+# ARG ELASTALERT_URL=https://github.com/jertel/elastalert2/archive/refs/tags/$ELASTALERT_VERSION.zip
+# ENV ELASTALERT_URL=${ELASTALERT_URL}
 ENV ELASTALERT_HOME /opt/elastalert
 
-WORKDIR /opt
+RUN apk add --update --no-cache git
 
-RUN apk add --update --no-cache wget && \
-    wget -O elastalert.zip "${ELASTALERT_URL}" && \
-    unzip elastalert.zip && \
-    rm elastalert.zip && \
+# WORKDIR /opt
+
+# RUN apk add --update --no-cache wget && \
+#     wget -O elastalert.zip "${ELASTALERT_URL}" && \
+#     unzip elastalert.zip && \
+#     rm elastalert.zip && \
+#     mv e* "${ELASTALERT_HOME}"
+
+RUN mkdir -p  /opt/elastalert_install_work && \
+    cd /opt/elastalert_install_work && \
+    git clone https://github.com/nsano-rururu/elastalert2 && \
+    cd elastalert2 && \
+    git checkout es8beta && \
+    cd ../ && \
     mv e* "${ELASTALERT_HOME}"
 
 FROM node:16.13-alpine3.15 as install
