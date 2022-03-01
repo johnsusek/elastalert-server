@@ -19,7 +19,7 @@ RUN mkdir -p  /opt/elastalert_install_work && \
     cd /opt/elastalert_install_work && \
     git clone https://github.com/nsano-rururu/elastalert2 && \
     cd elastalert2 && \
-    git checkout es8beta && \
+    git checkout es8support && \
     cd ../ && \
     mv e* "${ELASTALERT_HOME}"
 
