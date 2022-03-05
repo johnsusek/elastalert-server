@@ -7,7 +7,7 @@
 
 **TODO**
 
-- Remove Support Elasticsearch 5
+- Remove Support Elasticsearch 5, 6
 - Add TestCode
 - Support Elasticsearch ApiKey authentication connection
   https://github.com/elastic/elasticsearch-js/blob/main/docs/basic-config.asciidoc
