@@ -1,3 +1,18 @@
+# praecoapp/elastalert-server:20220308
+
+## New features
+
+- Elasticsearch 8 support
+
+## Bug Fix
+
+None
+
+## Other changes
+
+- jertel/elastalert2:3.0 to 2.4.0
+- Library Update
+
 # praecoapp/elastalert-server:20220109
 
 ## New features
