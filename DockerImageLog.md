@@ -6,7 +6,7 @@
 
 ## Bug Fix
 
-None
+- fix getClientVersion when opensearch_flg is set
 
 ## Other changes
 
