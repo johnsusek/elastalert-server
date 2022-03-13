@@ -18,13 +18,13 @@
     "test": "./test"
   },
   "dependencies": {
-    "@babel/cli": "^7.17.0",
-    "@babel/core": "^7.17.2",
+    "@babel/cli": "^7.17.6",
+    "@babel/core": "^7.17.5",
     "@babel/preset-env": "^7.16.11",
     "@babel/register": "^7.17.0",
     "@opensearch-project/opensearch": "^1.0.2",
-    "axios": "^0.25.0",
-    "body-parser": "^1.19.1",
+    "axios": "^0.26.1",
+    "body-parser": "^1.19.2",
     "bunyan": "^1.8.15",
     "cors": "^2.8.5",
     "cpu-stat": "^2.0.1",
@@ -32,8 +32,8 @@
     "es6": "npm:@elastic/elasticsearch@^6.8.8",
     "es7": "npm:@elastic/elasticsearch@^7.17.0",
     "es8": "npm:@elastic/elasticsearch@^8.1.0",
-    "express": "^4.17.2",
-    "fs-extra": "^10.0.0",
+    "express": "^4.17.3",
+    "fs-extra": "^10.0.1",
     "joi": "^17.6.0",
     "js-yaml": "^4.1.0",
     "lodash": "^4.17.21",
@@ -47,9 +47,9 @@
   },
   "devDependencies": {
     "cross-env": "^7.0.3",
-    "eslint": "^8.9.0",
+    "eslint": "^8.11.0",
     "husky": "^7.0.4",
-    "mocha": "~9.2.0"
+    "mocha": "~9.2.2"
   },
   "scripts": {
     "build": "babel src -d lib",
