@@ -12,7 +12,7 @@ export default async function searchHandler(request, response) {
       try {
         const result = await client.search({
           index: request.params.index,
-          document: request.body
+          body: request.body
         });
         response.send(result);
       } catch (err) {

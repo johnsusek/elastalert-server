@@ -1,3 +1,17 @@
+# praecoapp/elastalert-server:20220422
+
+## New features
+
+None
+
+## Bug Fix
+
+- fix Elasticsearch 8 support
+
+## Other changes
+
+None
+
 # praecoapp/elastalert-server:20220308
 
 ## New features
