@@ -1,5 +1,5 @@
 FROM python:3.9-alpine3.15 as ea2
-ARG ELASTALERT_VERSION=2.4.0
+ARG ELASTALERT_VERSION=2.5.0
 ENV ELASTALERT_VERSION=${ELASTALERT_VERSION}
 ARG ELASTALERT_URL=https://github.com/jertel/elastalert2/archive/refs/tags/$ELASTALERT_VERSION.zip
 ENV ELASTALERT_URL=${ELASTALERT_URL}
@@ -40,7 +40,7 @@ COPY . /opt/elastalert-server
 
 RUN npm install --production --quiet
 
-RUN pip3 install --no-cache-dir --upgrade pip==22.0.3
+RUN pip3 install --no-cache-dir --upgrade pip==22.0.4
 
 USER node
 
