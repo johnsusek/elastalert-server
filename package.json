@@ -19,8 +19,8 @@
   },
   "dependencies": {
     "@babel/cli": "^7.17.10",
-    "@babel/core": "^7.17.10",
-    "@babel/preset-env": "^7.17.10",
+    "@babel/core": "^7.18.0",
+    "@babel/preset-env": "^7.18.0",
     "@babel/register": "^7.17.7",
     "@opensearch-project/opensearch": "^1.1.0",
     "axios": "^0.27.2",
@@ -47,8 +47,8 @@
   },
   "devDependencies": {
     "cross-env": "^7.0.3",
-    "eslint": "^8.14.0",
-    "husky": "^7.0.4",
+    "eslint": "^8.16.0",
+    "husky": "^8.0.1",
     "mocha": "~10.0.0"
   },
   "scripts": {
