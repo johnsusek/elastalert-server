@@ -91,6 +91,11 @@ export default class ProcessController {
       startArguments.push('--es_debug');
     }
 
+    if (config.get('prometheus_port') !== undefined && config.get('prometheus_port') !== '') {
+      logger.info('Setting ElastAlert to expose metrics in Prometheus format on port ' + config.get('prometheus_port'));
+      startArguments.push('--prometheus_port', config.get('prometheus_port'));
+    }
+
     logger.info('Starting elastalert with arguments ' + (startArguments.join(' ') || '[none]'));
 
     this._process = spawn('python3', ['-m', 'elastalert.elastalert'].concat(startArguments), {
