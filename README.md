@@ -102,7 +102,8 @@ You can use the following config options:
   "es_ca_certs": "/etc/ssl/elasticsearch/ca", // Path to ca for ElasticSearch (SSL must be enabled)
   "es_client_cert": "/etc/ssl/elasticsearch/cert", // Path to cert for ElasticSearch (SSL must be enabled)
   "es_client_key": "/etc/ssl/elasticsearch/key", // Path to key for ElasticSearch (SSL must be enabled)
-  "writeback_index": "elastalert_status" // Writeback index to examine for /metadata endpoint
+  "writeback_index": "elastalert_status", // Writeback index to examine for /metadata endpoint
+  "prometheus_port": 9979 // Port for Prometheus
 }
 ```
 
