@@ -9,6 +9,7 @@
 
 - Update CONTRIBUTING.md
 - Support OpenSearch 2.0
+- Remove body-parser
 - Migrate raven-node to @sentry/node
 - Add TestCode
 - Remove Support Elasticsearch 5, 6
