@@ -2,7 +2,7 @@
 
 ## New features
 
-None
+- feat: Add prometheus_port parameters on elastalert-server config. [#8](https://github.com/johnsusek/elastalert-server/pull/8) @diablo02000
 
 ## Bug Fix
 
