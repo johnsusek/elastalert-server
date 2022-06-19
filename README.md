@@ -9,6 +9,7 @@
 
 - Update CONTRIBUTING.md
 - Support OpenSearch 2.0
+- Migrate raven-node to @sentry/node
 - Add TestCode
 - Remove Support Elasticsearch 5, 6
 - Support Elasticsearch ApiKey authentication connection
@@ -50,7 +51,7 @@ make build
 ```
 which is equivalent of
 ```
-docker pull python:3.9-alpine3.15 && docker pull node:16.13-alpine3.15
+docker pull python:3.10-alpine3.16 && docker pull node:16.15-alpine3.16
 docker build -t elastalert-server .
 ```
 

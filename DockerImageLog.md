@@ -1,3 +1,21 @@
+# praecoapp/elastalert-server:20220619
+
+## New features
+
+None
+
+## Bug Fix
+
+None
+
+## Other changes
+
+- jertel/elastalert2:2.5.0 to 2.5.1
+- node:16.13.0-alpine3.15 to node:16.15-alpine3.16
+- python:3.9-alpine3.15 to python:3.10-alpine3.16
+- Library Update
+- pip 21.1.3 → 22.1.2
+
 # praecoapp/elastalert-server:20220503
 
 ## New features

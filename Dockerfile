@@ -1,5 +1,5 @@
-FROM python:3.9-alpine3.15 as ea2
-ARG ELASTALERT_VERSION=2.5.0
+FROM python:3.10-alpine3.16 as ea2
+ARG ELASTALERT_VERSION=2.5.1
 ENV ELASTALERT_VERSION=${ELASTALERT_VERSION}
 ARG ELASTALERT_URL=https://github.com/jertel/elastalert2/archive/refs/tags/$ELASTALERT_VERSION.zip
 ENV ELASTALERT_URL=${ELASTALERT_URL}
@@ -13,7 +13,7 @@ RUN apk add --update --no-cache wget && \
     rm elastalert.zip && \
     mv e* "${ELASTALERT_HOME}"
 
-FROM node:16.13-alpine3.15 as install
+FROM node:16.15-alpine3.16 as install
 ENV PATH /home/node/.local/bin:$PATH
 
 RUN apk add --update --no-cache \
@@ -40,7 +40,7 @@ COPY . /opt/elastalert-server
 
 RUN npm install --production --quiet
 
-RUN pip3 install --no-cache-dir --upgrade pip==22.0.4
+RUN pip3 install --no-cache-dir --upgrade pip==22.1.2
 
 USER node
 
@@ -49,7 +49,7 @@ WORKDIR /opt/elastalert
 RUN pip3 install --no-cache-dir cryptography --user
 RUN pip3 install --no-cache-dir -r requirements.txt --user
 
-FROM node:16.13-alpine3.15
+FROM node:16.15-alpine3.16
 LABEL maintainer="John Susek <john@johnsolo.net>"
 ENV TZ Etc/UTC
 ENV PATH /home/node/.local/bin:$PATH
@@ -71,7 +71,7 @@ RUN apk add --update --no-cache \
     tzdata
 
 COPY --from=install /opt/elastalert /opt/elastalert
-COPY --from=install /home/node/.local/lib/python3.9/site-packages /home/node/.local/lib/python3.9/site-packages
+COPY --from=install /home/node/.local/lib/python3.10/site-packages /home/node/.local/lib/python3.10/site-packages
 
 WORKDIR /opt/elastalert-server
 
