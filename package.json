@@ -39,7 +39,6 @@
     "mkdirp": "^1.0.4",
     "object-resolve-path": "^1.1.1",
     "randomstring": "^1.2.2",
-    "raven": "^2.6.4",
     "readdirp": "^3.6.0",
     "recursive-readdir": "^2.2.2",
     "ws": "^8.8.0"
