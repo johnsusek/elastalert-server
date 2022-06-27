@@ -46,7 +46,6 @@
   "devDependencies": {
     "cross-env": "^7.0.3",
     "eslint": "^8.18.0",
-    "mocha": "~10.0.0"
   },
   "scripts": {
     "build": "babel src -d lib",
