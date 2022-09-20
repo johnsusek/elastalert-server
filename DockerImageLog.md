@@ -1,3 +1,18 @@
+# praecoapp/elastalert-server:20220921
+
+## New features
+
+None
+
+## Bug Fix
+
+None
+
+## Other changes
+
+- jertel/elastalert2:2.6.0 to 2.7.0
+- Library Update
+
 # praecoapp/elastalert-server:20220802
 
 ## New features
