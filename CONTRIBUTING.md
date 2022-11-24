@@ -1,7 +1,7 @@
 # Contributing to ElastAlert Server
 **Do you want to contribute to our ElastAlert Server or issue an issue? Great! Since we hate rejecting pull requests or ask you to describe your issue more clearly, please read these guidelines carefully:**
 
-## Filing an issue
+## Filing an [issue](https://github.com/johnsusek/praeco/issues)
 - Describe your issue clearly. 
 - When issuing a bug, please provide steps on how to recreate the bug if possible. 
 - If you get an error, include the error in your issue
@@ -19,15 +19,16 @@ We enjoy working with contributors to get their code accepted. There are many ap
 First, fork this repository and clone it:
 
 ```bash
-git clone https://github.com/[YOUR_USERNAME]/elastalert.git elastalert
-cd elastalert
+git clone https://github.com/[YOUR_USERNAME]/elastalert-server.git
+cd elastalert-server
 ```
 
 Then follow the default installation steps, so:
 
 1. Run `nvm install "$(cat .nvmrc)"` to install & use the required NodeJS version.
-2. Run `npm install` to install all the dependencies.
-3. Look at the `Config` section in [REAMDE.md](../README.md#config) to setup the path to your ElastAlert instance.
+2. Run `nvm use "$(cat .nvmrc)"`.
+3. Run `npm install` to install all the dependencies.
+4. Look at the `Config` section in [REAMDE.md](../README.md#config) to setup the path to your ElastAlert instance.
 
 ### Linting
 We use [ESLint](http://eslint.org/) to ensure the that the [Styleguide](../STYLEGUIDE.md) is being followed so we suggest you integrate it in your code editor to get live feedback.
@@ -37,21 +38,22 @@ Here are some hints for getting eslint setup in your favorite editor:
 Editor     | Plugin
 -----------|-------------------------------------------------------------------------------
 Sublime    | [SublimeLinter-eslint](https://github.com/roadhump/SublimeLinter-eslint#installation)
-Atom       | [linter-eslint](https://github.com/AtomLinter/linter-eslint#installation)
+Visual Studio Code | Start VS Code. » Press the extension button. » Type "eslint" in the input box. » Since "ESLint" is displayed, select it. » Press the install button.
 IntelliJ   | Settings » Languages & Frameworks » JavaScript » Code Quality Tools » ESLint
 `vi`       | [scrooloose/syntastic](https://github.com/scrooloose/syntastic)
 
 Another tool we use for enforcing consistent coding style is EditorConfig, which can be set up by installing a plugin in your editor that dynamically updates its configuration. Take a look at the [EditorConfig](http://editorconfig.org/#download) site to find a plugin for your editor, and browse our [`.editorconfig`](https://github.com/elastic/kibana/blob/master/.editorconfig) file to see what config rules we set up.
 
-### Testing and Building
-To ensure that your changes will not break other functionality, please run the test suite and build process before submitting your Pull Request.
+### ESLint and Building
+To ensure that your changes will not break other functionality, please run the eslint and build process before submitting your Pull Request.
 
-Before running the tests you will need to install the projects dependencies as described above.
+Before running the eslint you will need to install the projects dependencies as described above.
 
 Once that's done, just run:
 
 ```bash
-npm run test && npm run build
+npm run precommit
+npm run build
 ```
 
 ### Writing a new API (route)
@@ -123,14 +125,12 @@ Controllers expose API that can be used by the handlers. There are a couple thin
       Always make sure the feature can be ran on any environment by providing config options for environment specific settings. 
     > If you add a config option, check that you add it in the [config schema](../src/common/config/schema.js), the [config example](../config/config.example.json) and the [config section in readme](../README.md#config).
 3. **Did you make sure you saved all your dependencies with `npm install [packageName] --save`?**
-4. **Did you write tests for the code you wrote?**
-    > If you have any questions about writing tests, let us know by sending an e-mail to [dev@bitsensor.io](mailto:dev@bitsensor.io).
-5. **Did you document the code you wrote?**
+
+4. **Did you document the code you wrote?**
 
       Especially when writing a controller with an API, please provide a little documentation on the API functions using the [JSDoc](http://usejsdoc.org/) comment style.
-6. **Did you have fun writing your code?**
+5. **Did you have fun writing your code?**
       
       We know that this list is quite long. If you want to contribute code but don't have the time to write tests or documentation, please mention that in the pull request. We'll still be happy with your contribution and we'll write the tests / documentation ourselves!
       
 #### Thanks in advance,
-#### The BitSensor Team
