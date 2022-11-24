@@ -7,7 +7,6 @@
 
 **TODO**
 
-- Update CONTRIBUTING.md
 - Support OpenSearch 2.0
 - Add TestCode
 - Remove Support Elasticsearch 5, 6
