@@ -31,7 +31,7 @@ Then follow the default installation steps, so:
 4. Look at the `Config` section in [REAMDE.md](../README.md#config) to setup the path to your ElastAlert instance.
 
 ### Linting
-We use [ESLint](http://eslint.org/) to ensure the that the [Styleguide](../STYLEGUIDE.md) is being followed so we suggest you integrate it in your code editor to get live feedback.
+We use [ESLint](http://eslint.org/) to ensure the that the Styleguide is being followed so we suggest you integrate it in your code editor to get live feedback.
 
 Here are some hints for getting eslint setup in your favorite editor:
 
