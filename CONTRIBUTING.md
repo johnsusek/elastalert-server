@@ -119,7 +119,7 @@ Controllers expose API that can be used by the handlers. There are a couple thin
     ```
 
 ### Contributing checklist
-1. **Did you [run the tests & builds as shown above](#testing-and-building) and [make sure it follows the styleguide](#linting)?**
+1. **Did you [run the eslint & builds as shown above](#eslint-and-building) and [make sure it follows the styleguide](#linting)?**
 2. **If you made a new feature, did you think about making it configurable?**
       
       Always make sure the feature can be ran on any environment by providing config options for environment specific settings. 
