@@ -3,7 +3,7 @@ v ?= 2.9.0
 all: build
 
 build:
-	docker pull python:3.10-alpine3.16 && docker pull node:16.15-alpine3.16
+	docker pull python:3.11-alpine3.17 && docker pull node:16.19-alpine3.17
 	docker build --build-arg ELASTALERT_VERSION=$(v) -t praecoapp/elastalert-server .
 
 server: build

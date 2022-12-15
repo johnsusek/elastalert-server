@@ -1,4 +1,4 @@
-FROM python:3.10-alpine3.16 as ea2
+FROM python:3.11-alpine3.17 as ea2
 ARG ELASTALERT_VERSION=2.9.0
 ENV ELASTALERT_VERSION=${ELASTALERT_VERSION}
 ARG ELASTALERT_URL=https://github.com/jertel/elastalert2/archive/refs/tags/$ELASTALERT_VERSION.zip
@@ -13,7 +13,7 @@ RUN apk add --update --no-cache wget && \
     rm elastalert.zip && \
     mv e* "${ELASTALERT_HOME}"
 
-FROM node:16.15-alpine3.16 as install
+FROM node:16.19-alpine3.17 as install
 ENV PATH /home/node/.local/bin:$PATH
 
 RUN apk add --update --no-cache \
@@ -49,7 +49,7 @@ WORKDIR /opt/elastalert
 RUN pip3 install --no-cache-dir cryptography --user
 RUN pip3 install --no-cache-dir -r requirements.txt --user
 
-FROM node:16.15-alpine3.16
+FROM node:16.19-alpine3.17
 LABEL maintainer="John Susek <john@johnsolo.net>"
 ENV TZ Etc/UTC
 ENV PATH /home/node/.local/bin:$PATH
