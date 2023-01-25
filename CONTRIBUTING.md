@@ -52,7 +52,7 @@ Before running the eslint you will need to install the projects dependencies as 
 Once that's done, just run:
 
 ```bash
-npm run precommit
+npm run lint:fix
 npm run build
 ```
 
