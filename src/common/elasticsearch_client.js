@@ -42,9 +42,14 @@ export function escapeLuceneSyntax(str) {
 export async function getClientVersion() {
 
   try {
-    // OpenSearch 1.0
-    if (config.get('opensearch_flg')) {
+    // OpenSearch 1.x
+    if (config.get('opensearch_flg') && config.get('opensearch2_flg') === false) {
       return 7;
+    }
+
+    // OpenSearch 2.x
+    if (config.get('opensearch_flg') === false && config.get('opensearch2_flg')) {
+      return 8;
     }
 
     let scheme = 'http';
@@ -187,9 +192,9 @@ export async function getClient() {
       auth = `${config.get('es_username')}:${config.get('es_password')}@`;
     }
 
-    if (config.get('opensearch_flg')) {
+    if (config.get('opensearch_flg') || config.get('opensearch2_flg')) {
 
-      // OpenSearch 1.0
+      // OpenSearch
       const client_opensearch = new opensearch.Client({
         node: [ `${scheme}://${auth}${config.get('es_host')}:${config.get('es_port')}`],
         ssl: ssl_body

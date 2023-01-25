@@ -50,6 +50,7 @@
     "build": "babel src -d lib",
     "start": "sh ./scripts/start.sh",
     "update-authors": "./scripts/update-authors.sh",
-    "precommit": "./node_modules/eslint/bin/eslint.js --fix ."
+    "lint": "./node_modules/eslint/bin/eslint.js .",
+    "lint:fix": "./node_modules/eslint/bin/eslint.js --fix ."
   }
 }
