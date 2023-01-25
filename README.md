@@ -7,9 +7,7 @@
 
 **TODO**
 
-- Support OpenSearch 2.0
 - Add TestCode
-- Remove Support Elasticsearch 5, 6
 - Support Elasticsearch ApiKey authentication connection
   https://github.com/elastic/elasticsearch-js/blob/main/docs/basic-config.asciidoc
 - Support Elasticsearch Bearer authentication connection
