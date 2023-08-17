@@ -7,14 +7,15 @@
 
 **TODO**
 
-- Add TestCode
-- Support Elasticsearch ApiKey authentication connection
+- [ ] Add TestCode
+- [ ] javascript to typescript
+- [ ] Support Elasticsearch ApiKey authentication connection
   https://github.com/elastic/elasticsearch-js/blob/main/docs/basic-config.asciidoc
-- Support Elasticsearch Bearer authentication connection
+- [ ] Support Elasticsearch Bearer authentication connection
   https://github.com/elastic/elasticsearch-js/blob/main/docs/basic-config.asciidoc
-- Support Elastic Cloud CloudID connection
+- [ ] Support Elastic Cloud CloudID connection
   https://github.com/elastic/elasticsearch-js/blob/main/docs/basic-config.asciidoc
-- Support Elasticsearch proxy connection
+- [ ] Support Elasticsearch proxy connection
   https://github.com/elastic/elasticsearch-js/blob/main/docs/basic-config.asciidoc
 
 ---
