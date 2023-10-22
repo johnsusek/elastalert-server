@@ -38,9 +38,9 @@ COPY --from=ea2 /opt/elastalert /opt/elastalert
 WORKDIR /opt/elastalert-server
 COPY . /opt/elastalert-server
 
-RUN npm install --production --quiet
+RUN npm install --omit=dev --quiet
 
-RUN pip3 install --no-cache-dir --upgrade pip==23.2.1
+RUN pip3 install --no-cache-dir --upgrade pip==23.3.1
 
 USER node
 
