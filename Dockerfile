@@ -1,4 +1,5 @@
-FROM python:3.11-alpine3.18 as ea2
+# Stage 1: Build Elastalert
+FROM python:3.11-alpine3.18 as elastalert-builder
 ARG ELASTALERT_VERSION=2.14.0
 ENV ELASTALERT_VERSION=${ELASTALERT_VERSION}
 ARG ELASTALERT_URL=https://github.com/jertel/elastalert2/archive/refs/tags/$ELASTALERT_VERSION.zip
@@ -7,12 +8,13 @@ ENV ELASTALERT_HOME /opt/elastalert
 
 WORKDIR /opt
 
-RUN apk add --update --no-cache wget && \
+RUN apk add --update --no-cache wget unzip && \
     wget -O elastalert.zip "${ELASTALERT_URL}" && \
     unzip elastalert.zip && \
     rm elastalert.zip && \
     mv e* "${ELASTALERT_HOME}"
 
+# Stage 2: Install Dependencies
 FROM node:16.20.2-alpine3.18 as install
 ENV PATH /home/node/.local/bin:$PATH
 
@@ -33,41 +35,30 @@ RUN apk add --update --no-cache \
     python3-dev \
     tzdata
 
-COPY --from=ea2 /opt/elastalert /opt/elastalert
+COPY --from=elastalert-builder /opt/elastalert /opt/elastalert
 
 WORKDIR /opt/elastalert-server
 COPY . /opt/elastalert-server
 
-RUN npm install --omit=dev --quiet
-
-RUN pip3 install --no-cache-dir --upgrade pip==23.3.1
+RUN npm install --omit=dev --quiet && \
+    pip3 install --no-cache-dir --upgrade pip==23.3.1
 
 USER node
 
 WORKDIR /opt/elastalert
 
-RUN pip3 install --no-cache-dir cryptography --user
-RUN pip3 install --no-cache-dir -r requirements.txt --user
+RUN pip3 install --no-cache-dir cryptography --user && \
+    pip3 install --no-cache-dir -r requirements.txt --user
 
+# Stage 3: Final Image
 FROM node:16.20.2-alpine3.18
 LABEL maintainer="John Susek <john@johnsolo.net>"
 ENV TZ Etc/UTC
 ENV PATH /home/node/.local/bin:$PATH
 
 RUN apk add --update --no-cache \
-    ca-certificates \
-    cargo \
-    curl \
-    gcc \
-    libffi-dev \
-    libmagic \
-    make \
-    musl-dev \
-    openssl \
-    openssl-dev \
     py3-pip \
     python3 \
-    python3-dev \
     tzdata
 
 COPY --from=install /opt/elastalert /opt/elastalert
@@ -83,7 +74,7 @@ COPY rule_templates/ /opt/elastalert/rule_templates
 COPY elastalert_modules/ /opt/elastalert/elastalert_modules
 
 # Add default rules directory
-# Set permission as unpriviledged user (1000:1000), compatible with Kubernetes
+# Set permission as an unprivileged user (1000:1000), compatible with Kubernetes
 RUN mkdir -p /opt/elastalert/rules/ /opt/elastalert/server_data/tests/ \
     && chown -R node:node /opt
 
