@@ -57,6 +57,10 @@ ENV TZ Etc/UTC
 ENV PATH /home/node/.local/bin:$PATH
 
 RUN apk add --update --no-cache \
+    ca-certificates \
+    libffi-dev \
+    openssl \
+    openssl-dev \
     py3-pip \
     python3 \
     tzdata
