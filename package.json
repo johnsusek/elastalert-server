@@ -18,12 +18,12 @@
     "test": "./test"
   },
   "dependencies": {
-    "@babel/cli": "^7.23.0",
-    "@babel/core": "^7.23.2",
-    "@babel/preset-env": "^7.23.2",
+    "@babel/cli": "^7.23.4",
+    "@babel/core": "^7.23.3",
+    "@babel/preset-env": "^7.23.3",
     "@babel/register": "^7.22.15",
     "@opensearch-project/opensearch": "^2.4.0",
-    "axios": "^1.5.1",
+    "axios": "^1.6.2",
     "bunyan": "^1.8.15",
     "cors": "^2.8.5",
     "cpu-stat": "^2.0.1",
@@ -44,7 +44,7 @@
     "ws": "^8.14.2"
   },
   "devDependencies": {
-    "eslint": "^8.51.0"
+    "eslint": "^8.54.0"
   },
   "scripts": {
     "build": "babel src -d lib",
