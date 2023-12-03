@@ -1,5 +1,7 @@
 # ElastAlert Server
 
+⚠ Hi developer. Please contribute to the project if you find a bug or suggest an improvement / feature. 
+---
 > A server that runs [ElastAlert 2](https://github.com/jertel/elastalert2) and exposes REST API's for manipulating rules and alerts. It works great in combination with our [ElastAlert Kibana plugin](https://github.com/karql/elastalert-kibana-plugin).
 
 ![Docker Pulls](https://img.shields.io/docker/pulls/praecoapp/elastalert-server.svg)
