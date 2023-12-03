@@ -9,6 +9,6 @@ build:
 server: build
 	docker run -it --rm -p 3030:3030 -p 3333:3333 \
 	--net="host" \
-	elastalert:latest
+	praecoapp/elastalert-server:latest
 
 .PHONY: build
