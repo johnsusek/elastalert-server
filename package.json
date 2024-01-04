@@ -1,6 +1,6 @@
 {
   "name": "@johnsusek/elastalert-server",
-  "version": "20231126",
+  "version": "20240104",
   "description": "A server that runs ElastAlert and exposes REST API's for manipulating rules and alerts.",
   "license": "MIT",
   "main": "index.js",
@@ -23,7 +23,7 @@
     "@babel/preset-env": "^7.23.7",
     "@babel/register": "^7.23.7",
     "@opensearch-project/opensearch": "^2.4.0",
-    "axios": "^1.6.3",
+    "axios": "^1.6.4",
     "bunyan": "^1.8.15",
     "cors": "^2.8.5",
     "cpu-stat": "^2.0.1",

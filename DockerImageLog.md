@@ -1,3 +1,19 @@
+# praecoapp/elastalert-server:20240104
+
+## New features
+
+None
+
+## Bug Fix
+
+None
+
+## Other changes
+
+- node:16.20.2-alpine3.18 to node:18.19.0-alpine3.19
+- python:3.11-alpine3.18 to python:3.11-alpine3.19
+- Library Update
+
 # praecoapp/elastalert-server:20231126
 
 ## New features
