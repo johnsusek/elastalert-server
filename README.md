@@ -12,7 +12,7 @@
 **TODO**
 
 - [x] node 16 to 18
-- [ ] node 18 to 20
+- [x] node 18 to 20
 - [ ] Add TestCode
 - [ ] javascript to typescript
 - [ ] Support Elasticsearch ApiKey authentication connection
@@ -54,7 +54,7 @@ make build
 ```
 which is equivalent of
 ```
-docker pull python:3.11-alpine3.19 && docker pull node:18.19.0-alpine3.19
+docker pull python:3.11-alpine3.19 && docker pull node:20.12.2-alpine3.19
 docker build -t elastalert-server .
 ```
 
