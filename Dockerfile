@@ -1,6 +1,6 @@
 # Stage 1: Build Elastalert
-FROM python:3.11-alpine3.19 as elastalert-builder
-ARG ELASTALERT_VERSION=2.15.0
+FROM python:3.12-alpine3.20 as elastalert-builder
+ARG ELASTALERT_VERSION=2.19.0
 ENV ELASTALERT_VERSION=${ELASTALERT_VERSION}
 ARG ELASTALERT_URL=https://github.com/jertel/elastalert2/archive/refs/tags/$ELASTALERT_VERSION.zip
 ENV ELASTALERT_URL=${ELASTALERT_URL}
@@ -15,7 +15,7 @@ RUN apk add --update --no-cache wget unzip && \
     mv e* "${ELASTALERT_HOME}"
 
 # Stage 2: Install Dependencies
-FROM node:20.12.2-alpine3.19 as install
+FROM node:20.16-alpine3.20 as install
 ENV PATH /home/node/.local/bin:$PATH
 
 RUN apk add --update --no-cache \
@@ -41,7 +41,7 @@ WORKDIR /opt/elastalert-server
 COPY . /opt/elastalert-server
 
 RUN npm install --omit=dev --quiet && \
-    pip3 install --no-cache-dir --upgrade pip==24.0 --break-system-packages
+    pip3 install --no-cache-dir --upgrade pip==24.1.2 --break-system-packages
 
 USER node
 
@@ -51,7 +51,7 @@ RUN pip3 install --no-cache-dir cryptography --prefix=/home/node/.local --break-
     pip3 install --no-cache-dir -r requirements.txt --prefix=/home/node/.local --break-system-packages
 
 # Stage 3: Final Image
-FROM node:20.12.2-alpine3.19
+FROM node:20.16-alpine3.20
 LABEL maintainer="John Susek <john@johnsolo.net>"
 ENV TZ Etc/UTC
 ENV PATH /home/node/.local/bin:$PATH
