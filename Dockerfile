@@ -41,7 +41,7 @@ WORKDIR /opt/elastalert-server
 COPY . /opt/elastalert-server
 
 RUN npm install --omit=dev --quiet && \
-    pip3 install --no-cache-dir --upgrade pip==24.1.2 --break-system-packages
+    pip3 install --no-cache-dir --upgrade pip==24.2 --break-system-packages
 
 USER node
 
@@ -66,7 +66,7 @@ RUN apk add --update --no-cache \
     tzdata
 
 COPY --from=install /opt/elastalert /opt/elastalert
-COPY --from=install /home/node/.local/lib/python3.11/site-packages /home/node/.local/lib/python3.11/site-packages
+COPY --from=install /home/node/.local/lib/python3.12/site-packages /home/node/.local/lib/python3.12/site-packages
 
 WORKDIR /opt/elastalert-server
 
