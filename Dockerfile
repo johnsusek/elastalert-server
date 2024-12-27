@@ -1,6 +1,6 @@
 # Stage 1: Build Elastalert
-FROM python:3.12-alpine3.20 as elastalert-builder
-ARG ELASTALERT_VERSION=2.20.0
+FROM python:3.12-alpine3.21 as elastalert-builder
+ARG ELASTALERT_VERSION=2.22.0
 ENV ELASTALERT_VERSION=${ELASTALERT_VERSION}
 ARG ELASTALERT_URL=https://github.com/jertel/elastalert2/archive/refs/tags/$ELASTALERT_VERSION.zip
 ENV ELASTALERT_URL=${ELASTALERT_URL}
@@ -15,7 +15,7 @@ RUN apk add --update --no-cache wget unzip && \
     mv e* "${ELASTALERT_HOME}"
 
 # Stage 2: Install Dependencies
-FROM node:20.16-alpine3.20 as install
+FROM node:20.18-alpine3.21 as install
 ENV PATH /home/node/.local/bin:$PATH
 
 RUN apk add --update --no-cache \
