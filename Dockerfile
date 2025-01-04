@@ -51,7 +51,7 @@ RUN pip3 install --no-cache-dir cryptography --prefix=/home/node/.local --break-
     pip3 install --no-cache-dir -r requirements.txt --prefix=/home/node/.local --break-system-packages
 
 # Stage 3: Final Image
-FROM node:20.16-alpine3.20
+FROM node:20.18-alpine3.21
 LABEL maintainer="John Susek <john@johnsolo.net>"
 ENV TZ Etc/UTC
 ENV PATH /home/node/.local/bin:$PATH
