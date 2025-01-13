@@ -15,7 +15,7 @@ RUN apk add --update --no-cache wget unzip && \
     mv e* "${ELASTALERT_HOME}"
 
 # Stage 2: Install Dependencies
-FROM node:22.12-alpine3.21 as install
+FROM node:22.13-alpine3.21 as install
 ENV PATH /home/node/.local/bin:$PATH
 
 RUN apk add --update --no-cache \
@@ -51,7 +51,7 @@ RUN pip3 install --no-cache-dir cryptography --prefix=/home/node/.local --break-
     pip3 install --no-cache-dir -r requirements.txt --prefix=/home/node/.local --break-system-packages
 
 # Stage 3: Final Image
-FROM node:22.12-alpine3.21
+FROM node:22.13-alpine3.21
 LABEL maintainer="John Susek <john@johnsolo.net>"
 ENV TZ Etc/UTC
 ENV PATH /home/node/.local/bin:$PATH
