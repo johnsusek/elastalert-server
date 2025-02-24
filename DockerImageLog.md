@@ -1,3 +1,17 @@
+# praecoapp/elastalert-server:20250224
+
+## New features
+
+- Elasticsearch 9.0.0-beta1 support
+
+## Bug Fix
+
+None
+
+## Other changes
+
+None
+
 # praecoapp/elastalert-server:20250220
 
 ## New features

@@ -3,6 +3,7 @@ import elasticsearch6 from 'es6';
 import elasticsearch7 from 'es7';
 import opensearch from '@opensearch-project/opensearch';
 import elasticsearch8 from 'es8';
+import elasticsearch9 from 'es9';
 
 import fs from 'fs';
 import config from './config';
@@ -234,6 +235,14 @@ export async function getClient() {
         tls: ssl_body
       });
       return client8;
+    } else if (es_version == 9) {
+      
+      // Elasticsearch 9.x
+      const client9 = new elasticsearch8.Client({
+        node: [ `${scheme}://${auth}${config.get('es_host')}:${config.get('es_port')}`],
+        tls: ssl_body
+      });
+      return client9;
     }
   } catch (error) {
     console.log(error);
