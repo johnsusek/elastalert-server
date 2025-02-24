@@ -238,7 +238,7 @@ export async function getClient() {
     } else if (es_version == 9) {
       
       // Elasticsearch 9.x
-      const client9 = new elasticsearch8.Client({
+      const client9 = new elasticsearch9.Client({
         node: [ `${scheme}://${auth}${config.get('es_host')}:${config.get('es_port')}`],
         tls: ssl_body
       });
