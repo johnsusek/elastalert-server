@@ -1,3 +1,18 @@
+# praecoapp/elastalert-server:20250505
+
+## New features
+
+- Elasticsearch 9.0.0 support
+
+## Bug Fix
+
+None
+
+## Other changes
+
+- jertel/elastalert2:2.23.0 to 2.24.0
+- Library Update
+
 # praecoapp/elastalert-server:20250224
 
 ## New features
