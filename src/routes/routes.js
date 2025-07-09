@@ -58,7 +58,7 @@ let routes = [
     method: 'GET',
     handler: rulesHandler
   }, {
-    path: 'rules/:id*',
+    path: 'rules/:id',
     method: ['GET', 'POST', 'DELETE'],
     handler: [ruleGetHandler, rulePostHandler, ruleDeleteHandler]
   }, {
@@ -67,11 +67,11 @@ let routes = [
     handler: templatesHandler
   }, {
     method: ['GET', 'POST', 'DELETE'],
-    path: 'templates/:id*',
+    path: 'templates/:id',
     handler: [templateGetHandler, templatePostHandler, templateDeleteHandler]
   }, 
   { 
-    path: 'folders/:type/:path*',
+    path: 'folders/:type/:path',
     method: ['PUT', 'DELETE'],
     handler: [folderPutHandler, folderDeleteHandler]
   },
@@ -81,7 +81,7 @@ let routes = [
     handler: testPostHandler
   }, 
   {
-    path: 'silence/:path*',
+    path: 'silence/:path',
     method: 'POST',
     handler: silencePostHandler
   }, 
