@@ -16,7 +16,7 @@ let logger = new RouteLogger('/[route_path]');
  * If the name becomes too long (for example when having long paths like /the/immensely/very/long/path, which should become theImmenselyVeryLongPathGetHandler)
  * feel free to neglect the rule and come up with something else.
  *
- * Documentation about 'request' and 'response' can be found at the Express JS documentation (http://expressjs.com/en/4x/api.html#req).
+ * Documentation about 'request' and 'response' can be found at the Express JS documentation (http://expressjs.com/en/5x/api.html#req).
  */
 export default function exampleHandler(request, response) {
 
