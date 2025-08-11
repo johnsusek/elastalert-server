@@ -8,7 +8,9 @@ export default function templateGetHandler(request, response) {
    * @type {ElastalertServer}
    */
   let server = request.app.get('server');
-  let path = request.params.id + request.params[0];
+  let pathParts = request.originalUrl.split('/');
+  let idIndex = pathParts.indexOf('templates') + 1;
+  let path = pathParts.slice(idIndex).join('/');
 
   server.templatesController.template(path)
     .then(function (template) {

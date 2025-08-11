@@ -40,7 +40,9 @@ export default function silencePostHandler(request, response) {
     sendRequestError(response, body.error);
   }
 
-  let path = request.params.path + request.params[0];
+  let pathParts = request.originalUrl.split('/');
+  let pathIndex = pathParts.indexOf('silence') + 1;
+  let path = pathParts.slice(pathIndex).join('/');
 
   server.silenceController.silenceRule(path, body.unit, body.duration)
     .then(function (consoleOutput) {
