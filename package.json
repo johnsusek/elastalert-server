@@ -32,7 +32,7 @@
     "es7": "npm:@elastic/elasticsearch@^7.17.14",
     "es8": "npm:@elastic/elasticsearch@^8.18.2",
     "es9": "npm:@elastic/elasticsearch@^9.0.1",
-    "express": "^4.21.2",
+    "express": "^5.0.0",
     "fs-extra": "^11.3.0",
     "joi": "^17.13.3",
     "js-yaml": "^4.1.0",

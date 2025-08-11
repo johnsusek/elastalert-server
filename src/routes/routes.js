@@ -31,8 +31,8 @@ import configHandler from '../handlers/config/get';
  * A server route.
  * @typedef {Object} Route
  * @property {String} path The path to route (without '/' at the start).
- * @property {String|String[]} method The method to route. Can be any of the [Express routing methods](http://expressjs.com/en/4x/api.html#routing-methods).
- * @property {Function|Function[]} handler The handler function for this route. See the [Express documentation](http://expressjs.com/en/4x/api.html) for more info.
+ * @property {String|String[]} method The method to route. Can be any of the [Express routing methods](http://expressjs.com/en/5x/api.html#routing-methods).
+ * @property {Function|Function[]} handler The handler function for this route. See the [Express documentation](http://expressjs.com/en/5x/api.html) for more info.
  *                                         If 'method' is an array, this property should be an equal length array too.
  */
 
@@ -58,7 +58,7 @@ let routes = [
     method: 'GET',
     handler: rulesHandler
   }, {
-    path: 'rules/:id*',
+    path: 'rules/:id',
     method: ['GET', 'POST', 'DELETE'],
     handler: [ruleGetHandler, rulePostHandler, ruleDeleteHandler]
   }, {
@@ -67,11 +67,11 @@ let routes = [
     handler: templatesHandler
   }, {
     method: ['GET', 'POST', 'DELETE'],
-    path: 'templates/:id*',
+    path: 'templates/:id',
     handler: [templateGetHandler, templatePostHandler, templateDeleteHandler]
   }, 
   { 
-    path: 'folders/:type/:path*',
+    path: 'folders/:type/:path',
     method: ['PUT', 'DELETE'],
     handler: [folderPutHandler, folderDeleteHandler]
   },
@@ -81,7 +81,7 @@ let routes = [
     handler: testPostHandler
   }, 
   {
-    path: 'silence/:path*',
+    path: 'silence/:path',
     method: 'POST',
     handler: silencePostHandler
   }, 

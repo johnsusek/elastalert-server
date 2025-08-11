@@ -8,7 +8,9 @@ export default function folderDeleteHandler(request, response) {
    * @type {ElastalertServer}
    */
   let server = request.app.get('server');
-  let path = request.params.path + request.params[0];
+  let pathParts = request.originalUrl.split('/');
+  let pathIndex = pathParts.indexOf(request.params.type) + 1;
+  let path = pathParts.slice(pathIndex).join('/');
 
   server.foldersController.delete(request.params.type, path)
     .then(function () {
