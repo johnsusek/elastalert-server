@@ -1,3 +1,18 @@
+# praecoapp/elastalert-server:20251014
+
+## New features
+
+None
+
+## Bug Fix
+
+None
+
+## Other changes
+
+- jertel/elastalert2:2.25.0 to 2.26.0
+- node:22.18-alpine3.22 to node:22.20-alpine3.22
+
 # praecoapp/elastalert-server:20250812
 
 ## New features

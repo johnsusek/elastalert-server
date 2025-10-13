@@ -1,9 +1,9 @@
-v ?= 2.25.0
+v ?= 2.26.0
 
 all: build
 
 build:
-	sudo docker pull python:3.12-alpine3.22 && sudo docker pull node:22.18-alpine3.22
+	sudo docker pull python:3.12-alpine3.22 && sudo docker pull node:22.20-alpine3.22
 	docker build --build-arg ELASTALERT_VERSION=$(v) -t praecoapp/elastalert-server .
 
 server: build
