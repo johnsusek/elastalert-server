@@ -15,6 +15,7 @@
 - [x] node 18 to 20
 - [x] node 20 to 22
 - [x] express 4 to 5
+- [ ] node 22 to 24
 - [ ] Add TestCode
 - [ ] javascript to typescript
 - [ ] Support Elasticsearch ApiKey authentication connection
