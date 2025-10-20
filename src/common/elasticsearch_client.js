@@ -62,7 +62,8 @@ export async function getClientVersion() {
     let auth = '';
     
     if (config.get('es_username') && config.get('es_password')) {
-      auth = `${config.get('es_username')}:${config.get('es_password')}@`;
+      const es_password = encodeURIComponent(config.get('es_password'));
+      auth = `${config.get('es_username')}:${es_password}@`;
     }
 
     const agent  = {};
