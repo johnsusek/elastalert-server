@@ -41,7 +41,7 @@ WORKDIR /opt/elastalert-server
 COPY . /opt/elastalert-server
 
 RUN npm install --omit=dev --quiet && \
-    pip3 install --no-cache-dir --upgrade pip==25.2 --break-system-packages
+    pip3 install --no-cache-dir --upgrade pip==25.3 --break-system-packages
 
 USER node
 
