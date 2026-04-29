@@ -23,7 +23,7 @@
     "@babel/preset-env": "^7.29.2",
     "@babel/register": "^7.28.6",
     "@opensearch-project/opensearch": "^3.5.1",
-    "axios": "^1.13.6",
+    "axios": "^1.15.2",
     "bunyan": "^1.8.15",
     "cors": "^2.8.6",
     "cpu-stat": "^2.0.1",
