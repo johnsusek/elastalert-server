@@ -9,9 +9,7 @@ export default function rulePostHandler(request, response) {
    */
   let server = request.app.get('server');
   let body = request.body ? request.body.yaml : undefined;
-  let pathParts = request.originalUrl.split('/');
-  let idIndex = pathParts.indexOf('rules') + 1;
-  let path = pathParts.slice(idIndex).join('/');
+  let path = request.params.id.join('/');
 
   server.rulesController.rule(path)
     .then(function (rule) {

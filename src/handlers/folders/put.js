@@ -8,9 +8,7 @@ export default function folderPostHandler(request, response) {
    * @type {ElastalertServer}
    */
   let server = request.app.get('server');
-  let pathParts = request.originalUrl.split('/');
-  let pathIndex = pathParts.indexOf(request.params.type) + 1;
-  let path = pathParts.slice(pathIndex).join('/');
+  let path = request.params.path.join('/');
 
   server.foldersController.create(request.params.type, path)
     .then(function () {
