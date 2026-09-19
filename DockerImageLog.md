@@ -1,3 +1,18 @@
+# praecoapp/elastalert-server:20260919
+
+## New features
+
+None
+
+## Bug Fix
+
+- Fix 404 for rules, templates, folders and silence in subfolders (Express 5 routes)- #13
+
+## Other changes
+
+- jertel/elastalert2:2.30.0 to 2.31.0
+- node:22.23.0-alpine3.24 node:22.23.0-alpine3.24 to node:22.23.2-alpine3.24
+
 # praecoapp/elastalert-server:20260601
 
 ## New features

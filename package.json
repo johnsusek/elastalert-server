@@ -1,6 +1,6 @@
 {
   "name": "@johnsusek/elastalert-server",
-  "version": "20260601",
+  "version": "20260919",
   "description": "A server that runs ElastAlert and exposes REST API's for manipulating rules and alerts.",
   "license": "MIT",
   "main": "index.js",
