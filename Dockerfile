@@ -47,14 +47,19 @@ USER node
 
 WORKDIR /opt/elastalert
 
-RUN pip3 install --no-cache-dir cryptography --prefix=/home/node/.local --break-system-packages && \
-    pip3 install --no-cache-dir -r requirements.txt --prefix=/home/node/.local --break-system-packages
+RUN pip3 install --no-cache-dir cryptography \
+      --prefix=/home/node/.local \
+      --break-system-packages && \
+    pip3 install --no-cache-dir -r requirements.txt \
+      --prefix=/home/node/.local \
+      --break-system-packages
 
 # Stage 3: Final Image
 FROM node:22.23.2-alpine3.24
 LABEL maintainer="John Susek <john@johnsolo.net>"
 ENV TZ=Etc/UTC
 ENV PATH=/home/node/.local/bin:$PATH
+ENV PYTHONPATH=/home/node/.local/lib/python3.14/site-packages
 
 RUN apk add --update --no-cache \
     ca-certificates \
@@ -66,11 +71,17 @@ RUN apk add --update --no-cache \
     tzdata
 
 COPY --from=install /opt/elastalert /opt/elastalert
-COPY --from=install /home/node/.local/lib/python3.14/site-packages /home/node/.local/lib/python3.12/site-packages
+COPY --from=install /home/node/.local/lib/python3.14/site-packages /home/node/.local/lib/python3.14/site-packages
 
 WORKDIR /opt/elastalert-server
 
 COPY --from=install /opt/elastalert-server ./
+
+# Normalize shell scripts to LF line endings
+RUN sed -i 's/\r$//' \
+    scripts/start.sh \
+    scripts/replace_templates.sh \
+    scripts/update-authors.sh
 
 COPY config/elastalert.yaml /opt/elastalert/config.yaml
 COPY config/config.json config/config.json
@@ -81,6 +92,10 @@ COPY elastalert_modules/ /opt/elastalert/elastalert_modules
 # Set permission as an unprivileged user (1000:1000), compatible with Kubernetes
 RUN mkdir -p /opt/elastalert/rules/ /opt/elastalert/server_data/tests/ \
     && chown -R node:node /opt
+
+RUN pip3 install --no-cache-dir packaging \
+        --prefix=/home/node/.local \
+        --break-system-packages
 
 USER node
 
