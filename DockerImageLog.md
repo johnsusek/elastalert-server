@@ -1,4 +1,4 @@
-# praecoapp/elastalert-server:20260919
+# praecoapp/elastalert-server:20260922
 
 ## New features
 
@@ -6,7 +6,7 @@ None
 
 ## Bug Fix
 
-- Fix 404 for rules, templates, folders and silence in subfolders (Express 5 routes)- #13
+- Fix 404 for rules, templates, folders and silence in subfolders (Express 5 routes)- [#13](https://github.com/johnsusek/elastalert-server/pull/13)
 
 ## Other changes
 
