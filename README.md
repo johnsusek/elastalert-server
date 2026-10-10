@@ -24,8 +24,6 @@
   https://github.com/elastic/elasticsearch-js/blob/main/docs/basic-config.asciidoc
 - [ ] Support Elastic Cloud CloudID connection
   https://github.com/elastic/elasticsearch-js/blob/main/docs/basic-config.asciidoc
-- [ ] Support Elasticsearch proxy connection
-  https://github.com/elastic/elasticsearch-js/blob/main/docs/basic-config.asciidoc
 
 ---
 
