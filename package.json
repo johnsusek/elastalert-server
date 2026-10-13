@@ -21,6 +21,7 @@
     "@babel/cli": "^8.0.1",
     "@babel/core": "^8.0.1",
     "@babel/preset-env": "^8.0.2",
+    "@babel/preset-typescript": "^8.0.7",
     "@babel/register": "^8.0.1",
     "@opensearch-project/opensearch": "^3.6.0",
     "axios": "^1.20.0",
@@ -45,7 +46,6 @@
     "ws": "^8.21.3"
   },
   "devDependencies": {
-    "@babel/preset-typescript": "^8.0.7",
     "@eslint/eslintrc": "^3.3.7",
     "@eslint/js": "^10.0.1",
     "@types/node": "^24.19.2",
