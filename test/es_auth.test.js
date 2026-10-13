@@ -4,7 +4,7 @@ const assert = require('node:assert');
 
 const axios = require('axios');
 
-const esClient = require('../src/common/elasticsearch_client.js');
+const esClient = require('../src/common/elasticsearch_client.ts');
 const { waitForConfig, startEsStub, withConfig } = require('./helpers.cjs');
 
 function cloudIdFor(host) {

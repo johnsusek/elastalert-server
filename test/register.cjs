@@ -9,5 +9,6 @@ const register = typeof registerModule === 'function' ? registerModule : registe
 register({
   cwd: root,
   root: root,
-  cache: false
+  cache: false,
+  extensions: ['.js', '.jsx', '.es6', '.es', '.mjs', '.ts']
 });

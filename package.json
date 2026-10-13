@@ -45,13 +45,17 @@
     "ws": "^8.21.3"
   },
   "devDependencies": {
+    "@babel/preset-typescript": "^8.0.7",
     "@eslint/eslintrc": "^3.3.7",
     "@eslint/js": "^10.0.1",
+    "@types/node": "^24.19.2",
     "eslint": "^10.11.0",
-    "globals": "^17.12.0"
+    "globals": "^17.12.0",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.71.2"
   },
   "scripts": {
-    "build": "babel src -d lib",
+    "build": "babel src -d lib --extensions \".ts\"",
     "start": "sh ./scripts/start.sh",
     "test": "node --test --require=./test/register.cjs \"test/*.test.js\"",
     "update-authors": "./scripts/update-authors.sh",

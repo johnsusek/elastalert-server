@@ -2,7 +2,7 @@
 const { test } = require('node:test');
 const assert = require('node:assert');
 
-const schema = require('../src/common/config/schema.js').default;
+const schema = require('../src/common/config/schema.ts').default;
 const { waitForConfig } = require('./helpers.cjs');
 
 test('schema fills in defaults for an empty config', function () {

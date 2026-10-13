@@ -1,7 +1,7 @@
 // Shared helpers for the node --test suite.
 const http = require('http');
 
-const config = require('../src/common/config/index.js').default;
+const config = require('../src/common/config/index.ts').default;
 
 // The config singleton loads config/config.json asynchronously on import.
 // Poll until the validated config is in place before reading it.

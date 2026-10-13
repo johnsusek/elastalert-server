@@ -1,8 +1,8 @@
-// Tests for src/common/elasticsearch_client.js.
+// Tests for src/common/elasticsearch_client.ts.
 const { test } = require('node:test');
 const assert = require('node:assert');
 
-const esClient = require('../src/common/elasticsearch_client.js');
+const esClient = require('../src/common/elasticsearch_client.ts');
 const { waitForConfig, startEsStub, withConfig } = require('./helpers.cjs');
 
 test('escapeLuceneSyntax escapes reserved characters', function () {

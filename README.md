@@ -17,7 +17,7 @@
 - [x] express 4 to 5
 - [x] node 22 to 24
 - [x] Add TestCode
-- [ ] javascript to typescript
+- [x] javascript to typescript
 - [x] Support Elasticsearch ApiKey authentication connection
   https://github.com/elastic/elasticsearch-js/blob/main/docs/basic-config.asciidoc
 - [x] Support Elasticsearch Bearer authentication connection
