@@ -31,6 +31,7 @@ function startEsStub(version) {
       auth: req.headers.authorization || null
     });
     res.setHeader('Content-Type', 'application/json');
+    res.setHeader('X-Elastic-Product', 'Elasticsearch');
     res.end(JSON.stringify({ name: 'stub-es', version: { number: version } }));
   });
 
