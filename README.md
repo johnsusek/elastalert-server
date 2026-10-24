@@ -55,7 +55,7 @@ make build
 ```
 which is equivalent of
 ```
-docker pull python:3.14-alpine3.24 && docker pull node:22.23.2-alpine3.24
+docker pull python:3.14-alpine3.24 && docker pull node:24.22.1-alpine3.24
 docker build -t elastalert-server .
 ```
 
