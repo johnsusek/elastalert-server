@@ -1,3 +1,21 @@
+# praecoapp/elastalert-server:20261027
+
+## New features
+
+None
+
+## Bug Fix
+
+None
+
+## Other changes
+
+- node 22 to 24
+
+## Securiity Update
+
+- node:24.21.0-alpine3.24 to node:24.22.1-alpine3.24
+
 # praecoapp/elastalert-server:20260922
 
 ## New features
