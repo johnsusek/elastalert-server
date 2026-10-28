@@ -56,6 +56,14 @@ npm run lint:fix
 npm run build
 ```
 
+The unit tests run with:
+
+```bash
+npm test
+```
+
+The test suite uses Node's built-in test runner, no additional framework is required. Test files live in the `test/` folder and are loaded through `@babel/register`, the same way `index.js` loads the source at runtime.
+
 ### Writing a new API (route)
 If you want to write a new REST API service, please be sure to follow these steps:
 
