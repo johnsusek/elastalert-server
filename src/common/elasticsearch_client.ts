@@ -40,6 +40,46 @@ export function escapeLuceneSyntax(str) {
     .join('');
 }
 
+// A cloud id is '<deployment_name>:<base64>', and the base64 part decodes to
+// '<host>$<es_uuid>$<kibana_uuid>'. The Elasticsearch endpoint of the
+// deployment is '<es_uuid>.<host>'.
+export function getCloudHost(cloudId) {
+  const encoded = cloudId.split(':')[1];
+  if (!encoded) {
+    throw new Error('Invalid es_cloud_id');
+  }
+  const parts = Buffer.from(encoded, 'base64').toString().split('$');
+  if (!parts[1]) {
+    throw new Error('Invalid es_cloud_id');
+  }
+  return `${parts[1]}.${parts[0]}`;
+}
+
+// Authorization header for the version probe in getClientVersion(). Api keys
+// and bearer tokens travel in headers; basic auth stays in the URL.
+export function getAuthHeaders() {
+  if (config.get('es_api_key')) {
+    return { Authorization: `ApiKey ${config.get('es_api_key')}` };
+  }
+  if (config.get('es_bearer')) {
+    return { Authorization: `Bearer ${config.get('es_bearer')}` };
+  }
+  return {};
+}
+
+// Auth options for the elasticsearch clients (7.x and later), in the same
+// order the clients apply them: api key, bearer, then basic auth from the
+// node URL.
+export function getEsAuth() {
+  if (config.get('es_api_key')) {
+    return { apiKey: config.get('es_api_key') };
+  }
+  if (config.get('es_bearer')) {
+    return { bearer: config.get('es_bearer') };
+  }
+  return null;
+}
+
 export async function getClientVersion() {
 
   try {
@@ -62,7 +102,8 @@ export async function getClientVersion() {
     let auth = '';
     
     if (config.get('es_username') && config.get('es_password')) {
-      auth = `${config.get('es_username')}:${config.get('es_password')}@`;
+      const es_password = encodeURIComponent(config.get('es_password'));
+      auth = `${config.get('es_username')}:${es_password}@`;
     }
 
     const agent  = {};
@@ -83,10 +124,17 @@ export async function getClientVersion() {
 
     const https = require('https');
     const httpsAgent = new https.Agent(agent);
-    const result = 
+    let esUrl = `${scheme}://${auth}${config.get('es_host')}:${config.get('es_port')}`;
+
+    if (config.get('es_cloud_id')) {
+      // An Elastic Cloud ID resolves to the deployment host and always uses https.
+      esUrl = `https://${auth}${getCloudHost(config.get('es_cloud_id'))}`;
+    }
+
+    const result =
       await axios.get(
-        `${scheme}://${auth}${config.get('es_host')}:${config.get('es_port')}`, 
-        {httpsAgent}
+        esUrl,
+        {httpsAgent, headers: getAuthHeaders()}
       );
     return parseInt(result.data.version['number'].split('.')[0], 10);
   } catch (error) {
@@ -190,7 +238,21 @@ export async function getClient() {
     let auth = '';
     
     if (config.get('es_username') && config.get('es_password')) {
-      auth = `${config.get('es_username')}:${config.get('es_password')}@`;
+      const es_password = encodeURIComponent(config.get('es_password'));
+      auth = `${config.get('es_username')}:${es_password}@`;
+    }
+
+    // Connection options for Elasticsearch 7 and later. A cloud ID replaces
+    // the node URL, and api keys and bearer tokens are passed as auth options.
+    const esOptions = {};
+    if (config.get('es_cloud_id')) {
+      esOptions.cloud = { id: config.get('es_cloud_id') };
+    } else {
+      esOptions.node = [ `${scheme}://${auth}${config.get('es_host')}:${config.get('es_port')}`];
+    }
+    const esAuth = getEsAuth();
+    if (esAuth) {
+      esOptions.auth = esAuth;
     }
 
     if (config.get('opensearch_flg') || config.get('opensearch2_flg')) {
@@ -223,7 +285,7 @@ export async function getClient() {
       
       // Elasticsearch 7.x
       const client7 = new elasticsearch7.Client({
-        node: [ `${scheme}://${auth}${config.get('es_host')}:${config.get('es_port')}`],
+        ...esOptions,
         ssl: ssl_body
       });
       return client7;
@@ -231,7 +293,7 @@ export async function getClient() {
       
       // Elasticsearch 8.x
       const client8 = new elasticsearch8.Client({
-        node: [ `${scheme}://${auth}${config.get('es_host')}:${config.get('es_port')}`],
+        ...esOptions,
         tls: ssl_body
       });
       return client8;
@@ -239,7 +301,7 @@ export async function getClient() {
       
       // Elasticsearch 9.x
       const client9 = new elasticsearch9.Client({
-        node: [ `${scheme}://${auth}${config.get('es_host')}:${config.get('es_port')}`],
+        ...esOptions,
         tls: ssl_body
       });
       return client9;

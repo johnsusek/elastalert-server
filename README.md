@@ -16,13 +16,13 @@
 - [x] node 20 to 22
 - [x] express 4 to 5
 - [x] node 22 to 24
-- [ ] Add TestCode
-- [ ] javascript to typescript
-- [ ] Support Elasticsearch ApiKey authentication connection
+- [x] Add TestCode
+- [x] javascript to typescript
+- [x] Support Elasticsearch ApiKey authentication connection
   https://github.com/elastic/elasticsearch-js/blob/main/docs/basic-config.asciidoc
-- [ ] Support Elasticsearch Bearer authentication connection
+- [x] Support Elasticsearch Bearer authentication connection
   https://github.com/elastic/elasticsearch-js/blob/main/docs/basic-config.asciidoc
-- [ ] Support Elastic Cloud CloudID connection
+- [x] Support Elastic Cloud CloudID connection
   https://github.com/elastic/elasticsearch-js/blob/main/docs/basic-config.asciidoc
 
 ---
@@ -102,6 +102,9 @@ You can use the following config options:
   "es_port": 9200, // Port for above
   "es_username": "", // Option basic-auth username and password for Elasticsearch
   "es_password": "", // Option basic-auth username and password for Elasticsearch
+  "es_api_key": "", // Option an Elasticsearch ApiKey instead of basic-auth (Elasticsearch 7 and later)
+  "es_bearer": "", // Option a bearer token, like a service account token, instead of basic-auth (Elasticsearch 7 and later)
+  "es_cloud_id": "", // Option an Elastic Cloud ID; replaces es_host and es_port (Elasticsearch 7 and later)
   "opensearch_flg": false, // OpenSearch Flg (OpenSearch 1.x or Elasticsearch-OSS is true)
   "opensearch2_flg": false, // OpenSearch 2 Flg (OpenSearch 2.x is true)
   "es_ssl": true, // Enable/Disable SSL
