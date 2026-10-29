@@ -1,6 +1,6 @@
 # Stage 1: Build Elastalert
 FROM python:3.14-alpine3.24 AS elastalert-builder
-ARG ELASTALERT_VERSION=2.31.0
+ARG ELASTALERT_VERSION=2.32.0
 ENV ELASTALERT_VERSION=${ELASTALERT_VERSION}
 ARG ELASTALERT_URL=https://github.com/jertel/elastalert2/archive/refs/tags/$ELASTALERT_VERSION.zip
 ENV ELASTALERT_URL=${ELASTALERT_URL}
