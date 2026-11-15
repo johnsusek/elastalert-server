@@ -288,6 +288,10 @@ This server exposes the following REST API's:
 
     Allows you to edit the ElastAlert 2 configuration from `config.yaml` in `elastalertPath` (from the config). The required body to be send will be edited when the work on this API is done.
         
+## Security
+- Run it on an internal network only. There is no built-in authentication.
+- The websocket rejects browser connections whose `Origin` does not match the `Host` or `X-Forwarded-Host` header. A reverse proxy in front of it must pass one of them with the port the browser used.
+
 ## Contributing
 Want to contribute to this project? Great! Please read our [contributing guidelines](CONTRIBUTING.md) before submitting an issue or a pull request.
 

@@ -104,7 +104,7 @@ export default class ElastalertServer {
         
         logger.info('Server listening on port ' + config.get('port'));
 
-        let wss = listen(config.get('wsport'));
+        let { wss } = listen(config.get('wsport'));
 
         wss.on('connection', ws => {
           ws.on('message', (data) => {
