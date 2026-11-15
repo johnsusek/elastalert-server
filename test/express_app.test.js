@@ -45,12 +45,12 @@ test('no CORS headers on a preflight', async () => {
   assert.equal(response.headers['access-control-allow-methods'], undefined);
 });
 
-test('form-encoded body is ignored', async () => {
+test('form-encoded body is rejected', async () => {
   let response = await request(port, 'POST', '/echo', {
     body: 'yaml=name%3A+pwned',
     headers: { 'content-type': 'application/x-www-form-urlencoded' },
   });
-  assert.deepEqual(JSON.parse(response.text), { body: null });
+  assert.equal(response.status, 415);
 });
 
 test('JSON body is parsed', async () => {

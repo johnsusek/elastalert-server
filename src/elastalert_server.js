@@ -17,6 +17,16 @@ let logger = new Logger('Server');
 
 export function createApp() {
   let app = express();
+
+  // Only a form-encoded, multipart, text/plain or bodiless POST can be sent cross-site without a preflight.
+  app.use((request, response, next) => {
+    if (request.method !== 'POST' || request.is('application/json')) {
+      return next();
+    }
+
+    response.status(415).send({ error: 'unsupportedMediaType', message: 'POST requests must have an application/json body.', statusCode: 415 });
+  });
+
   app.use(express.json());
   setupRouter(app);
   return app;

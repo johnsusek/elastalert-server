@@ -41,3 +41,9 @@ export class TemplatesRootFolderNotCreatableError extends RequestError {
     super('templatesRootFolderNotCreatable', 'The templates folder wasn\'t found and couldn\'t be created by the file system.', 403);
   }
 }
+
+export class TemplateYamlNotSentError extends RequestError {
+  constructor() {
+    super('templateYamlNotSent', 'The request body must be JSON with a string yaml field.', 400);
+  }
+}

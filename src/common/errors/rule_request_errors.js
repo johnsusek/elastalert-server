@@ -41,3 +41,9 @@ export class RulesRootFolderNotCreatableError extends RequestError {
     super('rulesRootFolderNotCreatable', 'The rules folder wasn\'t found and couldn\'t be created by the file system.', 403);
   }
 }
+
+export class RuleYamlNotSentError extends RequestError {
+  constructor() {
+    super('ruleYamlNotSent', 'The request body must be JSON with a string yaml field.', 400);
+  }
+}

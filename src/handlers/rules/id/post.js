@@ -1,5 +1,6 @@
 import RouteLogger from '../../../routes/route_logger';
 import {sendRequestError} from '../../../common/errors/utils';
+import {RuleYamlNotSentError} from '../../../common/errors/rule_request_errors';
 
 let logger = new RouteLogger('/rules/:id', 'POST');
 
@@ -10,6 +11,12 @@ export default function rulePostHandler(request, response) {
   let server = request.app.get('server');
   let body = request.body ? request.body.yaml : undefined;
   let path = request.params.id.join('/');
+
+  if (typeof body !== 'string') {
+    let error = new RuleYamlNotSentError();
+    logger.sendFailed(error);
+    return sendRequestError(response, error);
+  }
 
   server.rulesController.rule(path)
     .then(function (rule) {
