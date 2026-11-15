@@ -1,5 +1,6 @@
 import RouteLogger from '../../routes/route_logger';
 import {sendRequestError} from '../../common/errors/utils';
+import RequestError from '../../common/errors/request_error';
 
 let logger = new RouteLogger('/folders/:type/:path', 'DELETE');
 
@@ -22,6 +23,11 @@ export default function folderDeleteHandler(request, response) {
     .catch(function (error) {
       console.error(error);
       logger.sendFailed(error);
+
+      if (error instanceof RequestError) {
+        return sendRequestError(response, error);
+      }
+
       sendRequestError(response, 'Could not delete folder.');
     });
 }

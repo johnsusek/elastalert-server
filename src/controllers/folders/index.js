@@ -1,4 +1,7 @@
 import {join as joinPath } from 'path';
+import { containedPath } from '../../common/contained_path';
+import { RulesFolderNotFoundError } from '../../common/errors/rule_request_errors';
+import { TemplatesFolderNotFoundError } from '../../common/errors/template_request_errors';
 import FileSystem from '../../common/file_system';
 import config from '../../common/config';
 
@@ -30,7 +33,12 @@ export default class TemplatesController {
       return this._getErrorPromise(new Error(':type should be "rules" or "templates"'));
     }
 
-    const folderPath = joinPath(folder, path);
+    const folderPath = containedPath(folder, path);
+
+    if (!folderPath) {
+      return this._getErrorPromise(this._folderNotFoundError(type, path));
+    }
+
     return this._fileSystemController.deleteDirectory(folderPath);
   }
 
@@ -47,8 +55,21 @@ export default class TemplatesController {
       return this._getErrorPromise(new Error(':type should be "rules" or "templates"'));
     }
 
-    const folderPath = joinPath(folder, path);
+    const folderPath = containedPath(folder, path);
+
+    if (!folderPath) {
+      return this._getErrorPromise(this._folderNotFoundError(type, path));
+    }
+
     return this._fileSystemController.createDirectoryIfNotExists(folderPath);
+  }
+
+  _folderNotFoundError(type, path) {
+    if (type === 'templates') {
+      return new TemplatesFolderNotFoundError(path);
+    }
+
+    return new RulesFolderNotFoundError(path);
   }
 
   _getErrorPromise(error) {

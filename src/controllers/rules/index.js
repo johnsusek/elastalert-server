@@ -1,4 +1,5 @@
-import { join as joinPath, normalize as normalizePath, extname as pathExtension } from 'path';
+import { join as joinPath, resolve as resolvePath, extname as pathExtension } from 'path';
+import { containedPath } from '../../common/contained_path';
 import fs from 'fs-extra';
 import FileSystem from '../../common/file_system';
 import config from '../../common/config';
@@ -32,7 +33,12 @@ export default class RulesController {
 
   getRules(path) {
     const self = this;
-    const fullPath = joinPath(self.rulesFolder, path);
+    const fullPath = containedPath(self.rulesFolder, path);
+
+    if (!fullPath) {
+      return Promise.reject(new RulesFolderNotFoundError(path));
+    }
+
     return new Promise(function(resolve, reject) {
       self._fileSystemController.readDirectory(fullPath)
         .then(function(directoryIndex) {
@@ -49,7 +55,7 @@ export default class RulesController {
         .catch(function(error) {
 
           // Check if the requested folder is the rules root folder
-          if (normalizePath(self.rulesFolder) === fullPath) {
+          if (resolvePath(self.rulesFolder) === fullPath) {
 
             // Try to create the root folder
             fs.mkdir(fullPath, { recursive: true }, function(error) {
@@ -105,7 +111,13 @@ export default class RulesController {
     let fileName = id + '.yaml';
     const self = this;
     return new Promise(function(resolve, reject) {
-      self._fileSystemController.fileExists(joinPath(self.rulesFolder, fileName))
+      let filePath = containedPath(self.rulesFolder, fileName);
+
+      if (!filePath) {
+        return reject();
+      }
+
+      self._fileSystemController.fileExists(filePath)
         .then(function(exists) {
           if (!exists) {
             reject();
@@ -125,17 +137,32 @@ export default class RulesController {
   }
 
   _getRule(id) {
-    const path = joinPath(this.rulesFolder, id + '.yaml');
+    const path = containedPath(this.rulesFolder, id + '.yaml');
+
+    if (!path) {
+      return Promise.reject(new RuleNotFoundError(id));
+    }
+
     return this._fileSystemController.readFile(path);
   }
 
   _editRule(id, body) {
-    const path = joinPath(this.rulesFolder, id + '.yaml');
+    const path = containedPath(this.rulesFolder, id + '.yaml');
+
+    if (!path) {
+      return Promise.reject(new RuleNotFoundError(id));
+    }
+
     return this._fileSystemController.writeFile(path, body);
   }
 
   _deleteRule(id) {
-    const path = joinPath(this.rulesFolder, id + '.yaml');
+    const path = containedPath(this.rulesFolder, id + '.yaml');
+
+    if (!path) {
+      return Promise.reject(new RuleNotFoundError(id));
+    }
+
     return this._fileSystemController.deleteFile(path);
   }
 

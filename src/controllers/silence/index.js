@@ -2,6 +2,8 @@ import Logger from '../../common/logger';
 import { join as joinPath } from 'path';
 import config from '../../common/config';
 import {spawn} from 'child_process';
+import { containedPath } from '../../common/contained_path';
+import { RuleNotFoundError } from '../../common/errors/rule_request_errors';
 
 let logger = new Logger('TestController');
 
@@ -15,7 +17,11 @@ export default class TestController {
   silenceRule(path, unit, duration) {
     const self = this;
 
-    const fullPath = joinPath(self.rulesFolder, path + '.yaml');
+    const fullPath = containedPath(self.rulesFolder, path + '.yaml');
+
+    if (!fullPath) {
+      return Promise.reject(new RuleNotFoundError(path));
+    }
 
     return new Promise(function (resolve, reject) {
       let processOptions = [];

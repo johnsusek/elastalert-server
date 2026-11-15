@@ -1,4 +1,5 @@
-import {join as joinPath, normalize as normalizePath, extname as pathExtension} from 'path';
+import {join as joinPath, resolve as resolvePath, extname as pathExtension} from 'path';
+import { containedPath } from '../../common/contained_path';
 import fs from 'fs-extra';
 import FileSystem from '../../common/file_system';
 import config from '../../common/config';
@@ -30,7 +31,12 @@ export default class TemplatesController {
 
   getTemplates(path) {
     const self = this;
-    const fullPath = joinPath(self.templatesFolder, path);
+    const fullPath = containedPath(self.templatesFolder, path);
+
+    if (!fullPath) {
+      return Promise.reject(new TemplatesFolderNotFoundError(path));
+    }
+
     return new Promise(function (resolve, reject) {
       self._fileSystemController.readDirectory(fullPath)
         .then(function (directoryIndex) {
@@ -47,7 +53,7 @@ export default class TemplatesController {
         .catch(function (error) {
 
           // Check if the requested folder is the templates root folder
-          if (normalizePath(self.templatesFolder) === fullPath) {
+          if (resolvePath(self.templatesFolder) === fullPath) {
 
             // Try to create the root folder
             fs.mkdir(fullPath, { recursive: true }, function (error) {
@@ -105,7 +111,13 @@ export default class TemplatesController {
     let fileName = id + '.yaml';
     const self = this;
     return new Promise(function (resolve, reject) {
-      self._fileSystemController.fileExists(joinPath(self.templatesFolder, fileName))
+      let filePath = containedPath(self.templatesFolder, fileName);
+
+      if (!filePath) {
+        return reject();
+      }
+
+      self._fileSystemController.fileExists(filePath)
         .then(function (exists) {
           if (!exists) {
             reject();
@@ -125,17 +137,32 @@ export default class TemplatesController {
   }
 
   _getTemplate(id) {
-    const path = joinPath(this.templatesFolder, id + '.yaml');
+    const path = containedPath(this.templatesFolder, id + '.yaml');
+
+    if (!path) {
+      return Promise.reject(new TemplateNotFoundError(id));
+    }
+
     return this._fileSystemController.readFile(path);
   }
 
   _editTemplate(id, body) {
-    const path = joinPath(this.templatesFolder, id + '.yaml');
+    const path = containedPath(this.templatesFolder, id + '.yaml');
+
+    if (!path) {
+      return Promise.reject(new TemplateNotFoundError(id));
+    }
+
     return this._fileSystemController.writeFile(path, body);
   }
 
   _deleteTemplate(id) {
-    const path = joinPath(this.templatesFolder, id + '.yaml');
+    const path = containedPath(this.templatesFolder, id + '.yaml');
+
+    if (!path) {
+      return Promise.reject(new TemplateNotFoundError(id));
+    }
+
     return this._fileSystemController.deleteFile(path);
   }
 

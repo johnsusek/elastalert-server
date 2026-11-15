@@ -54,6 +54,7 @@
     "build": "babel src -d lib",
     "start": "sh ./scripts/start.sh",
     "update-authors": "./scripts/update-authors.sh",
+    "test": "node --require @babel/register --test 'test/**/*.test.js'",
     "lint": "./node_modules/eslint/bin/eslint.js .",
     "lint:fix": "./node_modules/eslint/bin/eslint.js --fix ."
   }

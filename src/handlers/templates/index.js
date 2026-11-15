@@ -1,5 +1,5 @@
 import RouteLogger from '../../routes/route_logger';
-import sendRequestError from '../../common/errors/utils';
+import {sendRequestError} from '../../common/errors/utils';
 
 let logger = new RouteLogger('/templates');
 
@@ -18,7 +18,7 @@ export default function templatesHandler(request, response) {
         logger.sendSuccessful();
       })
       .catch(function (error) {
-        sendRequestError(error);
+        sendRequestError(response, error);
       });
   }
   else {
@@ -28,7 +28,7 @@ export default function templatesHandler(request, response) {
         logger.sendSuccessful();
       })
       .catch(function (error) {
-        sendRequestError(error);
+        sendRequestError(response, error);
       });
   }
 
