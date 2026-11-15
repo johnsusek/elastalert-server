@@ -25,7 +25,6 @@
     "@opensearch-project/opensearch": "^3.6.0",
     "axios": "^1.20.0",
     "bunyan": "^1.8.15",
-    "cors": "^2.8.6",
     "cpu-stat": "^2.0.1",
     "es5": "npm:@elastic/elasticsearch@^5.6.22",
     "es6": "npm:@elastic/elasticsearch@^6.8.8",

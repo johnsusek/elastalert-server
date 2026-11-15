@@ -290,6 +290,7 @@ This server exposes the following REST API's:
         
 ## Security
 - Run it on an internal network only. There is no built-in authentication.
+- The API sends no CORS headers and only accepts JSON bodies. Serve the UI from the same origin, for example through a reverse proxy.
 - The websocket rejects browser connections whose `Origin` does not match the `Host` or `X-Forwarded-Host` header. A reverse proxy in front of it must pass one of them with the port the browser used.
 
 ## Contributing

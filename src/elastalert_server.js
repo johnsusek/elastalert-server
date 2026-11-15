@@ -12,13 +12,19 @@ import FoldersController from './controllers/folders';
 import TestController from './controllers/test';
 import SilenceController from './controllers/silence';
 import ConfigController from './controllers/config';
-import cors from 'cors';
 
 let logger = new Logger('Server');
 
+export function createApp() {
+  let app = express();
+  app.use(express.json());
+  setupRouter(app);
+  return app;
+}
+
 export default class ElastalertServer {
   constructor() {
-    this._express = express();
+    this._express = null;
     this._runningTimeouts = [];
     this._processController = null;
     this._rulesController = null;
@@ -76,10 +82,7 @@ export default class ElastalertServer {
     // Start the server when the config is loaded
     config.ready(function () {
       try {
-        self._express.use(cors());
-        self._express.use(express.json());
-        self._express.use(express.urlencoded({ extended: true }));
-        self._setupRouter();
+        self._express = createApp();
         self._runningServer = self.express.listen(config.get('port'), self._serverController);
         self._express.set('server', self);
 
@@ -143,10 +146,6 @@ export default class ElastalertServer {
     } else {
       return dataFolderSettings.path;
     }
-  }
-
-  _setupRouter() {
-    setupRouter(this._express);
   }
 
   _serverController() {
