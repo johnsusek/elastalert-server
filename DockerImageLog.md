@@ -1,3 +1,24 @@
+# praecoapp/elastalert-server:20261115
+
+## New features
+
+None
+
+## Bug Fix
+
+- Fix path traversal in rules, templates, folders and silence: ids and paths can no longer leave their folder, and such requests return 404
+- Reject websocket handshakes whose `Origin` does not match `Host` or `X-Forwarded-Host`
+- Remove wildcard CORS from the API and reject any POST that is not `application/json`
+- Rule and template POSTs without a string `yaml` field return 400 instead of writing an empty file
+- Invalid silence and test requests stop after returning their error instead of going on to run ElastAlert or write a temp file
+
+## Other changes
+
+- The API no longer sends CORS headers, and any POST that is not `application/json` (including one with no body) gets 415; clients must be same-origin (for example through Praeco's proxy) and send JSON
+- A reverse proxy in front of the websocket must forward `Host` or `X-Forwarded-Host`; Praeco's `nginx_config/default.conf` already does
+- jertel/elastalert2:2.31.0 to 2.32.0
+- node:24.22.1-alpine3.24 to node:24.22.3-alpine3.24
+
 # praecoapp/elastalert-server:20261027
 
 ## New features
