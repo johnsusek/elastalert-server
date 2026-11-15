@@ -37,7 +37,7 @@ export default function silencePostHandler(request, response) {
 
   if (body.error) {
     logger.sendFailed(body.error);
-    sendRequestError(response, body.error);
+    return sendRequestError(response, body.error);
   }
 
   let path = request.params.path.join('/');
